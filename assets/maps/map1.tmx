@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="Tiles.tsx"/>
+ <layer id="1" name="Прошарок плиток 1" width="80" height="45">
+  <data encoding="base64" compression="zlib">
+   eJztVkkOAyEM6/+fMy/sqdIIQbAdJ3CopVEXyDJOcPh8/jiNp9Dv7+nOAY27su2I4/RbmUcFmN64we8Y4yRu6blsnBM8Vpwr17uoud1es5Wd4rOiHg4ekZycqJ5vmdqoth3o1p4sj6xNJU5pNovn9XkDh0g9b+L1mXyi+Skc7ngZ12d8us+1Y9atvrvjr/at9HjFG6rdlb0wy0/1l+Uw6rEdX04OWaxqPa6x/pT3Xe1l4rJrqG9kHX0nJb7KoUMbWD+s7U5HXPyh3Kg9iOaRtWdnmYO/WTx0DmR7x+Vr9BFpX5SDEi/KI8qLyYHpb0TT2PnJrDH3h8xcQ2LMbHaxneeO9ePSdDcY/kabTDxkX/Q7698JtmdHG3Stuocy2pMB03sr29n/ip6M9o5conwqHhdUHVa56z63XfHV/ov8dPYBgq6Y6PuNmrK7F5zEiZp13YM6cKrvsz2l5lup8SdqubrrIHaZeOgdLNo7/odqk1u7Ff5ccN+zUP6QfKpyuAG73nX5R85HVQ5VcM0/NhZ7p65CRmeQd3DWX9VF5/3m1JPFrPcYW8Sv6uPth+GiS1uq5wJ6jhB7pn8quENrxM5lNn6mXt26FvnN1s+l7xkfK79IXCTGLq7K4cyPgkyvKHVgNQCpUXSOozyY37v8XHMQ3bebmRG3EYdKXVQNza4rMWf7o3eP9JrtXTZHxb8a622jAtUxVP9mfrI9wc4MpadUKPyhMZ06r9q796rxmXOJ5PMFVkD0sA==
+  </data>
+ </layer>
+</map>
