@@ -5,14 +5,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import helper.Assets;
 
 public class Skyrim2DGame extends Game {
 	private int screenWidth, screenHeight;
 	private OrthographicCamera orthographicCamera;
 	private SpriteBatch batch;
+	private Assets assets;
 
 	public void create() {
 		batch = new SpriteBatch();
+		assets = new Assets();
+		assets.load();
+		assets.manager.finishLoading();
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		orthographicCamera = new OrthographicCamera();
@@ -28,6 +33,7 @@ public class Skyrim2DGame extends Game {
 	@Override
 	public void dispose() {
 		batch.dispose();
+		assets.dispose();
 	}
 
 	public int getScreenWidth() {
@@ -44,5 +50,9 @@ public class Skyrim2DGame extends Game {
 
 	public SpriteBatch getBatch() {
 		return batch;
+	}
+
+	public Assets getAssets() {
+		return assets;
 	}
 }

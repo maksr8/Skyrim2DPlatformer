@@ -2,9 +2,10 @@ package objects.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.*;
 
 import static helper.Constants.PPM;
 
@@ -12,14 +13,34 @@ public class Player extends GameEntity{
     private int jumpCount;
     private int maxJumpCount;
     private boolean fallen = false;
+    protected Body body;
 
-    public Player(float width, float height, Body body) {
-        super(width, height, body);
+    public Player(float x, float y, float width, float height, World world) {
+        super(x / PPM, y /PPM, width, height);
+        this.body = createBody(this.x, this.y, width, height, world);
         this.speed = 4f;
         this.jumpCount = 0;
         this.maxJumpCount = 2;
-        body.getFixtureList().get(0).setFriction(1f);
     }
+
+    private Body createBody(float x, float y, float width, float height, World world) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(x, y);
+        bodyDef.fixedRotation = true;
+        Body body = world.createBody(bodyDef);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.friction = 0f;
+        body.createFixture(fixtureDef);
+
+        shape.dispose();
+        return body;
+    }
+
 
     @Override
     public void update() {
@@ -56,11 +77,20 @@ public class Player extends GameEntity{
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-
+    public void render(SpriteBatch batch, Texture texture) {
+        batch.begin();
+        batch.draw(texture,
+                getX() - getWidth() / 2,
+                getY() - getHeight() / 2,
+                getWidth(), getHeight());
+        batch.end();
     }
 
     public void setMaxJumpCount(int maxJumpCount) {
         this.maxJumpCount = maxJumpCount;
+    }
+
+    public Body getBody() {
+        return body;
     }
 }

@@ -26,8 +26,8 @@ public class TileMapHelper {
         this.gameScreen = gameScreen;
     }
 
-    public OrthogonalTiledMapRenderer setupMap() {
-        tiledMap = new TmxMapLoader().load("maps/map3.tmx");
+    public OrthogonalTiledMapRenderer setupMap(String pathToMap) {
+        tiledMap = new TmxMapLoader().load(pathToMap);
         parseMapObjects(tiledMap.getLayers().get("objects").getObjects());
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
@@ -43,15 +43,11 @@ public class TileMapHelper {
                 String rectangleName = mapObject.getName();
                 if (rectangleName != null) {
                     if (rectangleName.equals("player")) {
-                        Body body = BodyHelperService.createBody(
-                                rectangle.x + rectangle.width / 2,
+                        gameScreen.setPlayer(new Player(rectangle.x + rectangle.width / 2,
                                 rectangle.y + rectangle.height / 2,
                                 rectangle.width,
                                 rectangle.height,
-                                false,
-                                gameScreen.getWorld()
-                        );
-                        gameScreen.setPlayer(new Player(rectangle.width, rectangle.height, body));
+                                gameScreen.getWorld()));
                     } else if (rectangleName.equals("")) {
 
                     }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
+import helper.Assets;
 import helper.TileMapHelper;
 import objects.player.Player;
 
@@ -26,6 +27,8 @@ public class GameScreen extends ScreenAdapter {
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TileMapHelper tileMapHelper;
 
+    private Assets assets;
+
     private Player player;
     private float cameraZoom = 0.25f;
     
@@ -33,20 +36,23 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         this.camera = game.getOrthographicCamera();
         this.batch = game.getBatch();
-        this.world = new World(new Vector2(0,-25f), false);
+        this.world = new World(new Vector2(0,-25f), true);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
+        this.assets = game.getAssets();
 
         tileMapHelper = new TileMapHelper(this);
-        orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+        orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map3.tmx");
+        world.setContactListener(new GameContactListener());
     }
     
     @Override
     public void render(float delta) {
         // blue and alpha component in the range [0,1]
         ScreenUtils.clear(0.4f, 0.6f, 1f, 1f);
+
         update();
         orthogonalTiledMapRenderer.render();
-
+        player.render(batch, assets.manager.get(assets.player));
         batch.begin();
 
         batch.end();
@@ -54,7 +60,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void update() {
-        world.step(1/60f, 6, 2);
+        world.step(1/60f, 8, 3);
         cameraUpdate();
         // tell the SpriteBatch to render in the
         // coordinate system specified by the camera.
@@ -64,6 +70,11 @@ public class GameScreen extends ScreenAdapter {
 
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             pause();
+        }
+        
+        if(Gdx.input.isKeyPressed(Input.Keys.N)) {
+            world = new World(new Vector2(0,-25f), true);
+            orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map2.tmx");
         }
     }
 
