@@ -33,20 +33,20 @@ public class GameScreen extends ScreenAdapter {
     private float cameraZoom = 0.35f;
     private boolean paused = false;
     private float elapsedTime = 0;
-    
+
     public GameScreen(final Skyrim2DGame game) {
         this.game = game;
         this.camera = game.getOrthographicCamera();
         this.batch = game.getBatch();
-        this.world = new World(new Vector2(0,-35f), true);
+        this.world = new World(new Vector2(0, -35f), true);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         this.assets = game.getAssets();
 
         tileMapHelper = new TileMapHelper(this);
         orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map3.tmx");
-        world.setContactListener(new GameContactListener());
+        world.setContactListener(new GameContactListener(this));
     }
-    
+
     @Override
     public void render(float delta) {
         if (!paused) {
@@ -65,7 +65,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void update() {
-        world.step(1/60f, 8, 3);
+        world.step(1 / 60f, 8, 3);
         cameraUpdate();
         // tell the SpriteBatch to render in the
         // coordinate system specified by the camera.
@@ -73,12 +73,12 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
 
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             pause();
         }
-        
-        if(Gdx.input.isKeyPressed(Input.Keys.N)) {
-            world = new World(new Vector2(0,-25f), true);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.N)) {
+            world = new World(new Vector2(0, -25f), true);
             orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map2.tmx");
         }
     }
@@ -109,6 +109,10 @@ public class GameScreen extends ScreenAdapter {
 
     public World getWorld() {
         return world;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void setPlayer(Player player) {

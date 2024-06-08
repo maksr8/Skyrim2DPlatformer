@@ -17,10 +17,21 @@ public class Player extends GameEntity {
     protected Body body;
     private int jumpCount;
     private int maxJumpCount;
-    private boolean fallen = false;
     private Assets assets;
     private TextureRegion[] idleFrames;
     private Animation<TextureRegion> idleAnimation;
+
+    private int numFootContacts = 0;
+    private PlayerState playerState;
+
+    public enum PlayerState {
+        IDLE,
+        WALKING,
+        JUMPING,
+        FALLING,
+        DEAD,
+        ATTACKING
+    }
 
     public Player(float x, float y, float width, float height, World world, GameScreen gameScreen) {
         super(x / PPM, y / PPM, width, height, gameScreen);
@@ -28,7 +39,11 @@ public class Player extends GameEntity {
         this.body = createBody(this.x, this.y, width, height, world);
         this.speed = 5.5f;
         this.jumpCount = 0;
-        this.maxJumpCount = 2;
+        this.maxJumpCount = 1;
+        createAnimations();
+    }
+
+    private void createAnimations() {
         this.idleFrames = TextureRegion.split(assets.manager.get(assets.playerIdleSheet), 64, 64)[0];
         this.idleAnimation = new Animation<>(1 / 4f, idleFrames);
     }
@@ -39,13 +54,19 @@ public class Player extends GameEntity {
         bodyDef.position.set(x, y);
         bodyDef.fixedRotation = true;
         Body body = world.createBody(bodyDef);
-
+        //main hitbox
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 0f;
         body.createFixture(fixtureDef);
+        //foot sensor
+        shape = new PolygonShape();
+        shape.setAsBox(width / 2 / PPM - 0.01f, 0.05f, new Vector2(0, -height / 2 / PPM), 0);
+        fixtureDef.shape = shape;
+        fixtureDef.isSensor = true;
+        body.createFixture(fixtureDef).setUserData("foot");
 
         shape.dispose();
         return body;
@@ -69,17 +90,14 @@ public class Player extends GameEntity {
             velocityX = -1;
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && jumpCount < maxJumpCount) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && ( numFootContacts > 0 || jumpCount < maxJumpCount-1)) {
             float impulse = body.getMass() * 9;
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.applyLinearImpulse(new Vector2(0, impulse), body.getPosition(), true);
             jumpCount++;
-            fallen = false;
         }
-        if (body.getLinearVelocity().y < 0) {
-            fallen = true;
-        }
-        if (body.getLinearVelocity().y == 0 && fallen) {
+
+        if (numFootContacts > 0) {
             jumpCount = 0;
         }
 
@@ -108,5 +126,13 @@ public class Player extends GameEntity {
 
     public Body getBody() {
         return body;
+    }
+
+    public int getNumFootContacts() {
+        return numFootContacts;
+    }
+
+    public void setNumFootContacts(int numFootContacts) {
+        this.numFootContacts = numFootContacts;
     }
 }
