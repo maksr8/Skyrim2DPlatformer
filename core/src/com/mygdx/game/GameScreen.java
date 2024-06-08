@@ -30,13 +30,15 @@ public class GameScreen extends ScreenAdapter {
     private Assets assets;
 
     private Player player;
-    private float cameraZoom = 0.25f;
+    private float cameraZoom = 0.35f;
+    private boolean paused = false;
+    private float elapsedTime = 0;
     
     public GameScreen(final Skyrim2DGame game) {
         this.game = game;
         this.camera = game.getOrthographicCamera();
         this.batch = game.getBatch();
-        this.world = new World(new Vector2(0,-25f), true);
+        this.world = new World(new Vector2(0,-35f), true);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         this.assets = game.getAssets();
 
@@ -47,12 +49,15 @@ public class GameScreen extends ScreenAdapter {
     
     @Override
     public void render(float delta) {
-        // blue and alpha component in the range [0,1]
+        if (!paused) {
+            elapsedTime += Gdx.graphics.getDeltaTime();
+        }
+
         ScreenUtils.clear(0.4f, 0.6f, 1f, 1f);
 
         update();
         orthogonalTiledMapRenderer.render();
-        player.render(batch, assets.manager.get(assets.player));
+        player.render(batch, assets.manager.get(assets.playerIdle));
         batch.begin();
 
         batch.end();
@@ -110,10 +115,30 @@ public class GameScreen extends ScreenAdapter {
         this.player = player;
     }
 
+    public Assets getAssets() {
+        return assets;
+    }
+
+    public float getElapsedTime() {
+        return elapsedTime;
+    }
+
     @Override
     public void dispose() {
         orthogonalTiledMapRenderer.dispose();
         world.dispose();
         box2DDebugRenderer.dispose();
+    }
+
+    @Override
+    public void pause() {
+        paused = true;
+        System.out.println("Game paused");
+    }
+
+    @Override
+    public void resume() {
+        paused = false;
+        System.out.println("Game resumed");
     }
 }

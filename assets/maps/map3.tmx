@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="17">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="30">
  <tileset firstgid="1" source="Tiles.tsx"/>
  <layer id="1" name="backgroung" width="80" height="40">
   <data encoding="base64" compression="zlib">
-   eJztVl1SFEEM3ka9g7DgHRDwGh4BuQX45KM8KhdYfo4BB1B53X3zBfEUgmW21q2a6ko6X7qTmaGKr+qrWXrSSfqbdMIsTSazZ7pyCQ8fQ6F0JqsPzW9uV6vBkPqh3w/NDT1Hy3mHrLmW2BZNENvSnrHcUc+4mg9LHK4vjKGPRX8r7X6j8Wr6agQsennMMeldbS8YQ7+PmO2lfcjMtPQ/b0Rp0pqPll++R/OJ2FnyG8O8kXKS3q9/S+9K/rm91rzGqpdlzo5Bv6FQ2xu5Z+5P+wb5XkuuQ2rYElObHdJvyQ9a50g9R+rp4VeaE1Lelh7A+WqBh56e36I0R6T3iH5IDC8gekbUcG08q37aHm/00UetvSdft/rtaxZwmkVoifioqSWtpiNQo02Lpqi9tf6Q2eHde7znANpHrT7zddS+NNetiOxnSLyW+s7faXu6f2t2tXn0DUnPks61+iF3QNMWya9P1Mbk+plkh56vVQdrLURTy5X7XbLl7JZLG8QXxJfEVxMsPgrOvzek+1h7lzn/3WcXW8QpcZu4Q3wD+kTB+Y+ANWdLveY2h2nFD8SjxlliQR93MrdDfSHv1jhOK54QPxp0X0K6j61nRxCheSmO9PeXtOJX4hmo35rR990bXvWc67fWrqRf14cHou9vaz6aTRfnK35qidP3+aP8a3tL+l3S86qzLvU36QxjQlRdl/S7pudNZ72v/zckvKaPt0ncIk6J2xttdh4o6Ten5yIutBm7pMNb4h5xn3gg6ILaeaGl/6GQamL6nxKmjvyW/Pid+IN4q8wP7tzXZH/D9IXPtHYq9AuuJtBzv3PiXfLjL+I98beiH3fuOdkvGJ3Oae2CWW/V5r0T/yQ/PhAfiX+T7x2x6uSlDcKfKYZe96OPGhqjfkOf66nr9w8QSsk+
+   eJztlktOwzAURfta2ANtCnsASrfBEoBdACOGMISugJZltAvgM21nTPisgo+4UojIwKExfo5rc490FMmKE/vqPSetFiEkBgS2YQeuwfWwy4mOHsxgH27CrbDLaQTWjBv/sWYIIYSQZfD/wg3+XxBC/grPXzd4/sYHa94N1jwhP/A8cYPnSXr47onUe853T6TYcweSewiPJPRq4uNYck/gqWV+qfdjHS4l9wqOLPNLsR9tKWdnm1/MaPbOde6Zr+evIpq9U+Q3wfXGw/NTp8hviuss9GJKbKABurAHM9hvu93niyK/Oa6LZl/9K9vIYQfuwgHcq8il7n2+MJ1/rlTVRPZtFZmit6LnHbyHD4ZvbDk/076nmDMzzDvH2EXFN9tUE3X3PVTySfR8hi/wdUl+pn3PMWdhmoexsWHcNZt9Jd9Ez3f4AT9Ft0dsc9LKpo6P4ket/miihlYxv9D7ij2/L5Rh2+Y=
   </data>
  </layer>
  <objectgroup id="2" name="objects">
@@ -22,17 +22,35 @@
   <object id="8" x="624" y="544">
    <polygon points="0,0 0,96 304,96 304,0"/>
   </object>
-  <object id="10" name="player" x="32" y="544" width="32" height="48"/>
+  <object id="10" name="player" x="32" y="512" width="32" height="64"/>
   <object id="13" x="96" y="416">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="14" x="160" y="528">
+  <object id="14" x="144" y="512">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
   <object id="15" x="288" y="464">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
   <object id="16" x="480" y="416">
+   <polygon points="0,0 80,0 80,-16 0,-16"/>
+  </object>
+  <object id="20" x="208" y="320">
+   <polygon points="0,0 80,0 80,-16 0,-16"/>
+  </object>
+  <object id="21" x="512" y="208">
+   <polygon points="0,0 80,0 80,-16 0,-16"/>
+  </object>
+  <object id="22" x="784" y="368">
+   <polygon points="0,0 80,0 80,-16 0,-16"/>
+  </object>
+  <object id="23" x="896" y="96">
+   <polygon points="0,0 80,0 80,-16 0,-16"/>
+  </object>
+  <object id="24" x="1024" y="272">
+   <polygon points="0,0 80,0 80,-16 0,-16"/>
+  </object>
+  <object id="25" x="1040" y="496">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
  </objectgroup>

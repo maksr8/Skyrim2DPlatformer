@@ -3,24 +3,34 @@ package objects.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.GameScreen;
+import helper.Assets;
 
 import static helper.Constants.PPM;
 
-public class Player extends GameEntity{
+public class Player extends GameEntity {
+    protected Body body;
     private int jumpCount;
     private int maxJumpCount;
     private boolean fallen = false;
-    protected Body body;
+    private Assets assets;
+    private TextureRegion[] idleFrames;
+    private Animation<TextureRegion> idleAnimation;
 
-    public Player(float x, float y, float width, float height, World world) {
-        super(x / PPM, y /PPM, width, height);
+    public Player(float x, float y, float width, float height, World world, GameScreen gameScreen) {
+        super(x / PPM, y / PPM, width, height, gameScreen);
+        this.assets = gameScreen.getAssets();
         this.body = createBody(this.x, this.y, width, height, world);
-        this.speed = 4f;
+        this.speed = 5.5f;
         this.jumpCount = 0;
         this.maxJumpCount = 2;
+        this.idleFrames = TextureRegion.split(assets.manager.get(assets.playerIdleSheet), 64, 64)[0];
+        this.idleAnimation = new Animation<>(1 / 4f, idleFrames);
     }
 
     private Body createBody(float x, float y, float width, float height, World world) {
@@ -79,10 +89,16 @@ public class Player extends GameEntity{
     @Override
     public void render(SpriteBatch batch, Texture texture) {
         batch.begin();
-        batch.draw(texture,
-                getX() - getWidth() / 2,
-                getY() - getHeight() / 2,
-                getWidth(), getHeight());
+//        batch.draw(texture,
+//                getX() - getWidth() / 2,
+//                getY() - getHeight() / 2,
+//                texture.getWidth() * (getHeight() / texture.getHeight()),
+//                getHeight());
+        batch.draw(idleAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
+                getX() - getWidth() / 2 - 30,
+                getY() - getHeight() / 2 - 11,
+                getWidth() + 60,
+                getHeight() + 18);
         batch.end();
     }
 
