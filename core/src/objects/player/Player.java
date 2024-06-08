@@ -21,7 +21,9 @@ public class Player extends GameEntity {
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> runAnimation;
     private Animation<TextureRegion> jumpAnimation;
+    private Animation<TextureRegion> attackAnimation;
     private float jumpAnimationTime;
+    private float attackAnimationTime;
 
     private int numFootContacts;
     private PlayerState playerState;
@@ -46,6 +48,8 @@ public class Player extends GameEntity {
         this.isTurnedRight = true;
         this.numFootContacts = 0;
         this.jumpAnimationTime = 0;
+        this.attackAnimationTime = 999;
+
         this.playerState = PlayerState.IDLE;
         createAnimations();
     }
@@ -54,7 +58,8 @@ public class Player extends GameEntity {
         this.idleAnimation = new Animation<>(1 / 4f, TextureRegion.split(assets.manager.get(assets.playerIdleSheet), 64, 64)[0]);
         this.runAnimation = new Animation<>(1 / 8f, TextureRegion.split(assets.manager.get(assets.playerRunSheet), 80, 64)[0]);
         this.jumpAnimation = new Animation<>(1 / 15f, TextureRegion.split(assets.manager.get(assets.playerJumpSheet), 64, 64)[0]);
-        //jumpAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+        this.attackAnimation = new Animation<>(1 / 32f, TextureRegion.split(assets.manager.get(assets.playerAttackSheet), 96, 64)[0]);
+
     }
 
     private Body createBody(float x, float y, float width, float height, World world) {
@@ -76,6 +81,18 @@ public class Player extends GameEntity {
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef).setUserData("foot");
+        //right attack sensor
+        shape = new PolygonShape();
+        shape.setAsBox(width / PPM / 2 * 1.25f, height / 2 / PPM * 1.35f, new Vector2(width / 2 / PPM - 0.05f, -0.25f), 0);
+        fixtureDef.shape = shape;
+        fixtureDef.isSensor = true;
+        body.createFixture(fixtureDef).setUserData("rightAttack");
+        //left attack sensor
+        shape = new PolygonShape();
+        shape.setAsBox(width / PPM / 2 * 1.25f, height / 2 / PPM * 1.35f, new Vector2(-width / 2 / PPM + 0.05f, -0.25f), 0);
+        fixtureDef.shape = shape;
+        fixtureDef.isSensor = true;
+        body.createFixture(fixtureDef).setUserData("leftAttack");
 
         shape.dispose();
         return body;
@@ -90,6 +107,7 @@ public class Player extends GameEntity {
         checkUserInput();
 
         jumpAnimationTime += Gdx.graphics.getDeltaTime();
+        attackAnimationTime += Gdx.graphics.getDeltaTime();
     }
 
     private void checkUserInput() {
@@ -109,6 +127,9 @@ public class Player extends GameEntity {
                 playerState = PlayerState.RUNNING;
             }
         }
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            attackAnimationTime = 0;
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && ( numFootContacts > 0 || jumpCount < maxJumpCount-1)) {
             float impulse = body.getMass() * 9;
@@ -126,6 +147,10 @@ public class Player extends GameEntity {
             playerState = PlayerState.JUMPING;
         }
 
+        if (!attackAnimation.isAnimationFinished(attackAnimationTime)){
+            playerState = PlayerState.ATTACKING;
+        }
+
         body.setLinearVelocity(velocityX * speed, body.getLinearVelocity().y);
     }
 
@@ -140,20 +165,26 @@ public class Player extends GameEntity {
         if (playerState == PlayerState.IDLE) {
             batch.draw(idleAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
                     getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 30),
-                    getY() - getHeight() / 2 - 11,
+                    getY() - getHeight() / 2 - 12,
                     (isTurnedRight ? 1 : -1) * (getWidth()+60),
                     getHeight() + 18);
         } else if (playerState == PlayerState.RUNNING) {
             batch.draw(runAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
-                    getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 40),
-                    getY() - getHeight() / 2 - 11,
-                    (isTurnedRight ? 1 : -1) * (getWidth()+60),
+                    getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 48),
+                    getY() - getHeight() / 2 - 12,
+                    (isTurnedRight ? 1 : -1) * (getWidth()+80),
                     getHeight() + 19);
         } else if (playerState == PlayerState.JUMPING || playerState == PlayerState.FALLING) {
-            batch.draw(jumpAnimation.getKeyFrame(jumpAnimationTime),
-                    getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 30),
+            batch.draw(jumpAnimation.getKeyFrame(jumpAnimationTime, false),
+                    getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 20),
                     getY() - getHeight() / 2 - 11,
                     (isTurnedRight ? 1 : -1) * (getWidth()+60),
+                    getHeight() + 18);
+        } else if (playerState == PlayerState.ATTACKING) {
+            batch.draw(attackAnimation.getKeyFrame(attackAnimationTime, false),
+                    getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 44),
+                    getY() - getHeight() / 2 - 15,
+                    (isTurnedRight ? 1 : -1) * (getWidth()+80),
                     getHeight() + 18);
         }
         batch.end();
