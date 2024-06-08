@@ -9,11 +9,14 @@ public class Assets {
 
     public final AssetDescriptor<Texture> playerIdle = new AssetDescriptor<>("entities/Idle.png", Texture.class);
     public final AssetDescriptor<Texture> playerIdleSheet = new AssetDescriptor<>("entities/Idle-Sheet.png", Texture.class);
-
+    public final AssetDescriptor<Texture> playerRunSheet = new AssetDescriptor<>("entities/Run-Sheet.png", Texture.class);
+    public final AssetDescriptor<Texture> playerJumpSheet = new AssetDescriptor<>("entities/Jump-All-Sheet.png", Texture.class);
 
     public void load() {
         manager.load(playerIdle);
         manager.load(playerIdleSheet);
+        manager.load(playerRunSheet);
+        manager.load(playerJumpSheet);
     }
 
     public void dispose() {

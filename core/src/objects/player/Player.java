@@ -18,15 +18,18 @@ public class Player extends GameEntity {
     private int jumpCount;
     private int maxJumpCount;
     private Assets assets;
-    private TextureRegion[] idleFrames;
     private Animation<TextureRegion> idleAnimation;
+    private Animation<TextureRegion> runAnimation;
+    private Animation<TextureRegion> jumpAnimation;
+    private float jumpAnimationTime;
 
-    private int numFootContacts = 0;
+    private int numFootContacts;
     private PlayerState playerState;
+    private boolean isTurnedRight;
 
     public enum PlayerState {
         IDLE,
-        WALKING,
+        RUNNING,
         JUMPING,
         FALLING,
         DEAD,
@@ -39,13 +42,19 @@ public class Player extends GameEntity {
         this.body = createBody(this.x, this.y, width, height, world);
         this.speed = 5.5f;
         this.jumpCount = 0;
-        this.maxJumpCount = 1;
+        this.maxJumpCount = 50;
+        this.isTurnedRight = true;
+        this.numFootContacts = 0;
+        this.jumpAnimationTime = 0;
+        this.playerState = PlayerState.IDLE;
         createAnimations();
     }
 
     private void createAnimations() {
-        this.idleFrames = TextureRegion.split(assets.manager.get(assets.playerIdleSheet), 64, 64)[0];
-        this.idleAnimation = new Animation<>(1 / 4f, idleFrames);
+        this.idleAnimation = new Animation<>(1 / 4f, TextureRegion.split(assets.manager.get(assets.playerIdleSheet), 64, 64)[0]);
+        this.runAnimation = new Animation<>(1 / 8f, TextureRegion.split(assets.manager.get(assets.playerRunSheet), 80, 64)[0]);
+        this.jumpAnimation = new Animation<>(1 / 15f, TextureRegion.split(assets.manager.get(assets.playerJumpSheet), 64, 64)[0]);
+        //jumpAnimation.setPlayMode(Animation.PlayMode.NORMAL);
     }
 
     private Body createBody(float x, float y, float width, float height, World world) {
@@ -79,15 +88,26 @@ public class Player extends GameEntity {
         this.y = body.getPosition().y * PPM;
 
         checkUserInput();
+
+        jumpAnimationTime += Gdx.graphics.getDeltaTime();
     }
 
     private void checkUserInput() {
+        playerState = PlayerState.IDLE;
         velocityX = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             velocityX = 1;
+            isTurnedRight = true;
+            if (numFootContacts > 0) {
+                playerState = PlayerState.RUNNING;
+            }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             velocityX = -1;
+            isTurnedRight = false;
+            if (numFootContacts > 0) {
+                playerState = PlayerState.RUNNING;
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && ( numFootContacts > 0 || jumpCount < maxJumpCount-1)) {
@@ -95,10 +115,15 @@ public class Player extends GameEntity {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.applyLinearImpulse(new Vector2(0, impulse), body.getPosition(), true);
             jumpCount++;
+            jumpAnimationTime = 0;
         }
 
         if (numFootContacts > 0) {
             jumpCount = 0;
+        } else if (body.getLinearVelocity().y < 0) {
+            playerState = PlayerState.FALLING;
+        } else {
+            playerState = PlayerState.JUMPING;
         }
 
         body.setLinearVelocity(velocityX * speed, body.getLinearVelocity().y);
@@ -112,11 +137,25 @@ public class Player extends GameEntity {
 //                getY() - getHeight() / 2,
 //                texture.getWidth() * (getHeight() / texture.getHeight()),
 //                getHeight());
-        batch.draw(idleAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
-                getX() - getWidth() / 2 - 30,
-                getY() - getHeight() / 2 - 11,
-                getWidth() + 60,
-                getHeight() + 18);
+        if (playerState == PlayerState.IDLE) {
+            batch.draw(idleAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
+                    getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 30),
+                    getY() - getHeight() / 2 - 11,
+                    (isTurnedRight ? 1 : -1) * (getWidth()+60),
+                    getHeight() + 18);
+        } else if (playerState == PlayerState.RUNNING) {
+            batch.draw(runAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
+                    getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 40),
+                    getY() - getHeight() / 2 - 11,
+                    (isTurnedRight ? 1 : -1) * (getWidth()+60),
+                    getHeight() + 19);
+        } else if (playerState == PlayerState.JUMPING || playerState == PlayerState.FALLING) {
+            batch.draw(jumpAnimation.getKeyFrame(jumpAnimationTime),
+                    getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 30),
+                    getY() - getHeight() / 2 - 11,
+                    (isTurnedRight ? 1 : -1) * (getWidth()+60),
+                    getHeight() + 18);
+        }
         batch.end();
     }
 
