@@ -11,8 +11,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.ObjectSet;
 import helper.Assets;
 import helper.TileMapHelper;
+import objects.player.MovingPlatform;
 import objects.player.Player;
 
 import static helper.Constants.PPM;
@@ -31,6 +33,8 @@ public class GameScreen extends ScreenAdapter {
     private Assets assets;
 
     private Player player;
+    private ObjectSet<MovingPlatform> movingPlatforms;
+
     private float cameraZoom = 0.35f;
     private boolean paused = false;
     private float elapsedTime = 0;
@@ -67,13 +71,18 @@ public class GameScreen extends ScreenAdapter {
         elapsedTime = 0;
         world = new World(new Vector2(0, -35f), true);
         world.setContactListener(new GameContactListener(this));
+        movingPlatforms = new ObjectSet<>();
         orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map" + level + ".tmx");
+        loadPlayer();
+    }
+
+    private void loadPlayer() {
         if (player != null) {
             // save player stats
 
             ///
         }
-        player = new Player(32,128, 32, 64, world, this);
+        player = new Player(32,128, 32, 64, this);
         // apply saved stats
 
         ///
@@ -92,6 +101,9 @@ public class GameScreen extends ScreenAdapter {
 
         update();
         orthogonalTiledMapRenderer.render();
+        for (MovingPlatform movingPlatform : movingPlatforms) {
+            movingPlatform.render(batch);
+        }
         player.render(batch);
 
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));
@@ -105,6 +117,9 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
+        for (MovingPlatform movingPlatform : movingPlatforms) {
+            movingPlatform.update();
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             pause();
@@ -147,16 +162,16 @@ public class GameScreen extends ScreenAdapter {
         return player;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     public Assets getAssets() {
         return assets;
     }
 
     public float getElapsedTime() {
         return elapsedTime;
+    }
+
+    public void addMovingPlatform(MovingPlatform movingPlatform) {
+        movingPlatforms.add(movingPlatform);
     }
 
     @Override

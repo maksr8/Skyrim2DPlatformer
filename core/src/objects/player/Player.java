@@ -14,7 +14,7 @@ import helper.Assets;
 import static helper.Constants.PPM;
 
 public class Player extends GameEntity {
-    protected Body body;
+    private Body body;
     private int jumpCount;
     private int maxJumpCount;
     private Assets assets;
@@ -38,10 +38,10 @@ public class Player extends GameEntity {
         ATTACKING
     }
 
-    public Player(float x, float y, float width, float height, World world, GameScreen gameScreen) {
+    public Player(float x, float y, float width, float height, GameScreen gameScreen) {
         super(x / PPM, y / PPM, width, height, gameScreen);
         this.assets = gameScreen.getAssets();
-        this.body = createBody(this.x, this.y, width, height, world);
+        this.body = createBody(this.x, this.y, width, height, gameScreen.getWorld());
         this.speed = 5.5f;
         this.jumpCount = 0;
         this.maxJumpCount = 50;

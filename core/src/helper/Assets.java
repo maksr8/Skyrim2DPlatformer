@@ -15,6 +15,7 @@ public class Assets {
     public final AssetDescriptor<Texture> background1 = new AssetDescriptor<>("backgrounds/background1.png", Texture.class);
     public final AssetDescriptor<Texture> background2 = new AssetDescriptor<>("backgrounds/background2.png", Texture.class);
     public final AssetDescriptor<Texture> background3 = new AssetDescriptor<>("backgrounds/background3.png", Texture.class);
+    public final AssetDescriptor<Texture> movingPlatform1 = new AssetDescriptor<>("objects/moving_platform1.png", Texture.class);
 
     public void load() {
         manager.load(playerIdle);
@@ -25,6 +26,7 @@ public class Assets {
         manager.load(background1);
         manager.load(background2);
         manager.load(background3);
+        manager.load(movingPlatform1);
     }
 
     public void dispose() {

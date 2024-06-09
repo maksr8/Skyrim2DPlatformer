@@ -1,59 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="36">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="37">
  <tileset firstgid="1" source="Tiles.tsx"/>
- <layer id="1" name="backgroung" width="80" height="40">
+ <tileset firstgid="626" source="Props-Rocks.tsx"/>
+ <layer id="1" name="backgroung" width="80" height="45">
   <data encoding="base64" compression="zlib">
-   eJztlWlOwzAQRu2UUrgBtCUsN2A/RrkGJ+mBEKhwA6ACATcoILayHIHPskdKLEexm/5A6HvSUxx7PLVHGVUpQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEkPmykim1CruwB/tZ2n4NzZYWXIDt+R/xT7ONy+/AXbgH9+FQx+/vwh7swzWY18T/l3qbGpl7x1hXkxRS692EU3hWsTaC5zX7q3pT6nIQ6WGzazTiwvWCfLfyvdb1iFm+gbcV63fwXtk+aLm8fs5QbxbrNoj0yOX7Rv6fhN4WPrHnS4fnQjmL8bE9EvIFvsK3gO/wY4acKXUTj929llD/Ze//5QH3bAfmDDK/iGfHi5G5UM5ifGyPhDyBlzjLFbzW5fFY2/XUnKm1GxTOsIk7bWX2XZzCPCufa+rGuYtdx3Mjs2uSS+Ykp+z142c5rziGE+R4hE+6PH7Wdr1J/lj9350ELK77sU3efwEOSIFG
+   eJztlolNwzAUhuOEcmwAbQnHBtxjlDWYhIEQCNgAqEBtN+ghrnKMwB/ZT0osR7WbSFXF/0mf4vh4tZ/yVEcRIYQQQgghhBBCCCGEEEIIIYQQQgghhBBBwRgmcAU2FrudpaMJW7ANt2G62O0QQgghZMnYxEVsCzZhC7bjsPX//S53gMMfwiN4DE/gpfJfH3qXqzvfPQTqw0FSMVAgWY6yc/tY5/227rvzCHkbw4kjf9fwpmTdLbybEbusNiUvp56ehR2pVu5NLch3K9/rrBrJhp/hS8l4D/YjXQeJiWvHdNVmPm8dT89NvB/E/w2obeELa76Vu88VMz/ft0ZcvsI3+O7wA37OETMkb+KFOdc68r9h/b8McM6Goy9D+lfxXLPmSJ8rZn6+b424vIIP2MsjfFLFdlfp8dCYobnr5PawhzPtx/pdnMI0Lu5ratqpmbuD526sxySW9ElMWWvPn2e/YhcOEWMEx6rYnig9XiW+r/bvDh3mx+25Vd7/AMA1hxU=
   </data>
  </layer>
  <objectgroup id="2" name="objects">
-  <object id="1" x="0" y="640">
+  <object id="1" x="0" y="720">
    <polygon points="0,0 0,-48 256,-48 256,0"/>
   </object>
-  <object id="8" x="624" y="544">
+  <object id="8" x="624" y="624">
    <polygon points="0,0 0,96 176,96 176,0"/>
   </object>
-  <object id="13" x="81.5" y="297.5">
+  <object id="13" x="81.5" y="377.5">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="14" x="311" y="225.5">
+  <object id="14" x="311" y="305.5">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="15" x="256" y="608">
+  <object id="15" x="256" y="688">
    <polygon points="0,0 112,0 112,-16 0,-16"/>
   </object>
-  <object id="16" x="394" y="271">
+  <object id="16" x="1104" y="496">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="20" x="225.5" y="279">
+  <object id="20" x="225.5" y="359">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="21" x="445" y="232.5">
+  <object id="21" x="445" y="312.5">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="22" x="1088" y="560">
+  <object id="22" x="1088" y="640">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="23" x="896" y="96">
+  <object id="23" x="896" y="176">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="24" x="1024" y="272">
+  <object id="24" x="1024" y="352">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="25" x="896" y="544">
+  <object id="25" x="896" y="624">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="30" x="1200" y="64">
+  <object id="30" x="1200" y="144">
    <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
-  <object id="33" x="368" y="592">
+  <object id="33" x="368" y="672">
    <polygon points="0,0 0,48 208,48 208,0"/>
   </object>
-  <object id="34" x="576" y="576">
+  <object id="34" x="576" y="656">
    <polygon points="0,0 0,64 16,64 16,0"/>
   </object>
-  <object id="35" x="592" y="560">
+  <object id="35" x="592" y="640">
    <polygon points="0,0 0,80 32,80 32,0"/>
+  </object>
+  <object id="36" name="movingPlatform" x="1200" y="622" width="48" height="12">
+   <properties>
+    <property name="destinationX" type="float" value="1216"/>
+    <property name="destinationY" type="float" value="478"/>
+   </properties>
   </object>
  </objectgroup>
 </map>

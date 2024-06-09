@@ -1,5 +1,6 @@
 package helper;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -14,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.game.GameScreen;
-import objects.player.Player;
+import objects.player.MovingPlatform;
 
 import static helper.Constants.PPM;
 
@@ -42,8 +43,17 @@ public class TileMapHelper {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                 String rectangleName = mapObject.getName();
                 if (rectangleName != null) {
-                    if (rectangleName.equals("")) {
-
+                    if (rectangleName.equals("movingPlatform")) {
+                        float destinationY = mapObject.getProperties().get("destinationY", Float.class);
+                        // Invert the y-coordinate
+                        destinationY = (Gdx.graphics.getHeight() - destinationY);
+                        gameScreen.addMovingPlatform(new MovingPlatform(rectangle.x + rectangle.width / 2,
+                                rectangle.y + rectangle.height / 2,
+                                rectangle.width,
+                                rectangle.height,
+                                gameScreen,
+                                mapObject.getProperties().get("destinationX", Float.class),
+                                destinationY));
                     } else if (rectangleName.equals("")) {
 
                     }
