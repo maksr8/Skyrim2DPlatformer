@@ -12,6 +12,9 @@ public class Assets {
     public final AssetDescriptor<Texture> playerRunSheet = new AssetDescriptor<>("entities/Run-Sheet.png", Texture.class);
     public final AssetDescriptor<Texture> playerJumpSheet = new AssetDescriptor<>("entities/Jump-All-Sheet.png", Texture.class);
     public final AssetDescriptor<Texture> playerAttackSheet = new AssetDescriptor<>("entities/Attack-01-Sheet.png", Texture.class);
+    public final AssetDescriptor<Texture> background1 = new AssetDescriptor<>("backgrounds/background1.png", Texture.class);
+    public final AssetDescriptor<Texture> background2 = new AssetDescriptor<>("backgrounds/background2.png", Texture.class);
+    public final AssetDescriptor<Texture> background3 = new AssetDescriptor<>("backgrounds/background3.png", Texture.class);
 
     public void load() {
         manager.load(playerIdle);
@@ -19,6 +22,9 @@ public class Assets {
         manager.load(playerRunSheet);
         manager.load(playerJumpSheet);
         manager.load(playerAttackSheet);
+        manager.load(background1);
+        manager.load(background2);
+        manager.load(background3);
     }
 
     public void dispose() {

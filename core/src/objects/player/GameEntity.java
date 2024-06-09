@@ -2,7 +2,6 @@ package objects.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.GameScreen;
 
 public abstract class GameEntity {
@@ -22,15 +21,23 @@ public abstract class GameEntity {
 
     public abstract void update();
 
-    public abstract void render(SpriteBatch batch, Texture texture);
+    public abstract void render(SpriteBatch batch);
 
 
     public float getX() {
         return x;
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
     public float getY() {
         return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     public float getVelocityX() {

@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.ScreenUtils;
 import helper.Assets;
 import helper.TileMapHelper;
 import objects.player.Player;
@@ -22,6 +22,7 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
+    private Texture currBackground;
     private Box2DDebugRenderer box2DDebugRenderer;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -33,9 +34,11 @@ public class GameScreen extends ScreenAdapter {
     private float cameraZoom = 0.35f;
     private boolean paused = false;
     private float elapsedTime = 0;
+    private int level;
 
-    public GameScreen(final Skyrim2DGame game) {
+    public GameScreen(final Skyrim2DGame game, int level) {
         this.game = game;
+        this.level = level;
         this.camera = game.getOrthographicCamera();
         this.batch = game.getBatch();
         this.world = new World(new Vector2(0, -35f), true);
@@ -43,8 +46,37 @@ public class GameScreen extends ScreenAdapter {
         this.assets = game.getAssets();
 
         tileMapHelper = new TileMapHelper(this);
-        orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map3.tmx");
+        loadLevel(level);
+    }
+
+    private void loadLevel(int level) {
+        switch (level) {
+            case 1:
+                currBackground = assets.manager.get(assets.background1);
+                break;
+            case 2:
+                currBackground = assets.manager.get(assets.background2);
+                break;
+            case 3:
+                currBackground = assets.manager.get(assets.background3);
+                break;
+            default:
+                currBackground = assets.manager.get(assets.background1);
+                break;
+        }
+        elapsedTime = 0;
+        world = new World(new Vector2(0, -35f), true);
         world.setContactListener(new GameContactListener(this));
+        orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map" + level + ".tmx");
+        if (player != null) {
+            // save player stats
+
+            ///
+        }
+        player = new Player(32,128, 32, 64, world, this);
+        // apply saved stats
+
+        ///
     }
 
     @Override
@@ -53,14 +85,15 @@ public class GameScreen extends ScreenAdapter {
             elapsedTime += Gdx.graphics.getDeltaTime();
         }
 
-        ScreenUtils.clear(0.4f, 0.6f, 1f, 1f);
+        //ScreenUtils.clear(0.4f, 0.6f, 1f, 1f);
+        batch.begin();
+        batch.draw(currBackground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
 
         update();
         orthogonalTiledMapRenderer.render();
-        player.render(batch, assets.manager.get(assets.playerIdle));
-        batch.begin();
+        player.render(batch);
 
-        batch.end();
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));
     }
 
@@ -76,11 +109,10 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             pause();
         }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.N)) {
-            world = new World(new Vector2(0, -25f), true);
-            orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map2.tmx");
+        if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
+            loadLevel(1);
         }
+
     }
 
 

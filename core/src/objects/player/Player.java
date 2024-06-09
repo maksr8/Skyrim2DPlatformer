@@ -155,7 +155,7 @@ public class Player extends GameEntity {
     }
 
     @Override
-    public void render(SpriteBatch batch, Texture texture) {
+    public void render(SpriteBatch batch) {
         batch.begin();
 //        batch.draw(texture,
 //                getX() - getWidth() / 2,
@@ -204,5 +204,9 @@ public class Player extends GameEntity {
 
     public void setNumFootContacts(int numFootContacts) {
         this.numFootContacts = numFootContacts;
+    }
+
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
     }
 }

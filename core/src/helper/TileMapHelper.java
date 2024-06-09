@@ -42,13 +42,8 @@ public class TileMapHelper {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                 String rectangleName = mapObject.getName();
                 if (rectangleName != null) {
-                    if (rectangleName.equals("player")) {
-                        gameScreen.setPlayer(new Player(rectangle.x + rectangle.width / 2,
-                                rectangle.y + rectangle.height / 2,
-                                rectangle.width,
-                                rectangle.height,
-                                gameScreen.getWorld(),
-                                gameScreen));
+                    if (rectangleName.equals("")) {
+
                     } else if (rectangleName.equals("")) {
 
                     }
