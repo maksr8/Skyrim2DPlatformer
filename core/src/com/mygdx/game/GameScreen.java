@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import helper.Assets;
 import helper.TileMapHelper;
 import objects.player.MovingPlatform;
+import objects.player.Platform;
 import objects.player.Player;
 
 import static helper.Constants.PPM;
@@ -34,6 +35,7 @@ public class GameScreen extends ScreenAdapter {
 
     private Player player;
     private ObjectSet<MovingPlatform> movingPlatforms;
+    private ObjectSet<Platform> platforms;
 
     private float cameraZoom = 0.35f;
     private boolean paused = false;
@@ -64,14 +66,12 @@ public class GameScreen extends ScreenAdapter {
             case 3:
                 currBackground = assets.manager.get(assets.background3);
                 break;
-            default:
-                currBackground = assets.manager.get(assets.background1);
-                break;
         }
         elapsedTime = 0;
         world = new World(new Vector2(0, -35f), true);
         world.setContactListener(new GameContactListener(this));
         movingPlatforms = new ObjectSet<>();
+        platforms = new ObjectSet<>();
         orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map" + level + ".tmx");
         loadPlayer();
     }
@@ -101,12 +101,15 @@ public class GameScreen extends ScreenAdapter {
 
         update();
         orthogonalTiledMapRenderer.render();
+        for (Platform platform : platforms) {
+            platform.render(batch);
+        }
         for (MovingPlatform movingPlatform : movingPlatforms) {
             movingPlatform.render(batch);
         }
         player.render(batch);
 
-        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+        //box2DDebugRenderer.render(world, camera.combined.scl(PPM));
     }
 
     private void update() {
@@ -172,6 +175,10 @@ public class GameScreen extends ScreenAdapter {
 
     public void addMovingPlatform(MovingPlatform movingPlatform) {
         movingPlatforms.add(movingPlatform);
+    }
+
+    public void addPlatform(Platform platform) {
+        platforms.add(platform);
     }
 
     @Override

@@ -44,7 +44,7 @@ public class Player extends GameEntity {
         this.body = createBody(this.x, this.y, width, height, gameScreen.getWorld());
         this.speed = 5.5f;
         this.jumpCount = 0;
-        this.maxJumpCount = 50;
+        this.maxJumpCount = 1;
         this.isTurnedRight = true;
         this.numFootContacts = 0;
         this.jumpAnimationTime = 0;

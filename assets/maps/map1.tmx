@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="37">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="42">
  <tileset firstgid="1" source="Tiles.tsx"/>
  <tileset firstgid="626" source="Props-Rocks.tsx"/>
  <layer id="1" name="backgroung" width="80" height="45">
   <data encoding="base64" compression="zlib">
-   eJztlolNwzAUhuOEcmwAbQnHBtxjlDWYhIEQCNgAqEBtN+ghrnKMwB/ZT0osR7WbSFXF/0mf4vh4tZ/yVEcRIYQQQgghhBBCCCGEEEIIIYQQQgghhBBBwRgmcAU2FrudpaMJW7ANt2G62O0QQgghZMnYxEVsCzZhC7bjsPX//S53gMMfwiN4DE/gpfJfH3qXqzvfPQTqw0FSMVAgWY6yc/tY5/227rvzCHkbw4kjf9fwpmTdLbybEbusNiUvp56ehR2pVu5NLch3K9/rrBrJhp/hS8l4D/YjXQeJiWvHdNVmPm8dT89NvB/E/w2obeELa76Vu88VMz/ft0ZcvsI3+O7wA37OETMkb+KFOdc68r9h/b8McM6Goy9D+lfxXLPmSJ8rZn6+b424vIIP2MsjfFLFdlfp8dCYobnr5PawhzPtx/pdnMI0Lu5ratqpmbuD526sxySW9ElMWWvPn2e/YhcOEWMEx6rYnig9XiW+r/bvDh3mx+25Vd7/AMA1hxU=
+   eJztlQlKw0AUhicJcbmBWqnLDdyPUa/hSTyQVNQbqEVpe4MuuNXlCP4hM5CGKZ200iJ8H3xkMsvLmwePGAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsHw2YmM25Zasye142Rn9Lw5Ur0N5JI/libyMlp1VOO3EmI7sJov9blajmgmzvtjUKtFX3QZy6KlfU15POHcjb6fEntSbri6ngZ5Vu9Kfcmd7IXtk6ad2flqPZMtP8nnCelt2ZGJNPTF9vVmsWyPQcxvvW/F/ZujtT535ivxzvpjF/aE94vNFvso3j+/yY4aYVermvLD3WlP910v/l67umXrmMtz8ip6rpT1uzhezuD+0R3xeyXvl8iAfo/FxK8rXq8asWrtGIYc93Wk/zt+dI1mPx/Ma2XHd7t3RczfO11wsN+diurPl/bPk62zJnmL05SAaHw+jfH2e+KGWv9vzWFwv753n/Rc4vIVE
   </data>
  </layer>
  <objectgroup id="2" name="objects">
@@ -14,38 +14,8 @@
   <object id="8" x="624" y="624">
    <polygon points="0,0 0,96 176,96 176,0"/>
   </object>
-  <object id="13" x="81.5" y="377.5">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
-  </object>
-  <object id="14" x="311" y="305.5">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
-  </object>
   <object id="15" x="256" y="688">
    <polygon points="0,0 112,0 112,-16 0,-16"/>
-  </object>
-  <object id="16" x="1104" y="496">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
-  </object>
-  <object id="20" x="225.5" y="359">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
-  </object>
-  <object id="21" x="445" y="312.5">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
-  </object>
-  <object id="22" x="1088" y="640">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
-  </object>
-  <object id="23" x="896" y="176">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
-  </object>
-  <object id="24" x="1024" y="352">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
-  </object>
-  <object id="25" x="896" y="624">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
-  </object>
-  <object id="30" x="1200" y="144">
-   <polygon points="0,0 80,0 80,-16 0,-16"/>
   </object>
   <object id="33" x="368" y="672">
    <polygon points="0,0 0,48 208,48 208,0"/>
@@ -62,5 +32,10 @@
     <property name="destinationY" type="float" value="478"/>
    </properties>
   </object>
+  <object id="37" name="platformGrass" x="896" y="608" width="80" height="16"/>
+  <object id="38" name="platformGrass" x="1088" y="624" width="80" height="16"/>
+  <object id="39" name="platformGrass" x="1104" y="480" width="80" height="16"/>
+  <object id="40" name="platformGrass" x="824" y="480" width="80" height="16"/>
+  <object id="41" name="platformGrass" x="1040" y="448" width="48" height="16"/>
  </objectgroup>
 </map>

@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.game.GameScreen;
 import objects.player.MovingPlatform;
+import objects.player.Platform;
 
 import static helper.Constants.PPM;
 
@@ -54,8 +55,13 @@ public class TileMapHelper {
                                 gameScreen,
                                 mapObject.getProperties().get("destinationX", Float.class),
                                 destinationY));
-                    } else if (rectangleName.equals("")) {
-
+                    } else if (rectangleName.matches("platform.*")) {
+                        gameScreen.addPlatform(new Platform(rectangle.x + rectangle.width / 2,
+                                rectangle.y + rectangle.height / 2,
+                                rectangle.width,
+                                rectangle.height,
+                                gameScreen,
+                                rectangleName.substring(8)));
                     }
                 }
             }
