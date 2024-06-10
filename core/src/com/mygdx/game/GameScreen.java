@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ObjectSet;
 import helper.Assets;
 import helper.TileMapHelper;
+import objects.player.FallingPlatform;
 import objects.player.MovingPlatform;
 import objects.player.Platform;
 import objects.player.Player;
@@ -36,6 +37,8 @@ public class GameScreen extends ScreenAdapter {
     private Player player;
     private ObjectSet<MovingPlatform> movingPlatforms;
     private ObjectSet<Platform> platforms;
+    private ObjectSet<FallingPlatform> fallingPlatforms;
+    private ObjectSet<FallingPlatform> fallingPlatformsToRemove;
 
     private float cameraZoom = 0.35f;
     private boolean paused = false;
@@ -72,6 +75,8 @@ public class GameScreen extends ScreenAdapter {
         world.setContactListener(new GameContactListener(this));
         movingPlatforms = new ObjectSet<>();
         platforms = new ObjectSet<>();
+        fallingPlatforms = new ObjectSet<>();
+        fallingPlatformsToRemove = new ObjectSet<>();
         orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map" + level + ".tmx");
         loadPlayer();
     }
@@ -82,7 +87,7 @@ public class GameScreen extends ScreenAdapter {
 
             ///
         }
-        player = new Player(32,128, 32, 64, this);
+        player = new Player(32, 128, 32, 64, this);
         // apply saved stats
 
         ///
@@ -107,12 +112,16 @@ public class GameScreen extends ScreenAdapter {
         for (MovingPlatform movingPlatform : movingPlatforms) {
             movingPlatform.render(batch);
         }
+        for (FallingPlatform fallingPlatform : fallingPlatforms) {
+            fallingPlatform.render(batch);
+        }
         player.render(batch);
 
-        //box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
     }
 
     private void update() {
+        removeObjects();
         world.step(1 / 60f, 8, 3);
         cameraUpdate();
         // tell the SpriteBatch to render in the
@@ -123,6 +132,9 @@ public class GameScreen extends ScreenAdapter {
         for (MovingPlatform movingPlatform : movingPlatforms) {
             movingPlatform.update();
         }
+        for (FallingPlatform fallingPlatform : fallingPlatforms) {
+            fallingPlatform.update();
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             pause();
@@ -131,6 +143,18 @@ public class GameScreen extends ScreenAdapter {
             loadLevel(1);
         }
 
+    }
+
+    private void removeObjects() {
+        removeFallingPlatforms();
+    }
+
+    private void removeFallingPlatforms() {
+        for (FallingPlatform fallingPlatform : fallingPlatformsToRemove) {
+            fallingPlatforms.remove(fallingPlatform);
+            world.destroyBody(fallingPlatform.getBody());
+        }
+        fallingPlatformsToRemove.clear();
     }
 
 
@@ -179,6 +203,14 @@ public class GameScreen extends ScreenAdapter {
 
     public void addPlatform(Platform platform) {
         platforms.add(platform);
+    }
+
+    public void addFallingPlatform(FallingPlatform fallingPlatform) {
+        fallingPlatforms.add(fallingPlatform);
+    }
+
+    public void removeFallingPlatform(FallingPlatform fallingPlatform) {
+        fallingPlatformsToRemove.add(fallingPlatform);
     }
 
     @Override

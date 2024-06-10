@@ -7,7 +7,7 @@ import helper.Assets;
 
 import static helper.Constants.PPM;
 
-public class MovingPlatform extends GameEntity{
+public class MovingPlatform extends GameEntity {
     private Body body;
     private Assets assets;
 
@@ -64,6 +64,7 @@ public class MovingPlatform extends GameEntity{
         fixtureDef.friction = 0f;
         body.createFixture(fixtureDef);
 
+        shape.dispose();
         return body;
     }
 
@@ -72,14 +73,14 @@ public class MovingPlatform extends GameEntity{
         this.x = body.getPosition().x * PPM;
         this.y = body.getPosition().y * PPM;
 
-        if ( isInitMovingRight && x > destinationX || !isInitMovingRight && x < destinationX) {
+        if (isInitMovingRight && x > destinationX || !isInitMovingRight && x < destinationX) {
             body.setLinearVelocity(-body.getLinearVelocity().x, body.getLinearVelocity().y);
-        } else if ( isInitMovingRight && x < initialX || !isInitMovingRight && x > initialX) {
+        } else if (isInitMovingRight && x < initialX || !isInitMovingRight && x > initialX) {
             body.setLinearVelocity(-body.getLinearVelocity().x, body.getLinearVelocity().y);
         }
-        if ( isInitMovingUp && y < destinationY || !isInitMovingUp && y > destinationY) {
+        if (isInitMovingUp && y < destinationY || !isInitMovingUp && y > destinationY) {
             body.setLinearVelocity(body.getLinearVelocity().x, -body.getLinearVelocity().y);
-        } else if ( isInitMovingUp && y > initialY || !isInitMovingUp && y < initialY) {
+        } else if (isInitMovingUp && y > initialY || !isInitMovingUp && y < initialY) {
             body.setLinearVelocity(body.getLinearVelocity().x, -body.getLinearVelocity().y);
         }
     }

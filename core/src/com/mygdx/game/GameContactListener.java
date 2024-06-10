@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
+import objects.player.FallingPlatform;
+import objects.player.Player;
 
 public class GameContactListener implements ContactListener {
     GameScreen gameScreen;
@@ -14,6 +16,20 @@ public class GameContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
+        handleFootBeginContact(contact, fixtureA, fixtureB);
+        handleFallingPlatformBeginContact(contact, fixtureA, fixtureB);
+        handleFallingPlatformBeginContact(contact, fixtureB, fixtureA);
+    }
+
+    private void handleFallingPlatformBeginContact(Contact contact, Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null) {
+            if (fixtureA.getUserData() instanceof FallingPlatform && fixtureB.getUserData() instanceof Player) {
+                ((FallingPlatform) fixtureA.getUserData()).setFalling();
+            }
+        }
+    }
+
+    private void handleFootBeginContact(Contact contact, Fixture fixtureA, Fixture fixtureB) {
         if (fixtureA.getUserData() != null && fixtureA.getUserData().equals("foot")) {
             gameScreen.getPlayer().setNumFootContacts(gameScreen.getPlayer().getNumFootContacts() + 1);
         }
@@ -27,6 +43,10 @@ public class GameContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
+        handleFootEndContact(contact, fixtureA, fixtureB);
+    }
+
+    private void handleFootEndContact(Contact contact, Fixture fixtureA, Fixture fixtureB) {
         if (fixtureA.getUserData() != null && fixtureA.getUserData().equals("foot")) {
             gameScreen.getPlayer().setNumFootContacts(gameScreen.getPlayer().getNumFootContacts() - 1);
         }

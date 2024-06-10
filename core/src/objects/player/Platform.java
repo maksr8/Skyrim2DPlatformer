@@ -8,7 +8,7 @@ import helper.Assets;
 
 import static helper.Constants.PPM;
 
-public class Platform extends GameEntity{
+public class Platform extends GameEntity {
     private Body body;
     private Texture texture;
 
@@ -39,6 +39,7 @@ public class Platform extends GameEntity{
         fixtureDef.friction = 0f;
         body.createFixture(fixtureDef);
 
+        shape.dispose();
         return body;
     }
 

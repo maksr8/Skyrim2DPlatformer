@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.game.GameScreen;
+import objects.player.FallingPlatform;
 import objects.player.MovingPlatform;
 import objects.player.Platform;
 
@@ -36,11 +37,11 @@ public class TileMapHelper {
 
     private void parseMapObjects(MapObjects mapObjects) {
         for (MapObject mapObject : mapObjects) {
-            if (mapObject instanceof PolygonMapObject){
+            if (mapObject instanceof PolygonMapObject) {
                 createStaticBody((PolygonMapObject) mapObject);
             }
 
-            if (mapObject instanceof RectangleMapObject){
+            if (mapObject instanceof RectangleMapObject) {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                 String rectangleName = mapObject.getName();
                 if (rectangleName != null) {
@@ -62,6 +63,12 @@ public class TileMapHelper {
                                 rectangle.height,
                                 gameScreen,
                                 rectangleName.substring(8)));
+                    } else if (rectangleName.equals("fallingPlatform")) {
+                        gameScreen.addFallingPlatform(new FallingPlatform(rectangle.x + rectangle.width / 2,
+                                rectangle.y + rectangle.height / 2,
+                                rectangle.width,
+                                rectangle.height,
+                                gameScreen));
                     }
                 }
             }

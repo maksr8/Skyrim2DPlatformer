@@ -2,7 +2,6 @@ package objects.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -29,22 +28,13 @@ public class Player extends GameEntity {
     private PlayerState playerState;
     private boolean isTurnedRight;
 
-    public enum PlayerState {
-        IDLE,
-        RUNNING,
-        JUMPING,
-        FALLING,
-        DEAD,
-        ATTACKING
-    }
-
     public Player(float x, float y, float width, float height, GameScreen gameScreen) {
         super(x / PPM, y / PPM, width, height, gameScreen);
         this.assets = gameScreen.getAssets();
         this.body = createBody(this.x, this.y, width, height, gameScreen.getWorld());
         this.speed = 5.5f;
         this.jumpCount = 0;
-        this.maxJumpCount = 1;
+        this.maxJumpCount = 2;
         this.isTurnedRight = true;
         this.numFootContacts = 0;
         this.jumpAnimationTime = 0;
@@ -74,7 +64,7 @@ public class Player extends GameEntity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 0f;
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData(this);
         //foot sensor
         shape = new PolygonShape();
         shape.setAsBox(width / 2 / PPM - 0.01f, 0.05f, new Vector2(0, -height / 2 / PPM), 0);
@@ -97,7 +87,6 @@ public class Player extends GameEntity {
         shape.dispose();
         return body;
     }
-
 
     @Override
     public void update() {
@@ -131,7 +120,7 @@ public class Player extends GameEntity {
             attackAnimationTime = 0;
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && ( numFootContacts > 0 || jumpCount < maxJumpCount-1)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && (numFootContacts > 0 || jumpCount < maxJumpCount - 1)) {
             float impulse = body.getMass() * 9;
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.applyLinearImpulse(new Vector2(0, impulse), body.getPosition(), true);
@@ -147,7 +136,7 @@ public class Player extends GameEntity {
             playerState = PlayerState.JUMPING;
         }
 
-        if (!attackAnimation.isAnimationFinished(attackAnimationTime)){
+        if (!attackAnimation.isAnimationFinished(attackAnimationTime)) {
             playerState = PlayerState.ATTACKING;
         }
 
@@ -166,25 +155,25 @@ public class Player extends GameEntity {
             batch.draw(idleAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
                     getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 30),
                     getY() - getHeight() / 2 - 12,
-                    (isTurnedRight ? 1 : -1) * (getWidth()+60),
+                    (isTurnedRight ? 1 : -1) * (getWidth() + 60),
                     getHeight() + 18);
         } else if (playerState == PlayerState.RUNNING) {
             batch.draw(runAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
                     getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 48),
                     getY() - getHeight() / 2 - 12,
-                    (isTurnedRight ? 1 : -1) * (getWidth()+80),
+                    (isTurnedRight ? 1 : -1) * (getWidth() + 80),
                     getHeight() + 19);
         } else if (playerState == PlayerState.JUMPING || playerState == PlayerState.FALLING) {
             batch.draw(jumpAnimation.getKeyFrame(jumpAnimationTime, false),
                     getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 20),
                     getY() - getHeight() / 2 - 11,
-                    (isTurnedRight ? 1 : -1) * (getWidth()+60),
+                    (isTurnedRight ? 1 : -1) * (getWidth() + 60),
                     getHeight() + 18);
         } else if (playerState == PlayerState.ATTACKING) {
             batch.draw(attackAnimation.getKeyFrame(attackAnimationTime, false),
                     getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 44),
                     getY() - getHeight() / 2 - 15,
-                    (isTurnedRight ? 1 : -1) * (getWidth()+80),
+                    (isTurnedRight ? 1 : -1) * (getWidth() + 80),
                     getHeight() + 18);
         }
         batch.end();
@@ -208,5 +197,14 @@ public class Player extends GameEntity {
 
     public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;
+    }
+
+    public enum PlayerState {
+        IDLE,
+        RUNNING,
+        JUMPING,
+        FALLING,
+        DEAD,
+        ATTACKING
     }
 }

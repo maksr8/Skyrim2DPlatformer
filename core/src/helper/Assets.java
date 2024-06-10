@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Assets {
     public final AssetManager manager = new AssetManager();
 
-    public final AssetDescriptor<Texture> playerIdle = new AssetDescriptor<>("entities/Idle.png", Texture.class);
+    //public final AssetDescriptor<Texture> playerIdle = new AssetDescriptor<>("entities/Idle.png", Texture.class);
     public final AssetDescriptor<Texture> playerIdleSheet = new AssetDescriptor<>("entities/Idle-Sheet.png", Texture.class);
     public final AssetDescriptor<Texture> playerRunSheet = new AssetDescriptor<>("entities/Run-Sheet.png", Texture.class);
     public final AssetDescriptor<Texture> playerJumpSheet = new AssetDescriptor<>("entities/Jump-All-Sheet.png", Texture.class);
@@ -17,9 +17,11 @@ public class Assets {
     public final AssetDescriptor<Texture> background3 = new AssetDescriptor<>("backgrounds/background3.png", Texture.class);
     public final AssetDescriptor<Texture> movingPlatform1 = new AssetDescriptor<>("objects/moving_platform1.png", Texture.class);
     public final AssetDescriptor<Texture> platformGrass = new AssetDescriptor<>("objects/platformGrass.png", Texture.class);
+    public final AssetDescriptor<Texture> fallingPlatform1 = new AssetDescriptor<>("objects/falling_platform1.png", Texture.class);
+    public final AssetDescriptor<Texture> fallingPlatform1Sheet = new AssetDescriptor<>("objects/falling_platform1_sheet.png", Texture.class);
 
     public void load() {
-        manager.load(playerIdle);
+        //manager.load(playerIdle);
         manager.load(playerIdleSheet);
         manager.load(playerRunSheet);
         manager.load(playerJumpSheet);
@@ -29,6 +31,8 @@ public class Assets {
         manager.load(background3);
         manager.load(movingPlatform1);
         manager.load(platformGrass);
+        manager.load(fallingPlatform1);
+        manager.load(fallingPlatform1Sheet);
     }
 
     public void dispose() {
