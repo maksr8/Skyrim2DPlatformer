@@ -16,21 +16,22 @@ public class Rat extends GameEntity {
     private static final float DEAD_ANIMATION_DURATION = 1f;
     private static final float IDLE_ANIMATION_DURATION = 4f;
     private static final float WALK_ANIMATION_DURATION = 4f;
-    private Body body;
     private static Assets assets;
     private static Animation<TextureRegion> idleAnimation;
     private static Animation<TextureRegion> walkAnimation;
     private static Animation<TextureRegion> hitAnimation;
     private static Animation<TextureRegion> deadAnimation;
+    private Body body;
     private Animation<TextureRegion> currentAnimation;
     private RatState ratState;
     private boolean isTurnedRight;
-    private float speed;
     private float generalAnimationTimer;
     private float hitAnimationTimer;
     private float deadAnimationTimer;
     private int numOfLeftSensorContacts;
     private int numOfRightSensorContacts;
+    private boolean isHitTowardsRight;
+    private float hp;
 
     public Rat(float x, float y, float width, float height, GameScreen gameScreen) {
         super(x, y, width, height, gameScreen);
@@ -38,6 +39,7 @@ public class Rat extends GameEntity {
         if (assets == null)
             assets = gameScreen.getAssets();
         speed = 1.5f;
+        hp = 5;
         ratState = RatState.IDLE;
         isTurnedRight = true;
         generalAnimationTimer = 0;
@@ -47,13 +49,14 @@ public class Rat extends GameEntity {
         numOfRightSensorContacts = 0;
         if (idleAnimation == null)
             createAnimations();
+        currentAnimation = idleAnimation;
     }
 
     private void createAnimations() {
         idleAnimation = new Animation<>(1 / 4f, TextureRegion.split(assets.manager.get(assets.ratIdleSheet), 32, 11)[0]);
         walkAnimation = new Animation<>(1 / 8f, TextureRegion.split(assets.manager.get(assets.ratWalkSheet), 32, 11)[0]);
         hitAnimation = new Animation<>(1 / 8f, TextureRegion.split(assets.manager.get(assets.ratHitSheet), 32, 11)[0]);
-        deadAnimation = new Animation<>(1 / 8f, TextureRegion.split(assets.manager.get(assets.ratDeadSheet), 32, 11)[0]);
+        deadAnimation = new Animation<>(1 / 4f, TextureRegion.split(assets.manager.get(assets.ratDeadSheet), 32, 11)[0]);
     }
 
     private Body createBody(float x, float y, float width, float height, World world) {
@@ -68,6 +71,12 @@ public class Rat extends GameEntity {
         fixtureDef.shape = shape;
         fixtureDef.friction = 1f;
         body.createFixture(fixtureDef).setUserData(this);
+
+        Filter filter = new Filter();
+        filter.categoryBits = 0x0002; // Category for Rat
+        filter.maskBits = 0x0001; // Can collide with everything except other Rats
+        body.getFixtureList().get(0).setFilterData(filter);
+
         // left bottom edge sensor
         shape.setAsBox(0.01f, 0.02f, new Vector2(-width / 2 / PPM, -height / 2 / PPM), 0);
         fixtureDef.shape = shape;
@@ -106,28 +115,34 @@ public class Rat extends GameEntity {
                 currentAnimation = walkAnimation;
 
                 if (isTurnedRight)
-                    if (numOfRightSensorContacts == 0){
+                    if (numOfRightSensorContacts == 0) {
                         isTurnedRight = false;
                     } else {
                         body.setLinearVelocity(speed, body.getLinearVelocity().y);
                     }
-                else
-                    if (numOfLeftSensorContacts == 0){
-                        isTurnedRight = true;
-                    } else {
-                        body.setLinearVelocity(-speed, body.getLinearVelocity().y);
-                    }
+                else if (numOfLeftSensorContacts == 0) {
+                    isTurnedRight = true;
+                } else {
+                    body.setLinearVelocity(-speed, body.getLinearVelocity().y);
+                }
                 break;
             case HIT:
                 if (hitAnimationTimer > HIT_ANIMATION_DURATION) {
-                    ratState = RatState.WALKING;
+                    ratState = RatState.IDLE;
                     hitAnimationTimer = 0;
                 }
+                currentAnimation = hitAnimation;
+                hitAnimationTimer += Gdx.graphics.getDeltaTime();
+                body.setLinearVelocity(body.getLinearVelocity().x - body.getLinearVelocity().x*0.05f, body.getLinearVelocity().y);
+
                 break;
             case DEAD:
                 if (deadAnimationTimer > DEAD_ANIMATION_DURATION) {
                     gameScreen.removeRat(this);
                 }
+                currentAnimation = deadAnimation;
+                deadAnimationTimer += Gdx.graphics.getDeltaTime();
+                body.setLinearVelocity(0, body.getLinearVelocity().y);
                 break;
         }
     }
@@ -135,9 +150,17 @@ public class Rat extends GameEntity {
     @Override
     public void render(SpriteBatch batch) {
         batch.begin();
-        batch.draw(currentAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
-                x + (isTurnedRight ? -1 : 1)*(width / 2 + 8),
-                y - height / 2, (isTurnedRight ? 1 : -1) * (width + 16), height);
+        if (ratState == RatState.DEAD) {
+            batch.draw(currentAnimation.getKeyFrame(deadAnimationTimer, false),
+                    x + (isTurnedRight ? -1 : 1) * (width / 2 + 8),
+                    y - height / 2, (isTurnedRight ? 1 : -1) * (width + 16), height);
+            batch.end();
+            return;
+        } else {
+            batch.draw(currentAnimation.getKeyFrame(generalAnimationTimer, true),
+                    x + (isTurnedRight ? -1 : 1) * (width / 2 + 8),
+                    y - height / 2, (isTurnedRight ? 1 : -1) * (width + 16), height);
+        }
         batch.end();
     }
 
@@ -159,6 +182,20 @@ public class Rat extends GameEntity {
 
     public void removeRightSensorContact() {
         numOfRightSensorContacts--;
+    }
+
+    public void setHitTowardsRight(boolean hitTowardsRight) {
+        isHitTowardsRight = hitTowardsRight;
+    }
+
+    public void hit() {
+        hp -= gameScreen.getPlayer().getAtk();
+        if (hp <= 0) {
+            ratState = RatState.DEAD;
+            return;
+        }
+        ratState = RatState.HIT;
+        body.applyLinearImpulse(new Vector2(isHitTowardsRight ? 5f : -5f, 6f), body.getWorldCenter(), true);
     }
 
     public enum RatState {

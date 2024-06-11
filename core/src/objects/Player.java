@@ -7,15 +7,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.mygdx.game.GameScreen;
 import helper.Assets;
 
 import static helper.Constants.PPM;
 
 public class Player extends GameEntity {
+    private static float attackCooldown = 0.5f;
+    private final ObjectSet<GameEntity> entitiesToHitTowardsRight;
+    private final ObjectSet<GameEntity> entitiesToHitTowardsLeft;
     private Body body;
     private int jumpCount;
     private int maxJumpCount;
+    private float atk;
     private Assets assets;
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> runAnimation;
@@ -23,7 +28,6 @@ public class Player extends GameEntity {
     private Animation<TextureRegion> attackAnimation;
     private float jumpAnimationTimer;
     private float attackAnimationTimer;
-
     private int numFootContacts;
     private PlayerState playerState;
     private boolean isTurnedRight;
@@ -33,12 +37,15 @@ public class Player extends GameEntity {
         this.assets = gameScreen.getAssets();
         this.body = createBody(this.x, this.y, width, height, gameScreen.getWorld());
         this.speed = 5.5f;
+        this.atk = 1;
         this.jumpCount = 0;
         this.maxJumpCount = 2;
         this.isTurnedRight = true;
         this.numFootContacts = 0;
         this.jumpAnimationTimer = 0;
         this.attackAnimationTimer = 999;
+        this.entitiesToHitTowardsRight = new ObjectSet<>();
+        this.entitiesToHitTowardsLeft = new ObjectSet<>();
 
         this.playerState = PlayerState.IDLE;
         createAnimations();
@@ -117,7 +124,10 @@ public class Player extends GameEntity {
             }
         }
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            attackAnimationTimer = 0;
+            if (attackAnimationTimer > attackCooldown) {
+                attackAnimationTimer = 0;
+                hitEntities();
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && (numFootContacts > 0 || jumpCount < maxJumpCount - 1)) {
@@ -143,14 +153,27 @@ public class Player extends GameEntity {
         body.setLinearVelocity(velocityX * speed, body.getLinearVelocity().y);
     }
 
+    private void hitEntities() {
+        if (isTurnedRight) {
+            for (GameEntity entity : entitiesToHitTowardsRight) {
+                if (entity instanceof Rat) {
+                    ((Rat) entity).setHitTowardsRight(true);
+                    ((Rat) entity).hit();
+                }
+            }
+        } else {
+            for (GameEntity entity : entitiesToHitTowardsLeft) {
+                if (entity instanceof Rat) {
+                    ((Rat) entity).setHitTowardsRight(false);
+                    ((Rat) entity).hit();
+                }
+            }
+        }
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         batch.begin();
-//        batch.draw(texture,
-//                getX() - getWidth() / 2,
-//                getY() - getHeight() / 2,
-//                texture.getWidth() * (getHeight() / texture.getHeight()),
-//                getHeight());
         if (playerState == PlayerState.IDLE) {
             batch.draw(idleAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
                     getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 30),
@@ -195,8 +218,36 @@ public class Player extends GameEntity {
         this.numFootContacts = numFootContacts;
     }
 
+    public void setAtk(float atk) {
+        this.atk = atk;
+    }
+
+    public float getAtk() {
+        return atk;
+    }
+
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
+
     public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;
+    }
+
+    public void addEntityToHitTowardsRight(GameEntity entity) {
+        entitiesToHitTowardsRight.add(entity);
+    }
+
+    public void removeEntityToHitTowardsRight(GameEntity entity) {
+        entitiesToHitTowardsRight.remove(entity);
+    }
+
+    public void addEntityToHitTowardsLeft(GameEntity entity) {
+        entitiesToHitTowardsLeft.add(entity);
+    }
+
+    public void removeEntityToHitTowardsLeft(GameEntity entity) {
+        entitiesToHitTowardsLeft.remove(entity);
     }
 
     public enum PlayerState {

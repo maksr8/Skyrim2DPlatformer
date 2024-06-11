@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="68">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="69">
  <tileset firstgid="1" source="Tiles.tsx"/>
  <tileset firstgid="626" source="Props-Rocks.tsx"/>
  <layer id="1" name="backgroung" width="80" height="45">
@@ -39,7 +39,7 @@
   <object id="41" name="platformGrass" x="1040" y="448" width="48" height="16"/>
   <object id="42" name="fallingPlatform" x="720" y="528" width="32" height="16"/>
   <object id="44" name="rat" x="177" y="643" width="32" height="20"/>
-  <object id="45" name="fallingPlatform" x="651" y="502" width="32" height="16"/>
+  <object id="45" name="fallingPlatform" x="629" y="502" width="57" height="16"/>
   <object id="46" name="fallingPlatform" x="580.5" y="500" width="32" height="16"/>
   <object id="47" name="fallingPlatform" x="499" y="515.5" width="32" height="16"/>
   <object id="48" name="fallingPlatform" x="444" y="485" width="32" height="16"/>
@@ -67,5 +67,6 @@
   <object id="65" name="rat" x="1132.5" y="424.5" width="32" height="20"/>
   <object id="66" name="rat" x="1128" y="575.5" width="32" height="20"/>
   <object id="67" name="rat" x="1205.5" y="570" width="32" height="20"/>
+  <object id="68" name="rat" x="649" y="467" width="32" height="20"/>
  </objectgroup>
 </map>
