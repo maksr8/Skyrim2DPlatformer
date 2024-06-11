@@ -19,6 +19,10 @@ public class Assets {
     public final AssetDescriptor<Texture> platformGrass = new AssetDescriptor<>("objects/platformGrass.png", Texture.class);
     public final AssetDescriptor<Texture> fallingPlatform1 = new AssetDescriptor<>("objects/falling_platform1.png", Texture.class);
     public final AssetDescriptor<Texture> fallingPlatform1Sheet = new AssetDescriptor<>("objects/falling_platform1_sheet.png", Texture.class);
+    public final AssetDescriptor<Texture> ratIdleSheet = new AssetDescriptor<>("entities/rat_idle.png", Texture.class);
+    public final AssetDescriptor<Texture> ratWalkSheet = new AssetDescriptor<>("entities/rat_walk.png", Texture.class);
+    public final AssetDescriptor<Texture> ratHitSheet = new AssetDescriptor<>("entities/rat_hit.png", Texture.class);
+    public final AssetDescriptor<Texture> ratDeadSheet = new AssetDescriptor<>("entities/rat_dead.png", Texture.class);
 
     public void load() {
         //manager.load(playerIdle);
@@ -33,6 +37,10 @@ public class Assets {
         manager.load(platformGrass);
         manager.load(fallingPlatform1);
         manager.load(fallingPlatform1Sheet);
+        manager.load(ratIdleSheet);
+        manager.load(ratWalkSheet);
+        manager.load(ratHitSheet);
+        manager.load(ratDeadSheet);
     }
 
     public void dispose() {

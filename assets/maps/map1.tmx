@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="44">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="68">
  <tileset firstgid="1" source="Tiles.tsx"/>
  <tileset firstgid="626" source="Props-Rocks.tsx"/>
  <layer id="1" name="backgroung" width="80" height="45">
   <data encoding="base64" compression="zlib">
-   eJztlQlKw0AUhicJcbmBWqnLDdyPUa/hSTyQVNQbqEVpe4MuuNXlCP4hM5CGKZ200iJ8H3xkMsvLmwePGAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsHw2YmM25Zasye142Rn9Lw5Ur0N5JI/libyMlp1VOO3EmI7sJov9blajmgmzvtjUKtFX3QZy6KlfU15POHcjb6fEntSbri6ngZ5Vu9Kfcmd7IXtk6ad2flqPZMtP8nnCelt2ZGJNPTF9vVmsWyPQcxvvW/F/ZujtT535ivxzvpjF/aE94vNFvso3j+/yY4aYVermvLD3WlP910v/l67umXrmMtz8ip6rpT1uzhezuD+0R3xeyXvl8iAfo/FxK8rXq8asWrtGIYc93Wk/zt+dI1mPx/Ma2XHd7t3RczfO11wsN+diurPl/bPk62zJnmL05SAaHw+jfH2e+KGWv9vzWFwv753n/Rc4vIVE
+   eJztlQlKw0AUhicJdbmBWqnLDdyPUa/hSTyQVNQbqEVpe4MuuNXlCP4hM5CGCU0TSxC+Dz6SzLy8vHnwiDEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPWzERqzKbdkU26HdVf0vzhQvw7lkTyWJ/IyqLuq8vQiY/pyEC33O3GPmqaYreWW8qeM1LexnMiOnq9z4m7k7ZxcebPp+nJa0LNqR6rEnZ2F+BKX37Dr82Yk3n6Szzn7PdmXkbXhyembzXTf2gU9t/m+lf+nxGx/6p2vwL/my5mOLzojPl/kq3zz+C4/SuRcpG/OC3uuNfV/PfN/GeicDc9ajFtf0XU1E+PWfDnT8UVnxOeVvFctD/IxmL3vBsn+ojkX7V07VcOezrQfJs/OqWyFs3VN7X3Lxu7ouhsmey6XW3M53bvZ+DL1OrtyqBwjOQ5m7ydBsl8lf1Gz3x16TO9nY6s8/wLlbYVE
   </data>
  </layer>
  <objectgroup id="2" name="objects">
@@ -38,5 +38,34 @@
   <object id="40" name="platformGrass" x="824" y="480" width="80" height="16"/>
   <object id="41" name="platformGrass" x="1040" y="448" width="48" height="16"/>
   <object id="42" name="fallingPlatform" x="720" y="528" width="32" height="16"/>
+  <object id="44" name="rat" x="177" y="643" width="32" height="20"/>
+  <object id="45" name="fallingPlatform" x="651" y="502" width="32" height="16"/>
+  <object id="46" name="fallingPlatform" x="580.5" y="500" width="32" height="16"/>
+  <object id="47" name="fallingPlatform" x="499" y="515.5" width="32" height="16"/>
+  <object id="48" name="fallingPlatform" x="444" y="485" width="32" height="16"/>
+  <object id="49" name="fallingPlatform" x="384.5" y="493.5" width="32" height="16"/>
+  <object id="50" name="fallingPlatform" x="264" y="512" width="32" height="16"/>
+  <object id="51" name="fallingPlatform" x="142.5" y="493" width="32" height="16"/>
+  <object id="52" name="movingPlatform" x="29" y="541.5" width="48" height="12">
+   <properties>
+    <property name="destinationX" type="float" value="37"/>
+    <property name="destinationY" type="float" value="440"/>
+   </properties>
+  </object>
+  <object id="53" name="fallingPlatform" x="116.5" y="543.5" width="32" height="16"/>
+  <object id="54" name="rat" x="287" y="597.5" width="32" height="20"/>
+  <object id="55" name="rat" x="404" y="618.5" width="32" height="20"/>
+  <object id="56" name="rat" x="227" y="549" width="32" height="20"/>
+  <object id="57" name="rat" x="390" y="541.5" width="32" height="20"/>
+  <object id="58" name="rat" x="528" y="610" width="32" height="20"/>
+  <object id="59" name="rat" x="690.5" y="573" width="32" height="20"/>
+  <object id="60" name="rat" x="613.5" y="551.5" width="32" height="20"/>
+  <object id="61" name="rat" x="798" y="553.5" width="32" height="20"/>
+  <object id="62" name="rat" x="920" y="552.5" width="32" height="20"/>
+  <object id="63" name="rat" x="846" y="439" width="32" height="20"/>
+  <object id="64" name="rat" x="1042.5" y="406" width="32" height="20"/>
+  <object id="65" name="rat" x="1132.5" y="424.5" width="32" height="20"/>
+  <object id="66" name="rat" x="1128" y="575.5" width="32" height="20"/>
+  <object id="67" name="rat" x="1205.5" y="570" width="32" height="20"/>
  </objectgroup>
 </map>

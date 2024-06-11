@@ -1,4 +1,4 @@
-package objects.player;
+package objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -22,7 +22,7 @@ public class FallingPlatform extends GameEntity {
         super(x, y, width, height, gameScreen);
         this.body = createBody(this.x, this.y, width, height, gameScreen.getWorld());
         assets = gameScreen.getAssets();
-        fallingAnimation = new Animation<>(1 / 3f, TextureRegion.split(assets.manager.get(assets.fallingPlatform1Sheet), 73, 20)[0]);
+        fallingAnimation = new Animation<>(1 / 5f, TextureRegion.split(assets.manager.get(assets.fallingPlatform1Sheet), 73, 20)[0]);
     }
 
     private Body createBody(float x, float y, float width, float height, World world) {

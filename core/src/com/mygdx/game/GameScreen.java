@@ -14,10 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ObjectSet;
 import helper.Assets;
 import helper.TileMapHelper;
-import objects.player.FallingPlatform;
-import objects.player.MovingPlatform;
-import objects.player.Platform;
-import objects.player.Player;
+import objects.*;
 
 import static helper.Constants.PPM;
 
@@ -39,6 +36,8 @@ public class GameScreen extends ScreenAdapter {
     private ObjectSet<Platform> platforms;
     private ObjectSet<FallingPlatform> fallingPlatforms;
     private ObjectSet<FallingPlatform> fallingPlatformsToRemove;
+    private ObjectSet<Rat> rats;
+    private ObjectSet<Rat> ratsToRemove;
 
     private float cameraZoom = 0.35f;
     private boolean paused = false;
@@ -73,12 +72,18 @@ public class GameScreen extends ScreenAdapter {
         elapsedTime = 0;
         world = new World(new Vector2(0, -35f), true);
         world.setContactListener(new GameContactListener(this));
+        initObjectSets();
+        orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map" + level + ".tmx");
+        loadPlayer();
+    }
+
+    private void initObjectSets() {
         movingPlatforms = new ObjectSet<>();
         platforms = new ObjectSet<>();
         fallingPlatforms = new ObjectSet<>();
         fallingPlatformsToRemove = new ObjectSet<>();
-        orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map" + level + ".tmx");
-        loadPlayer();
+        rats = new ObjectSet<>();
+        ratsToRemove = new ObjectSet<>();
     }
 
     private void loadPlayer() {
@@ -115,6 +120,9 @@ public class GameScreen extends ScreenAdapter {
         for (FallingPlatform fallingPlatform : fallingPlatforms) {
             fallingPlatform.render(batch);
         }
+        for (Rat rat : rats) {
+            rat.render(batch);
+        }
         player.render(batch);
 
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));
@@ -128,13 +136,16 @@ public class GameScreen extends ScreenAdapter {
         // coordinate system specified by the camera.
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
-        player.update();
         for (MovingPlatform movingPlatform : movingPlatforms) {
             movingPlatform.update();
         }
         for (FallingPlatform fallingPlatform : fallingPlatforms) {
             fallingPlatform.update();
         }
+        for (Rat rat : rats) {
+            rat.update();
+        }
+        player.update();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             pause();
@@ -147,6 +158,15 @@ public class GameScreen extends ScreenAdapter {
 
     private void removeObjects() {
         removeFallingPlatforms();
+        removeRats();
+    }
+
+    private void removeRats() {
+        for (Rat rat : ratsToRemove) {
+            rats.remove(rat);
+            world.destroyBody(rat.getBody());
+        }
+        ratsToRemove.clear();
     }
 
     private void removeFallingPlatforms() {
@@ -211,6 +231,14 @@ public class GameScreen extends ScreenAdapter {
 
     public void removeFallingPlatform(FallingPlatform fallingPlatform) {
         fallingPlatformsToRemove.add(fallingPlatform);
+    }
+
+    public void addRat(Rat rat) {
+        rats.add(rat);
+    }
+
+    public void removeRat(Rat rat) {
+        ratsToRemove.add(rat);
     }
 
     @Override

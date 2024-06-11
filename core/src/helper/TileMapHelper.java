@@ -15,9 +15,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.game.GameScreen;
-import objects.player.FallingPlatform;
-import objects.player.MovingPlatform;
-import objects.player.Platform;
+import objects.FallingPlatform;
+import objects.MovingPlatform;
+import objects.Platform;
+import objects.Rat;
 
 import static helper.Constants.PPM;
 
@@ -65,6 +66,12 @@ public class TileMapHelper {
                                 rectangleName.substring(8)));
                     } else if (rectangleName.equals("fallingPlatform")) {
                         gameScreen.addFallingPlatform(new FallingPlatform(rectangle.x + rectangle.width / 2,
+                                rectangle.y + rectangle.height / 2,
+                                rectangle.width,
+                                rectangle.height,
+                                gameScreen));
+                    } else if (rectangleName.equals("rat")) {
+                        gameScreen.addRat(new Rat(rectangle.x + rectangle.width / 2,
                                 rectangle.y + rectangle.height / 2,
                                 rectangle.width,
                                 rectangle.height,

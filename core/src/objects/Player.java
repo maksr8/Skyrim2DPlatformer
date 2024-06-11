@@ -1,4 +1,4 @@
-package objects.player;
+package objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -21,8 +21,8 @@ public class Player extends GameEntity {
     private Animation<TextureRegion> runAnimation;
     private Animation<TextureRegion> jumpAnimation;
     private Animation<TextureRegion> attackAnimation;
-    private float jumpAnimationTime;
-    private float attackAnimationTime;
+    private float jumpAnimationTimer;
+    private float attackAnimationTimer;
 
     private int numFootContacts;
     private PlayerState playerState;
@@ -37,8 +37,8 @@ public class Player extends GameEntity {
         this.maxJumpCount = 2;
         this.isTurnedRight = true;
         this.numFootContacts = 0;
-        this.jumpAnimationTime = 0;
-        this.attackAnimationTime = 999;
+        this.jumpAnimationTimer = 0;
+        this.attackAnimationTimer = 999;
 
         this.playerState = PlayerState.IDLE;
         createAnimations();
@@ -95,8 +95,8 @@ public class Player extends GameEntity {
 
         checkUserInput();
 
-        jumpAnimationTime += Gdx.graphics.getDeltaTime();
-        attackAnimationTime += Gdx.graphics.getDeltaTime();
+        jumpAnimationTimer += Gdx.graphics.getDeltaTime();
+        attackAnimationTimer += Gdx.graphics.getDeltaTime();
     }
 
     private void checkUserInput() {
@@ -117,7 +117,7 @@ public class Player extends GameEntity {
             }
         }
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            attackAnimationTime = 0;
+            attackAnimationTimer = 0;
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && (numFootContacts > 0 || jumpCount < maxJumpCount - 1)) {
@@ -125,7 +125,7 @@ public class Player extends GameEntity {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.applyLinearImpulse(new Vector2(0, impulse), body.getPosition(), true);
             jumpCount++;
-            jumpAnimationTime = 0;
+            jumpAnimationTimer = 0;
         }
 
         if (numFootContacts > 0) {
@@ -136,7 +136,7 @@ public class Player extends GameEntity {
             playerState = PlayerState.JUMPING;
         }
 
-        if (!attackAnimation.isAnimationFinished(attackAnimationTime)) {
+        if (!attackAnimation.isAnimationFinished(attackAnimationTimer)) {
             playerState = PlayerState.ATTACKING;
         }
 
@@ -164,13 +164,13 @@ public class Player extends GameEntity {
                     (isTurnedRight ? 1 : -1) * (getWidth() + 80),
                     getHeight() + 19);
         } else if (playerState == PlayerState.JUMPING || playerState == PlayerState.FALLING) {
-            batch.draw(jumpAnimation.getKeyFrame(jumpAnimationTime, false),
+            batch.draw(jumpAnimation.getKeyFrame(jumpAnimationTimer, false),
                     getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 20),
                     getY() - getHeight() / 2 - 11,
                     (isTurnedRight ? 1 : -1) * (getWidth() + 60),
                     getHeight() + 18);
         } else if (playerState == PlayerState.ATTACKING) {
-            batch.draw(attackAnimation.getKeyFrame(attackAnimationTime, false),
+            batch.draw(attackAnimation.getKeyFrame(attackAnimationTimer, false),
                     getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 44),
                     getY() - getHeight() / 2 - 15,
                     (isTurnedRight ? 1 : -1) * (getWidth() + 80),

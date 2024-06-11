@@ -1,8 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
-import objects.player.FallingPlatform;
-import objects.player.Player;
+import objects.FallingPlatform;
+import objects.Player;
+import objects.Rat;
 
 public class GameContactListener implements ContactListener {
     GameScreen gameScreen;
@@ -16,9 +17,23 @@ public class GameContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        handleFootBeginContact(contact, fixtureA, fixtureB);
+        handleFootBeginContact(contact, fixtureA);
+        handleFootBeginContact(contact, fixtureB);
         handleFallingPlatformBeginContact(contact, fixtureA, fixtureB);
         handleFallingPlatformBeginContact(contact, fixtureB, fixtureA);
+        handleRatLeftSensorBeginContact(contact, fixtureA);
+        handleRatLeftSensorBeginContact(contact, fixtureB);
+    }
+
+    private void handleRatLeftSensorBeginContact(Contact contact, Fixture fixture) {
+        if (fixture.getUserData() != null && fixture.getUserData() instanceof Rat) {
+            Rat rat = (Rat) fixture.getUserData();
+            if (rat.getBody().getFixtureList().get(1) == fixture) {
+                rat.addLeftSensorContact();
+            } else if (rat.getBody().getFixtureList().get(2) == fixture) {
+                rat.addRightSensorContact();
+            }
+        }
     }
 
     private void handleFallingPlatformBeginContact(Contact contact, Fixture fixtureA, Fixture fixtureB) {
@@ -29,11 +44,8 @@ public class GameContactListener implements ContactListener {
         }
     }
 
-    private void handleFootBeginContact(Contact contact, Fixture fixtureA, Fixture fixtureB) {
-        if (fixtureA.getUserData() != null && fixtureA.getUserData().equals("foot")) {
-            gameScreen.getPlayer().setNumFootContacts(gameScreen.getPlayer().getNumFootContacts() + 1);
-        }
-        if (fixtureB.getUserData() != null && fixtureB.getUserData().equals("foot")) {
+    private void handleFootBeginContact(Contact contact, Fixture fixture) {
+        if (fixture.getUserData() != null && fixture.getUserData().equals("foot")) {
             gameScreen.getPlayer().setNumFootContacts(gameScreen.getPlayer().getNumFootContacts() + 1);
         }
     }
@@ -43,14 +55,25 @@ public class GameContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        handleFootEndContact(contact, fixtureA, fixtureB);
+        handleFootEndContact(contact, fixtureA);
+        handleFootEndContact(contact, fixtureB);
+        handleRatLeftSensorEndContact(contact, fixtureA);
+        handleRatLeftSensorEndContact(contact, fixtureB);
     }
 
-    private void handleFootEndContact(Contact contact, Fixture fixtureA, Fixture fixtureB) {
-        if (fixtureA.getUserData() != null && fixtureA.getUserData().equals("foot")) {
-            gameScreen.getPlayer().setNumFootContacts(gameScreen.getPlayer().getNumFootContacts() - 1);
+    private void handleRatLeftSensorEndContact(Contact contact, Fixture fixture) {
+        if (fixture.getUserData() != null && fixture.getUserData() instanceof Rat) {
+            Rat rat = (Rat) fixture.getUserData();
+            if (rat.getBody().getFixtureList().get(1) == fixture) {
+                rat.removeLeftSensorContact();
+            } else if (rat.getBody().getFixtureList().get(2) == fixture) {
+                rat.removeRightSensorContact();
+            }
         }
-        if (fixtureB.getUserData() != null && fixtureB.getUserData().equals("foot")) {
+    }
+
+    private void handleFootEndContact(Contact contact, Fixture fixture) {
+        if (fixture.getUserData() != null && fixture.getUserData().equals("foot")) {
             gameScreen.getPlayer().setNumFootContacts(gameScreen.getPlayer().getNumFootContacts() - 1);
         }
     }
