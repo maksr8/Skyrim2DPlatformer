@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.GameScreen;
 import helper.Assets;
 
-import static helper.Constants.PPM;
+import static helper.Constants.*;
 
 public class Rat extends GameEntity {
     private static final float HIT_ANIMATION_DURATION = 2f;
@@ -70,12 +70,9 @@ public class Rat extends GameEntity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 1f;
+        fixtureDef.filter.categoryBits = BIT_ENEMY; // Category for Rat
+        fixtureDef.filter.maskBits = BIT_GROUND | BIT_PLAYER; // Can collide with everything except other Rats
         body.createFixture(fixtureDef).setUserData(this);
-
-        Filter filter = new Filter();
-        filter.categoryBits = 0x0002; // Category for Rat
-        filter.maskBits = 0x0001; // Can collide with everything except other Rats
-        body.getFixtureList().get(0).setFilterData(filter);
 
         // left bottom edge sensor
         shape.setAsBox(0.01f, 0.02f, new Vector2(-width / 2 / PPM, -height / 2 / PPM), 0);
@@ -137,6 +134,10 @@ public class Rat extends GameEntity {
 
                 break;
             case DEAD:
+                body.getFixtureList().first().setFilterData(new Filter() {{
+                    categoryBits = BIT_ENEMY;
+                    maskBits = BIT_GROUND;
+                }});
                 if (deadAnimationTimer > DEAD_ANIMATION_DURATION) {
                     gameScreen.removeRat(this);
                 }

@@ -13,6 +13,7 @@ public class Assets {
     public final AssetDescriptor<Texture> playerJumpSheet = new AssetDescriptor<>("entities/player_jump.png", Texture.class);
     public final AssetDescriptor<Texture> playerAttackSheet = new AssetDescriptor<>("entities/player_attack.png", Texture.class);
     public final AssetDescriptor<Texture> playerKnockBackSheet = new AssetDescriptor<>("entities/player_knockback.png", Texture.class);
+    public final AssetDescriptor<Texture> playerDeadSheet = new AssetDescriptor<>("entities/player_dead.png", Texture.class);
     public final AssetDescriptor<Texture> background1 = new AssetDescriptor<>("backgrounds/background1.png", Texture.class);
     public final AssetDescriptor<Texture> background2 = new AssetDescriptor<>("backgrounds/background2.png", Texture.class);
     public final AssetDescriptor<Texture> background3 = new AssetDescriptor<>("backgrounds/background3.png", Texture.class);
@@ -44,6 +45,7 @@ public class Assets {
         manager.load(ratHitSheet);
         manager.load(ratDeadSheet);
         manager.load(playerKnockBackSheet);
+        manager.load(playerDeadSheet);
     }
 
     public void dispose() {

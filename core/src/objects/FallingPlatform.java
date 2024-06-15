@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.GameScreen;
 import helper.Assets;
 
+import static helper.Constants.BIT_GROUND;
 import static helper.Constants.PPM;
 
 public class FallingPlatform extends GameEntity {
@@ -36,6 +37,7 @@ public class FallingPlatform extends GameEntity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 0f;
+        fixtureDef.filter.categoryBits = BIT_GROUND;
         body.createFixture(fixtureDef).setUserData(this);
 
         shape.dispose();

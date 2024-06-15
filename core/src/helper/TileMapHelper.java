@@ -10,10 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.GameScreen;
 import objects.FallingPlatform;
 import objects.MovingPlatform;
@@ -87,7 +84,11 @@ public class TileMapHelper {
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body body = gameScreen.getWorld().createBody(bodyDef);
         Shape shape = createPolygonShape(polygonMapObject);
-        body.createFixture(shape, 1000);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.friction = 0f;
+        fixtureDef.filter.categoryBits = Constants.BIT_GROUND;
+        body.createFixture(fixtureDef);
         shape.dispose();
     }
 

@@ -217,6 +217,10 @@ public class GameScreen extends ScreenAdapter {
         return elapsedTime;
     }
 
+    public Skyrim2DGame getGame() {
+        return game;
+    }
+
     public void addMovingPlatform(MovingPlatform movingPlatform) {
         movingPlatforms.add(movingPlatform);
     }

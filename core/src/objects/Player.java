@@ -10,12 +10,13 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.mygdx.game.GameScreen;
+import com.mygdx.game.MainMenuScreen;
 import helper.Assets;
 
-import static helper.Constants.PPM;
+import static helper.Constants.*;
 
 public class Player extends GameEntity {
-    private static float attackCooldown = 0.5f;
+    private static float attackCooldown = 0.4f;
     private static float hitCooldown = 2f;
     private static float knockbackDuration = 1f;
     private final ObjectSet<GameEntity> entitiesToHitTowardsRight;
@@ -32,9 +33,11 @@ public class Player extends GameEntity {
     private Animation<TextureRegion> jumpAnimation;
     private Animation<TextureRegion> attackAnimation;
     private Animation<TextureRegion> hitAnimation;
+    private Animation<TextureRegion> deadAnimation;
     private float jumpAnimationTimer;
     private float attackAnimationTimer;
     private float hitAnimationTimer;
+    private float deadAnimationTimer;
     private int numFootContacts;
     private EntityState playerState;
     private boolean isTurnedRight;
@@ -47,12 +50,13 @@ public class Player extends GameEntity {
         this.hp = 3;
         this.atk = 1;
         this.jumpCount = 0;
-        this.maxJumpCount = 2;
+        this.maxJumpCount = 1;
         this.isTurnedRight = true;
         this.numFootContacts = 0;
         this.jumpAnimationTimer = 0;
         this.attackAnimationTimer = 999;
         this.hitAnimationTimer = 999;
+        this.deadAnimationTimer = 999;
         this.entitiesToHitTowardsRight = new ObjectSet<>();
         this.entitiesToHitTowardsLeft = new ObjectSet<>();
         this.fixturesToBeHitBy = new Array<>();
@@ -67,6 +71,7 @@ public class Player extends GameEntity {
         this.jumpAnimation = new Animation<>(1 / 15f, TextureRegion.split(assets.manager.get(assets.playerJumpSheet), 64, 64)[0]);
         this.attackAnimation = new Animation<>(1 / 32f, TextureRegion.split(assets.manager.get(assets.playerAttackSheet), 96, 64)[0]);
         this.hitAnimation = new Animation<>(1 / 16f, TextureRegion.split(assets.manager.get(assets.playerKnockBackSheet), 64, 64)[0]);
+        this.deadAnimation = new Animation<>(1 / 10f, TextureRegion.split(assets.manager.get(assets.playerDeadSheet), 80, 64)[0]);
     }
 
     private Body createBody(float x, float y, float width, float height, World world) {
@@ -75,27 +80,37 @@ public class Player extends GameEntity {
         bodyDef.position.set(x, y);
         bodyDef.fixedRotation = true;
         Body body = world.createBody(bodyDef);
-        //main hitbox
+
+        //main fixture
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 0f;
         body.createFixture(fixtureDef).setUserData(this);
+
+        //main hitbox
+        shape.setAsBox(width / 2 / PPM - 0.2f, height / 2 / PPM);
+        fixtureDef.shape = shape;
+        fixtureDef.isSensor = true;
+        fixtureDef.friction = 0f;
+        fixtureDef.filter.categoryBits = BIT_PLAYER;
+        body.createFixture(fixtureDef).setUserData(this);
+
         //foot sensor
-        shape = new PolygonShape();
         shape.setAsBox(width / 2 / PPM - 0.01f, 0.05f, new Vector2(0, -height / 2 / PPM), 0);
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef).setUserData("foot");
+
         //right attack sensor
-        shape = new PolygonShape();
+        fixtureDef.filter.maskBits = BIT_ENEMY;
         shape.setAsBox(width / PPM / 2 * 1.25f, height / 2 / PPM * 1.35f, new Vector2(width / 2 / PPM - 0.05f, -0.25f), 0);
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef).setUserData("rightAttack");
+
         //left attack sensor
-        shape = new PolygonShape();
         shape.setAsBox(width / PPM / 2 * 1.25f, height / 2 / PPM * 1.35f, new Vector2(-width / 2 / PPM + 0.05f, -0.25f), 0);
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
@@ -110,12 +125,17 @@ public class Player extends GameEntity {
         this.x = body.getPosition().x * PPM;
         this.y = body.getPosition().y * PPM;
 
-        if (playerState == EntityState.DEAD) {
-
+        if (hitAnimationTimer > hitCooldown && playerState != EntityState.DEAD) {
+            handleBeingHit();
         }
 
-        if (hitAnimationTimer > hitCooldown) {
-            handleBeingHit();
+        if (playerState == EntityState.DEAD) {
+            deadAnimationTimer += Gdx.graphics.getDeltaTime();
+            body.setLinearVelocity(0, body.getLinearVelocity().y);
+            if (deadAnimation.isAnimationFinished(deadAnimationTimer)) {
+                //gameScreen.getGame().setScreen(new MainMenuScreen(gameScreen.getGame()));
+            }
+            return;
         }
 
         if (hitAnimationTimer > knockbackDuration) {
@@ -124,15 +144,32 @@ public class Player extends GameEntity {
             body.setLinearVelocity(body.getLinearVelocity().x - body.getLinearVelocity().x * 0.05f, body.getLinearVelocity().y);
         }
 
-        jumpAnimationTimer += Gdx.graphics.getDeltaTime();
-        attackAnimationTimer += Gdx.graphics.getDeltaTime();
-        hitAnimationTimer += Gdx.graphics.getDeltaTime();
+        updateAnimationTimers();
+    }
+
+    private void updateAnimationTimers() {
+        if (playerState == EntityState.JUMPING || playerState == EntityState.FALLING) {
+            jumpAnimationTimer += Gdx.graphics.getDeltaTime();
+        }
+        if (hitAnimationTimer < hitCooldown) {
+            hitAnimationTimer += Gdx.graphics.getDeltaTime();
+        }
+        if (attackAnimationTimer < attackCooldown) {
+            attackAnimationTimer += Gdx.graphics.getDeltaTime();
+        }
     }
 
     private void handleBeingHit() {
         if (fixturesToBeHitBy.notEmpty()) {
+            removeNullFixtures();
             boolean isHitTowardsRight = body.getWorldCenter().x > fixturesToBeHitBy.get(0).getBody().getWorldCenter().x;
             hit(isHitTowardsRight);
+        }
+    }
+
+    private void removeNullFixtures() {
+        for (Fixture ignored : fixturesToBeHitBy) {
+            fixturesToBeHitBy.removeValue(null, true);
         }
     }
 
@@ -161,7 +198,7 @@ public class Player extends GameEntity {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && (numFootContacts > 0 || jumpCount < maxJumpCount - 1)) {
-            float impulse = body.getMass() * 9;
+            float impulse = body.getMass() * 10;
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.applyLinearImpulse(new Vector2(0, impulse), body.getPosition(), true);
             jumpCount++;
@@ -176,11 +213,9 @@ public class Player extends GameEntity {
         } else {
             playerState = EntityState.JUMPING;
         }
-
         if (!attackAnimation.isAnimationFinished(attackAnimationTimer)) {
             playerState = EntityState.ATTACKING;
         }
-
         if (hitAnimationTimer < knockbackDuration) {
             playerState = EntityState.HIT;
         }
@@ -240,6 +275,12 @@ public class Player extends GameEntity {
                         getY() - getHeight() / 2 - 1,
                         (isTurnedRight ? -1 : 1) * (getWidth() + 60),
                         getHeight() + 18);
+            } else if (playerState == EntityState.DEAD) {
+                batch.draw(deadAnimation.getKeyFrame(deadAnimationTimer, false),
+                        getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 30),
+                        getY() - getHeight() / 2 - 20,
+                        (isTurnedRight ? 1 : -1) * (getWidth() + 60),
+                        getHeight() + 18);
             }
         }
         batch.end();
@@ -247,15 +288,16 @@ public class Player extends GameEntity {
 
     public void hit(boolean isHitTowardsRight) {
         isTurnedRight = !isHitTowardsRight;
-        //hp -= 1;
+        hp -= 1;
         if (hp <= 0) {
             playerState = EntityState.DEAD;
+            deadAnimationTimer = 0;
         } else {
             playerState = EntityState.HIT;
             hitAnimationTimer = 0;
+            body.setLinearVelocity(0, 0);
+            body.applyLinearImpulse(new Vector2(isHitTowardsRight ? 5f : -5f, 10f), body.getWorldCenter(), true);
         }
-        body.setLinearVelocity(0, 0);
-        body.applyLinearImpulse(new Vector2(isHitTowardsRight ? 5f : -5f, 10f), body.getWorldCenter(), true);
     }
 
     public void setMaxJumpCount(int maxJumpCount) {
