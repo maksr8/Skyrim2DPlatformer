@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setIdleFPS(60);
-		config.setResizable(false);
+		//config.setResizable(false);
 		config.setTitle("Skyrim2D");
 		config.setWindowedMode(1280, 720);
 		config.useVsync(true);

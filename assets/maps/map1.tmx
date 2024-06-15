@@ -9,16 +9,10 @@
  </layer>
  <objectgroup id="2" name="objects">
   <object id="1" x="0" y="720">
-   <polygon points="0,0 0,-48 256,-48 256,0"/>
+   <polygon points="0,0 0,-48 576,-48 576,0"/>
   </object>
   <object id="8" x="624" y="624">
    <polygon points="0,0 0,96 176,96 176,0"/>
-  </object>
-  <object id="15" x="256" y="688">
-   <polygon points="0,0 112,0 112,-16 0,-16"/>
-  </object>
-  <object id="33" x="368" y="672">
-   <polygon points="0,0 0,48 208,48 208,0"/>
   </object>
   <object id="34" x="576" y="656">
    <polygon points="0,0 0,64 16,64 16,0"/>
@@ -51,7 +45,7 @@
     <property name="destinationY" type="float" value="440"/>
    </properties>
   </object>
-  <object id="53" name="fallingPlatform" x="208.167" y="530.833" width="99.3333" height="16"/>
+  <object id="53" name="fallingPlatform" x="221.167" y="530.833" width="73.3333" height="16"/>
   <object id="55" name="rat" x="466.667" y="630.5" width="32" height="20"/>
   <object id="59" name="rat" x="690.5" y="573" width="32" height="20"/>
   <object id="62" name="rat" x="920" y="552.5" width="32" height="20"/>

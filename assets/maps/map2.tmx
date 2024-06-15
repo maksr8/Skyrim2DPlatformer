@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="240" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="2">
+ <layer id="1" name="background" width="240" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADApwGWAAAB
+  </data>
+ </layer>
+ <objectgroup id="2" name="objects">
+  <object id="1" name="platformGrass" x="0" y="624" width="3840" height="16"/>
+ </objectgroup>
+</map>

@@ -25,8 +25,8 @@ public class Player extends GameEntity {
     private Body body;
     private int jumpCount;
     private int maxJumpCount;
-    private float hp;
-    private float atk;
+    private int hp;
+    private int atk;
     private Assets assets;
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> runAnimation;
@@ -228,14 +228,14 @@ public class Player extends GameEntity {
             for (GameEntity entity : entitiesToHitTowardsRight) {
                 if (entity instanceof Rat) {
                     ((Rat) entity).setHitTowardsRight(true);
-                    ((Rat) entity).hit();
+                    ((Rat) entity).hit(atk);
                 }
             }
         } else {
             for (GameEntity entity : entitiesToHitTowardsLeft) {
                 if (entity instanceof Rat) {
                     ((Rat) entity).setHitTowardsRight(false);
-                    ((Rat) entity).hit();
+                    ((Rat) entity).hit(atk);
                 }
             }
         }
@@ -316,11 +316,11 @@ public class Player extends GameEntity {
         this.numFootContacts = numFootContacts;
     }
 
-    public float getAtk() {
+    public int getAtk() {
         return atk;
     }
 
-    public void setAtk(float atk) {
+    public void setAtk(int atk) {
         this.atk = atk;
     }
 

@@ -31,7 +31,7 @@ public class Rat extends GameEntity {
     private int numOfLeftSensorContacts;
     private int numOfRightSensorContacts;
     private boolean isHitTowardsRight;
-    private float hp;
+    private int hp;
 
     public Rat(float x, float y, float width, float height, GameScreen gameScreen) {
         super(x, y, width, height, gameScreen);
@@ -189,8 +189,8 @@ public class Rat extends GameEntity {
         isHitTowardsRight = hitTowardsRight;
     }
 
-    public void hit() {
-        hp -= gameScreen.getPlayer().getAtk();
+    public void hit(int atk) {
+        hp -= atk;
         if (hp <= 0) {
             ratState = EntityState.DEAD;
             return;

@@ -25,7 +25,7 @@ public class Assets {
     public final AssetDescriptor<Texture> ratWalkSheet = new AssetDescriptor<>("entities/rat_walk.png", Texture.class);
     public final AssetDescriptor<Texture> ratHitSheet = new AssetDescriptor<>("entities/rat_hit.png", Texture.class);
     public final AssetDescriptor<Texture> ratDeadSheet = new AssetDescriptor<>("entities/rat_dead.png", Texture.class);
-
+    public final AssetDescriptor<Texture> redScreen = new AssetDescriptor<>("backgrounds/red_screen.png", Texture.class);
 
     public void load() {
         //manager.load(playerIdle);
@@ -46,6 +46,7 @@ public class Assets {
         manager.load(ratDeadSheet);
         manager.load(playerKnockBackSheet);
         manager.load(playerDeadSheet);
+        manager.load(redScreen);
     }
 
     public void dispose() {

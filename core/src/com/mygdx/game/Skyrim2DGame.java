@@ -5,11 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import helper.Assets;
 
 public class Skyrim2DGame extends Game {
 	private int screenWidth, screenHeight;
 	private OrthographicCamera orthographicCamera;
+	private Viewport viewport;
 	private SpriteBatch batch;
 	private Assets assets;
 
@@ -22,6 +26,7 @@ public class Skyrim2DGame extends Game {
 		screenHeight = Gdx.graphics.getHeight();
 		orthographicCamera = new OrthographicCamera();
 		orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
+		viewport = new FitViewport(screenWidth, screenHeight, orthographicCamera);
 		setScreen(new MainMenuScreen(this));
 	}
 
@@ -36,12 +41,17 @@ public class Skyrim2DGame extends Game {
 		assets.dispose();
 	}
 
-	public int getScreenWidth() {
-		return screenWidth;
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height);
 	}
 
-	public int getScreenHeight() {
-		return screenHeight;
+	public float getGameWidth() {
+		return orthographicCamera.viewportWidth;
+	}
+
+	public float getGameHeight() {
+		return orthographicCamera.viewportHeight;
 	}
 
 	public OrthographicCamera getOrthographicCamera() {
@@ -54,5 +64,9 @@ public class Skyrim2DGame extends Game {
 
 	public Assets getAssets() {
 		return assets;
+	}
+
+	public Viewport getViewport() {
+		return viewport;
 	}
 }

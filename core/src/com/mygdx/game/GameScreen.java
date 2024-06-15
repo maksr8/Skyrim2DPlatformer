@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.ScreenUtils;
 import helper.Assets;
 import helper.TileMapHelper;
 import objects.*;
@@ -25,6 +26,7 @@ public class GameScreen extends ScreenAdapter {
     private World world;
     private Texture currBackground;
     private Box2DDebugRenderer box2DDebugRenderer;
+    private Hud hud;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TileMapHelper tileMapHelper;
@@ -53,6 +55,7 @@ public class GameScreen extends ScreenAdapter {
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         this.assets = game.getAssets();
 
+        this.hud = new Hud(this);
         tileMapHelper = new TileMapHelper(this);
         loadLevel(level);
     }
@@ -104,12 +107,13 @@ public class GameScreen extends ScreenAdapter {
             elapsedTime += Gdx.graphics.getDeltaTime();
         }
 
-        //ScreenUtils.clear(0.4f, 0.6f, 1f, 1f);
+        ScreenUtils.clear(0f, 0f, 0f, 1f);
+        update();
+
         batch.begin();
-        batch.draw(currBackground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(currBackground, 0, 0, camera.viewportWidth, camera.viewportHeight);
         batch.end();
 
-        update();
         orthogonalTiledMapRenderer.render();
         for (Platform platform : platforms) {
             platform.render(batch);
@@ -126,6 +130,7 @@ public class GameScreen extends ScreenAdapter {
         player.render(batch);
 
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+        hud.render();
     }
 
     private void update() {
@@ -146,6 +151,8 @@ public class GameScreen extends ScreenAdapter {
             rat.update();
         }
         player.update();
+
+        hud.update();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             pause();
@@ -221,6 +228,10 @@ public class GameScreen extends ScreenAdapter {
         return game;
     }
 
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
     public void addMovingPlatform(MovingPlatform movingPlatform) {
         movingPlatforms.add(movingPlatform);
     }
@@ -262,5 +273,10 @@ public class GameScreen extends ScreenAdapter {
     public void resume() {
         paused = false;
         System.out.println("Game resumed");
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
     }
 }
