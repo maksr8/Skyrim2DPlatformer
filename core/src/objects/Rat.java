@@ -23,7 +23,7 @@ public class Rat extends GameEntity {
     private static Animation<TextureRegion> deadAnimation;
     private Body body;
     private Animation<TextureRegion> currentAnimation;
-    private RatState ratState;
+    private EntityState ratState;
     private boolean isTurnedRight;
     private float generalAnimationTimer;
     private float hitAnimationTimer;
@@ -40,7 +40,7 @@ public class Rat extends GameEntity {
             assets = gameScreen.getAssets();
         speed = 1.5f;
         hp = 5;
-        ratState = RatState.IDLE;
+        ratState = EntityState.IDLE;
         isTurnedRight = true;
         generalAnimationTimer = 0;
         hitAnimationTimer = 0;
@@ -101,7 +101,7 @@ public class Rat extends GameEntity {
         switch (ratState) {
             case IDLE:
                 if (generalAnimationTimer > IDLE_ANIMATION_DURATION) {
-                    ratState = RatState.WALKING;
+                    ratState = EntityState.WALKING;
                     isTurnedRight = !isTurnedRight;
                 }
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
@@ -109,7 +109,7 @@ public class Rat extends GameEntity {
                 break;
             case WALKING:
                 if (generalAnimationTimer > WALK_ANIMATION_DURATION + IDLE_ANIMATION_DURATION) {
-                    ratState = RatState.IDLE;
+                    ratState = EntityState.IDLE;
                     generalAnimationTimer = 0;
                 }
                 currentAnimation = walkAnimation;
@@ -128,12 +128,12 @@ public class Rat extends GameEntity {
                 break;
             case HIT:
                 if (hitAnimationTimer > HIT_ANIMATION_DURATION) {
-                    ratState = RatState.IDLE;
+                    ratState = EntityState.IDLE;
                     hitAnimationTimer = 0;
                 }
                 currentAnimation = hitAnimation;
                 hitAnimationTimer += Gdx.graphics.getDeltaTime();
-                body.setLinearVelocity(body.getLinearVelocity().x - body.getLinearVelocity().x*0.05f, body.getLinearVelocity().y);
+                body.setLinearVelocity(body.getLinearVelocity().x - body.getLinearVelocity().x * 0.05f, body.getLinearVelocity().y);
 
                 break;
             case DEAD:
@@ -150,7 +150,7 @@ public class Rat extends GameEntity {
     @Override
     public void render(SpriteBatch batch) {
         batch.begin();
-        if (ratState == RatState.DEAD) {
+        if (ratState == EntityState.DEAD) {
             batch.draw(currentAnimation.getKeyFrame(deadAnimationTimer, false),
                     x + (isTurnedRight ? -1 : 1) * (width / 2 + 8),
                     y - height / 2, (isTurnedRight ? 1 : -1) * (width + 16), height);
@@ -191,14 +191,10 @@ public class Rat extends GameEntity {
     public void hit() {
         hp -= gameScreen.getPlayer().getAtk();
         if (hp <= 0) {
-            ratState = RatState.DEAD;
+            ratState = EntityState.DEAD;
             return;
         }
-        ratState = RatState.HIT;
+        ratState = EntityState.HIT;
         body.applyLinearImpulse(new Vector2(isHitTowardsRight ? 5f : -5f, 6f), body.getWorldCenter(), true);
-    }
-
-    public enum RatState {
-        IDLE, WALKING, HIT, DEAD
     }
 }

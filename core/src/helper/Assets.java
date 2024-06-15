@@ -8,10 +8,11 @@ public class Assets {
     public final AssetManager manager = new AssetManager();
 
     //public final AssetDescriptor<Texture> playerIdle = new AssetDescriptor<>("entities/Idle.png", Texture.class);
-    public final AssetDescriptor<Texture> playerIdleSheet = new AssetDescriptor<>("entities/Idle-Sheet.png", Texture.class);
-    public final AssetDescriptor<Texture> playerRunSheet = new AssetDescriptor<>("entities/Run-Sheet.png", Texture.class);
-    public final AssetDescriptor<Texture> playerJumpSheet = new AssetDescriptor<>("entities/Jump-All-Sheet.png", Texture.class);
-    public final AssetDescriptor<Texture> playerAttackSheet = new AssetDescriptor<>("entities/Attack-01-Sheet.png", Texture.class);
+    public final AssetDescriptor<Texture> playerIdleSheet = new AssetDescriptor<>("entities/player_idle.png", Texture.class);
+    public final AssetDescriptor<Texture> playerRunSheet = new AssetDescriptor<>("entities/player_run.png", Texture.class);
+    public final AssetDescriptor<Texture> playerJumpSheet = new AssetDescriptor<>("entities/player_jump.png", Texture.class);
+    public final AssetDescriptor<Texture> playerAttackSheet = new AssetDescriptor<>("entities/player_attack.png", Texture.class);
+    public final AssetDescriptor<Texture> playerKnockBackSheet = new AssetDescriptor<>("entities/player_knockback.png", Texture.class);
     public final AssetDescriptor<Texture> background1 = new AssetDescriptor<>("backgrounds/background1.png", Texture.class);
     public final AssetDescriptor<Texture> background2 = new AssetDescriptor<>("backgrounds/background2.png", Texture.class);
     public final AssetDescriptor<Texture> background3 = new AssetDescriptor<>("backgrounds/background3.png", Texture.class);
@@ -23,6 +24,7 @@ public class Assets {
     public final AssetDescriptor<Texture> ratWalkSheet = new AssetDescriptor<>("entities/rat_walk.png", Texture.class);
     public final AssetDescriptor<Texture> ratHitSheet = new AssetDescriptor<>("entities/rat_hit.png", Texture.class);
     public final AssetDescriptor<Texture> ratDeadSheet = new AssetDescriptor<>("entities/rat_dead.png", Texture.class);
+
 
     public void load() {
         //manager.load(playerIdle);
@@ -41,6 +43,7 @@ public class Assets {
         manager.load(ratWalkSheet);
         manager.load(ratHitSheet);
         manager.load(ratDeadSheet);
+        manager.load(playerKnockBackSheet);
     }
 
     public void dispose() {

@@ -28,6 +28,17 @@ public class GameContactListener implements ContactListener {
 
         handleRatHitByPlayerBeginContact(fixtureA, fixtureB);
         handleRatHitByPlayerBeginContact(fixtureB, fixtureA);
+
+        handlePlayerHitBySmthBeginContact(fixtureA, fixtureB);
+        handlePlayerHitBySmthBeginContact(fixtureB, fixtureA);
+    }
+
+    private void handlePlayerHitBySmthBeginContact(Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null && fixtureA.getUserData() instanceof Player) {
+            if (fixtureB.getUserData() instanceof Rat && !fixtureB.isSensor()) {
+                gameScreen.getPlayer().addFixtureToBeHitBy(fixtureB);
+            }
+        }
     }
 
     private void handleRatHitByPlayerBeginContact(Fixture fixtureA, Fixture fixtureB) {
@@ -84,6 +95,17 @@ public class GameContactListener implements ContactListener {
 
         handleRatHitByPlayerEndContact(fixtureA, fixtureB);
         handleRatHitByPlayerEndContact(fixtureB, fixtureA);
+
+        handlePlayerHitBySmthEndContact(fixtureA, fixtureB);
+        handlePlayerHitBySmthEndContact(fixtureB, fixtureA);
+    }
+
+    private void handlePlayerHitBySmthEndContact(Fixture fixtureB, Fixture fixtureA) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null && fixtureA.getUserData() instanceof Player) {
+            if (fixtureB.getUserData() instanceof Rat && !fixtureB.isSensor()) {
+                gameScreen.getPlayer().removeFixtureToBeHitBy(fixtureB);
+            }
+        }
     }
 
     private void handleRatHitByPlayerEndContact(Fixture fixtureB, Fixture fixtureA) {
