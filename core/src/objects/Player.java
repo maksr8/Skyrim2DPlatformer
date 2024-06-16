@@ -52,7 +52,7 @@ public class Player extends GameEntity {
         this.maxHp = 5;
         this.atk = 1;
         this.jumpCount = 0;
-        this.maxJumpCount = 1;
+        this.maxJumpCount = 100;
         this.isTurnedRight = true;
         this.numFootContacts = 0;
         this.jumpAnimationTimer = 0;

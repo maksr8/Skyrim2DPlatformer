@@ -24,7 +24,7 @@ public class MovingPlatform extends GameEntity {
     public MovingPlatform(float x, float y, float width, float height, GameScreen gameScreen, float destinationX, float destinationY) {
         super(x / PPM, y / PPM, width, height, gameScreen);
         this.destinationX = destinationX + width / 2;
-        this.destinationY = destinationY;
+        this.destinationY = destinationY - height / 2;
         this.initialX = x;
         this.initialY = y;
         this.assets = gameScreen.getAssets();
@@ -75,14 +75,16 @@ public class MovingPlatform extends GameEntity {
         this.x = body.getPosition().x * PPM;
         this.y = body.getPosition().y * PPM;
 
-        if (isInitMovingRight && x > destinationX || !isInitMovingRight && x < destinationX) {
+        float tolerance = 0.01f;
+
+        if (isInitMovingRight && x > destinationX - tolerance || !isInitMovingRight && x < destinationX + tolerance) {
             body.setLinearVelocity(-body.getLinearVelocity().x, body.getLinearVelocity().y);
-        } else if (isInitMovingRight && x < initialX || !isInitMovingRight && x > initialX) {
+        } else if (isInitMovingRight && x < initialX + tolerance || !isInitMovingRight && x > initialX - tolerance) {
             body.setLinearVelocity(-body.getLinearVelocity().x, body.getLinearVelocity().y);
         }
-        if (isInitMovingUp && y < destinationY || !isInitMovingUp && y > destinationY) {
+        if (isInitMovingUp && y < destinationY + tolerance || !isInitMovingUp && y > destinationY - tolerance) {
             body.setLinearVelocity(body.getLinearVelocity().x, -body.getLinearVelocity().y);
-        } else if (isInitMovingUp && y > initialY || !isInitMovingUp && y < initialY) {
+        } else if (isInitMovingUp && y > initialY - tolerance || !isInitMovingUp && y < initialY + tolerance) {
             body.setLinearVelocity(body.getLinearVelocity().x, -body.getLinearVelocity().y);
         }
     }

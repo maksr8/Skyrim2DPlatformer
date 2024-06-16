@@ -46,7 +46,7 @@ public class TileMapHelper {
                     if (rectangleName.equals("movingPlatform")) {
                         float destinationY = mapObject.getProperties().get("destinationY", Float.class);
                         // Invert the y-coordinate
-                        destinationY = (Gdx.graphics.getHeight() - destinationY);
+                        destinationY = (gameScreen.getGame().getGameHeight() - destinationY);
                         gameScreen.addMovingPlatform(new MovingPlatform(rectangle.x + rectangle.width / 2,
                                 rectangle.y + rectangle.height / 2,
                                 rectangle.width,
