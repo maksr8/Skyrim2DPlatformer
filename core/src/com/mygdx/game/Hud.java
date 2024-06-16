@@ -16,6 +16,7 @@ public class Hud {
     private Stage stage;
     private OrthographicCamera camera;
     private GameScreen gameScreen;
+    private Skyrim2DGame game;
     private Viewport viewport;
     private SpriteBatch batch;
     private Assets assets;
@@ -23,11 +24,12 @@ public class Hud {
 
     public Hud(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        this.batch = gameScreen.getGame().getBatch();
-        this.assets = gameScreen.getGame().getAssets();
-        this.camera = new OrthographicCamera(gameScreen.getGame().getGameWidth(), gameScreen.getGame().getGameHeight());
+        this.game = gameScreen.getGame();
+        this.batch = game.getBatch();
+        this.assets = game.getAssets();
+        this.camera = new OrthographicCamera(game.getGameWidth(), game.getGameHeight());
         //camera.setToOrtho(false);
-        this.viewport = new StretchViewport(gameScreen.getGame().getGameWidth(), gameScreen.getGame().getGameHeight(), camera);
+        this.viewport = new StretchViewport(game.getGameWidth(), game.getGameHeight(), camera);
         this.stage = new Stage(viewport, batch);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
@@ -44,10 +46,20 @@ public class Hud {
         //stage.act();
         stage.draw();
         batch.begin();
+        renderHearts();
         if (gameScreen.getPlayer().getPlayerState() == EntityState.HIT) {
-            batch.draw(assets.manager.get(assets.redScreen), 0, 0, gameScreen.getGame().getGameWidth(), gameScreen.getGame().getGameHeight());
+            batch.draw(assets.manager.get(assets.redScreen), 0, 0, game.getGameWidth(), game.getGameHeight());
         }
         batch.end();
+    }
+
+    private void renderHearts() {
+        for (int i = 0; i < gameScreen.getPlayer().getMaxHp(); i++) {
+            batch.draw(assets.manager.get(assets.heartBorder), 10 + i * 60, game.getGameHeight() - 60, 50, 50);
+        }
+        for (int i = 0; i < gameScreen.getPlayer().getHp(); i++) {
+            batch.draw(assets.manager.get(assets.heart), 10 + i * 60, game.getGameHeight() - 60, 50, 50);
+        }
     }
 
     public void dispose() {

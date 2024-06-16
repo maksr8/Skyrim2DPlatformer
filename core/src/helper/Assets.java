@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 public class Assets {
     public final AssetManager manager = new AssetManager();
 
-    //public final AssetDescriptor<Texture> playerIdle = new AssetDescriptor<>("entities/Idle.png", Texture.class);
     public final AssetDescriptor<Texture> playerIdleSheet = new AssetDescriptor<>("entities/player_idle.png", Texture.class);
     public final AssetDescriptor<Texture> playerRunSheet = new AssetDescriptor<>("entities/player_run.png", Texture.class);
     public final AssetDescriptor<Texture> playerJumpSheet = new AssetDescriptor<>("entities/player_jump.png", Texture.class);
@@ -26,9 +25,10 @@ public class Assets {
     public final AssetDescriptor<Texture> ratHitSheet = new AssetDescriptor<>("entities/rat_hit.png", Texture.class);
     public final AssetDescriptor<Texture> ratDeadSheet = new AssetDescriptor<>("entities/rat_dead.png", Texture.class);
     public final AssetDescriptor<Texture> redScreen = new AssetDescriptor<>("backgrounds/red_screen.png", Texture.class);
+    public final AssetDescriptor<Texture> heart = new AssetDescriptor<>("hud/heart.png", Texture.class);
+    public final AssetDescriptor<Texture> heartBorder = new AssetDescriptor<>("hud/heart_border.png", Texture.class);
 
     public void load() {
-        //manager.load(playerIdle);
         manager.load(playerIdleSheet);
         manager.load(playerRunSheet);
         manager.load(playerJumpSheet);
@@ -47,6 +47,8 @@ public class Assets {
         manager.load(playerKnockBackSheet);
         manager.load(playerDeadSheet);
         manager.load(redScreen);
+        manager.load(heart);
+        manager.load(heartBorder);
     }
 
     public void dispose() {

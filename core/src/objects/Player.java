@@ -26,6 +26,7 @@ public class Player extends GameEntity {
     private int jumpCount;
     private int maxJumpCount;
     private int hp;
+    private int maxHp;
     private int atk;
     private Assets assets;
     private Animation<TextureRegion> idleAnimation;
@@ -47,7 +48,8 @@ public class Player extends GameEntity {
         this.assets = gameScreen.getAssets();
         this.body = createBody(this.x, this.y, width, height, gameScreen.getWorld());
         this.speed = 5.5f;
-        this.hp = 3;
+        this.hp = 5;
+        this.maxHp = 5;
         this.atk = 1;
         this.jumpCount = 0;
         this.maxJumpCount = 1;
@@ -322,6 +324,14 @@ public class Player extends GameEntity {
 
     public void setAtk(int atk) {
         this.atk = atk;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
     }
 
     public EntityState getPlayerState() {
