@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="9">
+ <tileset firstgid="1" source="tileset_lava.tsx"/>
+ <layer id="1" name="background" width="80" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt2sEKwjAMxvGCPoF68eoLOPGu4Ps/lJFRKCVJu+WwYf8/yGGwwfhIukKXEgAAAADg352kzo26bPZ2+3eXmqQeTj03e7v9++Vn5XZL5NdS56f1IvnZyvzq7PI1+dm8+aX/2qz8yl4kPxv9F5Pzy99abR0kPxv9F8P+JcbrP/YvbeQXw/zGaN9f8uvn7Z+Z3zbWP9218z7Wvxj2z7PefquRX4w3v6Otf2t6MOfnnYGMkp/Hypb5jdHmd0pjzm+tZ57pv9lB6rjiOe/8aKT88n8ES/8VKM/PRz5/e0m9pT4Ln2N+Y7T8Rjv/+ALh/TeN
+  </data>
+ </layer>
+ <objectgroup id="2" name="objects">
+  <object id="2" x="16" y="592">
+   <polygon points="0,0 0,32 48,32 48,0"/>
+  </object>
+  <object id="3" x="96" y="560">
+   <polygon points="0,0 0,16 16,16 16,0"/>
+  </object>
+  <object id="4" x="144" y="528">
+   <polygon points="0,0 0,16 16,16 16,0"/>
+  </object>
+  <object id="5" x="32" y="512">
+   <polygon points="0,0 0,16 16,16 16,0"/>
+  </object>
+  <object id="6" x="16" y="480">
+   <polygon points="0,0 0,16 16,16 16,0"/>
+  </object>
+  <object id="7" x="80" y="448">
+   <polygon points="0,0 0,16 16,16 16,0"/>
+  </object>
+  <object id="8" x="240" y="176">
+   <polygon points="0,0 0,464 160,464 160,0"/>
+  </object>
+ </objectgroup>
+</map>

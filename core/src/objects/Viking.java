@@ -12,7 +12,7 @@ import helper.Assets;
 import static helper.Constants.*;
 
 public class Viking extends GameEntity {
-    private static final float HIT_ANIMATION_DURATION = 2f;
+    private static final float HIT_ANIMATION_DURATION = 1f;
     private static final float DEAD_ANIMATION_DURATION = 1f;
     private static final float IDLE_ANIMATION_DURATION = 4f;
     private static final float WALK_ANIMATION_DURATION = 4f;

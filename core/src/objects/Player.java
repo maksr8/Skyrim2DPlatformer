@@ -95,7 +95,7 @@ public class Player extends GameEntity {
         body.createFixture(fixtureDef).setUserData(this);
 
         //main hitbox
-        shape.setAsBox(width / 2 / PPM - 0.2f, height / 2 / PPM);
+        shape.setAsBox(width / 2 / PPM - width / 2 / PPM * 0.4f, height / 2 / PPM);
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
         fixtureDef.friction = 0f;
@@ -110,13 +110,13 @@ public class Player extends GameEntity {
 
         //right attack sensor
         fixtureDef.filter.maskBits = BIT_ENEMY;
-        shape.setAsBox(width / PPM / 2 * 1.25f, height / 2 / PPM * 1.35f, new Vector2(width / 2 / PPM - 0.05f, -0.25f), 0);
+        shape.setAsBox(width / PPM / 2 * 2f, height / 2 / PPM * 1.6f, new Vector2(width / 2 / PPM - 0.05f, -0.25f), 0);
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef).setUserData("rightAttack");
 
         //left attack sensor
-        shape.setAsBox(width / PPM / 2 * 1.25f, height / 2 / PPM * 1.35f, new Vector2(-width / 2 / PPM + 0.05f, -0.25f), 0);
+        shape.setAsBox(width / PPM / 2 * 2f, height / 2 / PPM * 1.6f, new Vector2(-width / 2 / PPM + 0.05f, -0.25f), 0);
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef).setUserData("leftAttack");
@@ -221,7 +221,7 @@ public class Player extends GameEntity {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && (numFootContacts > 0 || jumpCount < maxJumpCount - 1)) {
-            float impulse = body.getMass() * 10;
+            float impulse = body.getMass() * 11;
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.applyLinearImpulse(new Vector2(0, impulse), body.getPosition(), true);
             jumpCount++;
@@ -279,27 +279,27 @@ public class Player extends GameEntity {
             if (playerState == EntityState.IDLE) {
                 batch.draw(idleAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
                         getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 30),
-                        getY() - getHeight() / 2 - 12,
+                        getY() - getHeight() / 2 - 8,
                         (isTurnedRight ? 1 : -1) * (getWidth() + 60),
-                        getHeight() + 18);
+                        getHeight() + 15);
             } else if (playerState == EntityState.RUNNING) {
                 batch.draw(runAnimation.getKeyFrame(gameScreen.getElapsedTime(), true),
                         getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 48),
-                        getY() - getHeight() / 2 - 12,
+                        getY() - getHeight() / 2 - 8,
                         (isTurnedRight ? 1 : -1) * (getWidth() + 80),
-                        getHeight() + 19);
+                        getHeight() + 16);
             } else if (playerState == EntityState.JUMPING || playerState == EntityState.FALLING) {
                 batch.draw(jumpAnimation.getKeyFrame(jumpAnimationTimer, false),
                         getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 20),
-                        getY() - getHeight() / 2 - 11,
+                        getY() - getHeight() / 2 - 3,
                         (isTurnedRight ? 1 : -1) * (getWidth() + 60),
-                        getHeight() + 18);
+                        getHeight() + 17);
             } else if (playerState == EntityState.ATTACKING) {
                 batch.draw(attackAnimation.getKeyFrame(attackAnimationTimer, false),
                         getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 44),
-                        getY() - getHeight() / 2 - 15,
+                        getY() - getHeight() / 2 - 10,
                         (isTurnedRight ? 1 : -1) * (getWidth() + 80),
-                        getHeight() + 18);
+                        getHeight() + 15);
             } else if (playerState == EntityState.HIT) {
                 batch.draw(hitAnimation.getKeyFrame(hitAnimationTimer, false),
                         getX() + (isTurnedRight ? 1 : -1) * (getWidth() / 2 + 40),
@@ -309,7 +309,7 @@ public class Player extends GameEntity {
             } else if (playerState == EntityState.DEAD) {
                 batch.draw(deadAnimation.getKeyFrame(deadAnimationTimer, false),
                         getX() + (isTurnedRight ? -1 : 1) * (getWidth() / 2 + 30),
-                        getY() - getHeight() / 2 - 20,
+                        getY() - getHeight() / 2 - 16,
                         (isTurnedRight ? 1 : -1) * (getWidth() + 60),
                         getHeight() + 18);
             }
