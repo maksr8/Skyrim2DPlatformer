@@ -76,14 +76,15 @@ public class GameScreen extends ScreenAdapter {
         switch (level) {
             case 1:
                 currBackground = assets.manager.get(assets.background1);
-                player = new Player(32, 128, 32, 64, this);
+                player = new Player(32, 128, 20, 40, this);
                 break;
             case 2:
                 currBackground = assets.manager.get(assets.background2);
-                player = new Player(1240, 128, 32, 64, this);
+                player = new Player(1240, 128, 20, 40, this);
                 break;
             case 3:
                 currBackground = assets.manager.get(assets.background3);
+                player = new Player(32, 128, 20, 40, this);
                 break;
         }
     }
@@ -162,7 +163,7 @@ public class GameScreen extends ScreenAdapter {
             pause();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
-            loadLevel(2);
+            loadLevel(3);
         }
 
     }

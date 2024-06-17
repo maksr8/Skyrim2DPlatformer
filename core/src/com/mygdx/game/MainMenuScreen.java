@@ -34,7 +34,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
         batch.begin();
         if (isSelectingLevel) {
-            
+
         } else {
             batch.draw(assets.manager.get(assets.gameNameLabel), game.getGameWidth() / 2 - 400, game.getGameHeight() / 2 + 100, 800, 250);
             font.draw(batch, "Tap anywhere to begin!", 20, 20);
@@ -45,7 +45,10 @@ public class MainMenuScreen extends ScreenAdapter {
     }
 
     private void handleInput() {
-
+        if (Gdx.input.isTouched()) {
+            game.setScreen(new GameScreen(game, 1));
+            dispose();
+        }
     }
 
     @Override
