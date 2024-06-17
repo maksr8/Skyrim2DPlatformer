@@ -22,7 +22,8 @@ public class Platform extends GameEntity {
             case "Grass":
                 texture = assets.manager.get(assets.platformGrass);
                 break;
-            case "...":
+            case "Snow":
+                texture = assets.manager.get(assets.platformSnow);
                 break;
         }
     }

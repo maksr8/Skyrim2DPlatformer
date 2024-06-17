@@ -23,6 +23,7 @@ public class Player extends GameEntity {
     private final ObjectSet<GameEntity> entitiesToHitTowardsLeft;
     private final Array<Fixture> fixturesToBeHitBy;
     private Body body;
+    private Vector2 initialPosition;
     private int jumpCount;
     private int maxJumpCount;
     private int hp;
@@ -47,6 +48,7 @@ public class Player extends GameEntity {
         super(x / PPM, y / PPM, width, height, gameScreen);
         this.assets = gameScreen.getAssets();
         this.body = createBody(this.x, this.y, width, height, gameScreen.getWorld());
+        this.initialPosition = new Vector2(x / PPM, y / PPM);
         this.speed = 5.5f;
         this.hp = 5;
         this.maxHp = 5;
@@ -73,7 +75,7 @@ public class Player extends GameEntity {
         this.jumpAnimation = new Animation<>(1 / 15f, TextureRegion.split(assets.manager.get(assets.playerJumpSheet), 64, 64)[0]);
         this.attackAnimation = new Animation<>(1 / 32f, TextureRegion.split(assets.manager.get(assets.playerAttackSheet), 96, 64)[0]);
         this.hitAnimation = new Animation<>(1 / 16f, TextureRegion.split(assets.manager.get(assets.playerKnockBackSheet), 64, 64)[0]);
-        this.deadAnimation = new Animation<>(1 / 10f, TextureRegion.split(assets.manager.get(assets.playerDeadSheet), 80, 64)[0]);
+        this.deadAnimation = new Animation<>(1 / 6f, TextureRegion.split(assets.manager.get(assets.playerDeadSheet), 80, 64)[0]);
     }
 
     private Body createBody(float x, float y, float width, float height, World world) {
@@ -135,7 +137,7 @@ public class Player extends GameEntity {
             deadAnimationTimer += Gdx.graphics.getDeltaTime();
             body.setLinearVelocity(0, body.getLinearVelocity().y);
             if (deadAnimation.isAnimationFinished(deadAnimationTimer)) {
-                //gameScreen.getGame().setScreen(new MainMenuScreen(gameScreen.getGame()));
+                gameScreen.getGame().setScreen(new MainMenuScreen(gameScreen.getGame()));
             }
             return;
         }
@@ -145,7 +147,11 @@ public class Player extends GameEntity {
         } else {
             body.setLinearVelocity(body.getLinearVelocity().x - body.getLinearVelocity().x * 0.05f, body.getLinearVelocity().y);
         }
-
+        if ( y < -100 ) {
+            hit(true);
+            body.setLinearVelocity(0, 0);
+            body.setTransform(initialPosition, 0);
+        }
         updateAnimationTimers();
     }
 
@@ -164,8 +170,16 @@ public class Player extends GameEntity {
     private void handleBeingHit() {
         if (fixturesToBeHitBy.notEmpty()) {
             removeNullFixtures();
-            boolean isHitTowardsRight = body.getWorldCenter().x > fixturesToBeHitBy.get(0).getBody().getWorldCenter().x;
-            hit(isHitTowardsRight);
+            Fixture fixture = fixturesToBeHitBy.get(0);
+            boolean isHitTowardsRight = body.getWorldCenter().x > fixture.getBody().getWorldCenter().x;
+            if (fixture.getUserData() instanceof Viking
+                    && ((Viking) fixture.getUserData()).getBody().getFixtureList().get(4) == fixture) {
+                if(((Viking) fixture.getUserData()).getVikingState() == EntityState.ATTACKING) {
+                    hit(isHitTowardsRight);
+                }
+            } else {
+                hit(isHitTowardsRight);
+            }
         }
     }
 
@@ -232,12 +246,20 @@ public class Player extends GameEntity {
                     ((Rat) entity).setHitTowardsRight(true);
                     ((Rat) entity).hit(atk);
                 }
+                if (entity instanceof Viking) {
+                    ((Viking) entity).setHitTowardsRight(true);
+                    ((Viking) entity).hit(atk);
+                }
             }
         } else {
             for (GameEntity entity : entitiesToHitTowardsLeft) {
                 if (entity instanceof Rat) {
                     ((Rat) entity).setHitTowardsRight(false);
                     ((Rat) entity).hit(atk);
+                }
+                if (entity instanceof Viking) {
+                    ((Viking) entity).setHitTowardsRight(false);
+                    ((Viking) entity).hit(atk);
                 }
             }
         }

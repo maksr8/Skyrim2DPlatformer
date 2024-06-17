@@ -12,10 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.GameScreen;
-import objects.FallingPlatform;
-import objects.MovingPlatform;
-import objects.Platform;
-import objects.Rat;
+import objects.*;
 
 import static helper.Constants.PPM;
 
@@ -69,6 +66,12 @@ public class TileMapHelper {
                                 gameScreen));
                     } else if (rectangleName.equals("rat")) {
                         gameScreen.addRat(new Rat(rectangle.x + rectangle.width / 2,
+                                rectangle.y + rectangle.height / 2,
+                                rectangle.width,
+                                rectangle.height,
+                                gameScreen));
+                    } else if (rectangleName.equals("viking")) {
+                        gameScreen.addViking(new Viking(rectangle.x + rectangle.width / 2,
                                 rectangle.y + rectangle.height / 2,
                                 rectangle.width,
                                 rectangle.height,

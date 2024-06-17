@@ -11,40 +11,48 @@ import helper.Assets;
 
 import static helper.Constants.*;
 
-public class Rat extends GameEntity {
+public class Viking extends GameEntity {
     private static final float HIT_ANIMATION_DURATION = 2f;
     private static final float DEAD_ANIMATION_DURATION = 1f;
-    private static final float IDLE_ANIMATION_DURATION = 2f;
+    private static final float IDLE_ANIMATION_DURATION = 4f;
     private static final float WALK_ANIMATION_DURATION = 4f;
+    private static final float ATTACK_DELAY = 1f;
+    public static final float ATTACK_COOLDOWN = 1.2f;
     private static Assets assets;
     private static Animation<TextureRegion> idleAnimation;
     private static Animation<TextureRegion> walkAnimation;
     private static Animation<TextureRegion> hitAnimation;
     private static Animation<TextureRegion> deadAnimation;
+    private static Animation<TextureRegion> attackAnimation;
     private Body body;
     private Animation<TextureRegion> currentAnimation;
-    private EntityState ratState;
+    private EntityState vikingState;
     private boolean isTurnedRight;
     private float generalAnimationTimer;
     private float hitAnimationTimer;
     private float deadAnimationTimer;
+    private float attackAnimationTimer;
+    private float attackTimer;
     private int numOfLeftSensorContacts;
     private int numOfRightSensorContacts;
     private boolean isHitTowardsRight;
+    private boolean isTriggered;
     private int hp;
 
-    public Rat(float x, float y, float width, float height, GameScreen gameScreen) {
+    public Viking(float x, float y, float width, float height, GameScreen gameScreen) {
         super(x, y, width, height, gameScreen);
         this.body = createBody(this.x, this.y, width, height, gameScreen.getWorld());
         if (assets == null)
             assets = gameScreen.getAssets();
-        speed = 1.5f;
-        hp = 3;
-        ratState = EntityState.IDLE;
+        speed = 1.9f;
+        hp = 6;
+        vikingState = EntityState.IDLE;
         isTurnedRight = true;
         generalAnimationTimer = 0;
         hitAnimationTimer = 0;
         deadAnimationTimer = 0;
+        attackTimer = 999;
+        attackAnimationTimer = 0;
         numOfLeftSensorContacts = 0;
         numOfRightSensorContacts = 0;
         if (idleAnimation == null)
@@ -53,10 +61,11 @@ public class Rat extends GameEntity {
     }
 
     private void createAnimations() {
-        idleAnimation = new Animation<>(1 / 4f, TextureRegion.split(assets.manager.get(assets.ratIdleSheet), 32, 11)[0]);
-        walkAnimation = new Animation<>(1 / 8f, TextureRegion.split(assets.manager.get(assets.ratWalkSheet), 32, 11)[0]);
-        hitAnimation = new Animation<>(1 / 8f, TextureRegion.split(assets.manager.get(assets.ratHitSheet), 32, 11)[0]);
-        deadAnimation = new Animation<>(1 / 4f, TextureRegion.split(assets.manager.get(assets.ratDeadSheet), 32, 11)[0]);
+        idleAnimation = new Animation<>(1 / 4f, TextureRegion.split(assets.manager.get(assets.vikingIdleSheet), 21, 31)[0]);
+        walkAnimation = new Animation<>(1 / 8f, TextureRegion.split(assets.manager.get(assets.vikingWalkSheet), 21, 32)[0]);
+        hitAnimation = new Animation<>(1 / 8f, TextureRegion.split(assets.manager.get(assets.vikingHitSheet), 26, 30)[0]);
+        deadAnimation = new Animation<>(1 / 4f, TextureRegion.split(assets.manager.get(assets.vikingDeadSheet), 40, 30)[0]);
+        attackAnimation = new Animation<>(1 / 16f, TextureRegion.split(assets.manager.get(assets.vikingAttackSheet), 67, 34)[0]);
     }
 
     private Body createBody(float x, float y, float width, float height, World world) {
@@ -70,8 +79,8 @@ public class Rat extends GameEntity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 1f;
-        fixtureDef.filter.categoryBits = BIT_ENEMY; // Category for Rat
-        fixtureDef.filter.maskBits = BIT_GROUND | BIT_PLAYER; // Can collide with everything except other Rats
+        fixtureDef.filter.categoryBits = BIT_ENEMY;
+        fixtureDef.filter.maskBits = BIT_GROUND | BIT_PLAYER;
         body.createFixture(fixtureDef).setUserData(this);
 
         // left bottom edge sensor
@@ -85,6 +94,18 @@ public class Rat extends GameEntity {
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef).setUserData(this);
 
+        // detection for player to attack
+        shape.setAsBox(width / PPM / 2 * 5f, height / PPM / 2 * 1.05f, new Vector2(0, 0), 0);
+        fixtureDef.shape = shape;
+        fixtureDef.isSensor = true;
+        body.createFixture(fixtureDef).setUserData(this);
+
+        // attack hitbox (fixture 5)
+        shape.setAsBox(width / PPM / 2 * 3.2f, height / PPM / 2 * 1.05f, new Vector2(0, 0), 0);
+        fixtureDef.shape = shape;
+        fixtureDef.isSensor = true;
+        body.createFixture(fixtureDef).setUserData(this);
+
         shape.dispose();
         return body;
     }
@@ -94,11 +115,14 @@ public class Rat extends GameEntity {
         x = body.getPosition().x * PPM;
         y = body.getPosition().y * PPM;
         generalAnimationTimer += Gdx.graphics.getDeltaTime();
-
-        switch (ratState) {
+        attackTimer += Gdx.graphics.getDeltaTime();
+        if (isTriggered && vikingState != EntityState.ATTACKING && vikingState != EntityState.HIT && vikingState != EntityState.DEAD) {
+            attack();
+        }
+        switch (vikingState) {
             case IDLE:
                 if (generalAnimationTimer > IDLE_ANIMATION_DURATION) {
-                    ratState = EntityState.WALKING;
+                    vikingState = EntityState.WALKING;
                     isTurnedRight = !isTurnedRight;
                 }
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
@@ -106,18 +130,18 @@ public class Rat extends GameEntity {
                 break;
             case WALKING:
                 if (generalAnimationTimer > WALK_ANIMATION_DURATION + IDLE_ANIMATION_DURATION) {
-                    ratState = EntityState.IDLE;
+                    vikingState = EntityState.IDLE;
                     generalAnimationTimer = 0;
                 }
                 currentAnimation = walkAnimation;
 
-                if (isTurnedRight)
+                if (isTurnedRight) {
                     if (numOfRightSensorContacts == 0) {
                         isTurnedRight = false;
                     } else {
                         body.setLinearVelocity(speed, body.getLinearVelocity().y);
                     }
-                else if (numOfLeftSensorContacts == 0) {
+                } else if (numOfLeftSensorContacts == 0) {
                     isTurnedRight = true;
                 } else {
                     body.setLinearVelocity(-speed, body.getLinearVelocity().y);
@@ -125,7 +149,12 @@ public class Rat extends GameEntity {
                 break;
             case HIT:
                 if (hitAnimationTimer > HIT_ANIMATION_DURATION) {
-                    ratState = EntityState.IDLE;
+                    if (isTriggered) {
+                        vikingState = EntityState.ATTACKING;
+                        attackAnimationTimer = 0;
+                    } else {
+                        vikingState = EntityState.IDLE;
+                    }
                     hitAnimationTimer = 0;
                 }
                 currentAnimation = hitAnimation;
@@ -139,11 +168,30 @@ public class Rat extends GameEntity {
                     maskBits = BIT_GROUND;
                 }});
                 if (deadAnimationTimer > DEAD_ANIMATION_DURATION) {
-                    gameScreen.removeRat(this);
+                    gameScreen.removeViking(this);
                 }
                 currentAnimation = deadAnimation;
                 deadAnimationTimer += Gdx.graphics.getDeltaTime();
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
+                break;
+            case TRIGGERED:
+                if (attackTimer > ATTACK_DELAY) {
+                    vikingState = EntityState.ATTACKING;
+                    attackAnimationTimer = 0;
+                }
+                if (isTurnedRight) {
+                    body.setLinearVelocity(speed * 0.4f, body.getLinearVelocity().y);
+                } else {
+                    body.setLinearVelocity(-speed * 0.4f, body.getLinearVelocity().y);
+                }
+                break;
+            case ATTACKING:
+                if (attackAnimation.isAnimationFinished(attackAnimationTimer)) {
+                    vikingState = EntityState.IDLE;
+                    attackAnimationTimer = 0;
+                } else {
+                    attackAnimationTimer += Gdx.graphics.getDeltaTime();
+                }
                 break;
         }
     }
@@ -151,18 +199,50 @@ public class Rat extends GameEntity {
     @Override
     public void render(SpriteBatch batch) {
         batch.begin();
-        if (ratState == EntityState.DEAD) {
+        if (vikingState == EntityState.DEAD) {
             batch.draw(currentAnimation.getKeyFrame(deadAnimationTimer, false),
-                    x + (isTurnedRight ? -1 : 1) * (width / 2 + 8),
-                    y - height / 2, (isTurnedRight ? 1 : -1) * (width + 16), height);
+                    x + (isTurnedRight ? -1 : 1) * (width / 2 + 14),
+                    y - height / 2, (isTurnedRight ? 1 : -1) * (width + 27), height);
             batch.end();
             return;
+        } else if (vikingState == EntityState.ATTACKING) {
+            batch.draw(attackAnimation.getKeyFrame(attackAnimationTimer, false),
+                    x + (isTurnedRight ? -1 : 1) * (width / 2 + 30),
+                    y - height / 2, (isTurnedRight ? 1 : -1) * (width + 80), height);
+        }else if (vikingState == EntityState.TRIGGERED) {
+            batch.draw(attackAnimation.getKeyFrame(0.07f, false),
+                    x + (isTurnedRight ? -1 : 1) * (width / 2 + 30),
+                    y - height / 2, (isTurnedRight ? 1 : -1) * (width + 80), height);
         } else {
             batch.draw(currentAnimation.getKeyFrame(generalAnimationTimer, true),
-                    x + (isTurnedRight ? -1 : 1) * (width / 2 + 8),
-                    y - height / 2, (isTurnedRight ? 1 : -1) * (width + 16), height);
+                    x + (isTurnedRight ? -1 : 1) * (width / 2),
+                    y - height / 2, (isTurnedRight ? 1 : -1) * (width), height);
         }
         batch.end();
+    }
+
+    public void hit(int atk) {
+        hp -= atk;
+        if (hp <= 0) {
+            vikingState = EntityState.DEAD;
+            return;
+        }
+        vikingState = EntityState.HIT;
+        body.applyLinearImpulse(new Vector2(isHitTowardsRight ? 5f : -5f, 6f), body.getWorldCenter(), true);
+    }
+
+    public void attack() {
+        if (attackTimer < ATTACK_COOLDOWN) {
+            return;
+        }
+        vikingState = EntityState.TRIGGERED;
+        attackTimer = 0;
+        body.setLinearVelocity(0, body.getLinearVelocity().y);
+        turnTowardsPlayer();
+    }
+
+    private void turnTowardsPlayer() {
+        isTurnedRight = gameScreen.getPlayer().x > x;
     }
 
     public Body getBody() {
@@ -189,13 +269,11 @@ public class Rat extends GameEntity {
         isHitTowardsRight = hitTowardsRight;
     }
 
-    public void hit(int atk) {
-        hp -= atk;
-        if (hp <= 0) {
-            ratState = EntityState.DEAD;
-            return;
-        }
-        ratState = EntityState.HIT;
-        body.applyLinearImpulse(new Vector2(isHitTowardsRight ? 5f : -5f, 6f), body.getWorldCenter(), true);
+    public EntityState getVikingState() {
+        return vikingState;
+    }
+
+    public void setTriggered(boolean triggered) {
+        isTriggered = triggered;
     }
 }

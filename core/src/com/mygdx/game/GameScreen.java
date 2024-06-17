@@ -40,6 +40,8 @@ public class GameScreen extends ScreenAdapter {
     private ObjectSet<FallingPlatform> fallingPlatformsToRemove;
     private ObjectSet<Rat> rats;
     private ObjectSet<Rat> ratsToRemove;
+    private ObjectSet<Viking> vikings;
+    private ObjectSet<Viking> vikingsToRemove;
 
     private float cameraZoom = 0.35f;
     private boolean paused = false;
@@ -61,23 +63,29 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void loadLevel(int level) {
-        switch (level) {
-            case 1:
-                currBackground = assets.manager.get(assets.background1);
-                break;
-            case 2:
-                currBackground = assets.manager.get(assets.background2);
-                break;
-            case 3:
-                currBackground = assets.manager.get(assets.background3);
-                break;
-        }
         elapsedTime = 0;
         world = new World(new Vector2(0, -35f), true);
         world.setContactListener(new GameContactListener(this));
         initObjectSets();
         orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map" + level + ".tmx");
-        loadPlayer();
+        if (player != null) {
+            // save player stats
+
+            ///
+        }
+        switch (level) {
+            case 1:
+                currBackground = assets.manager.get(assets.background1);
+                player = new Player(32, 128, 32, 64, this);
+                break;
+            case 2:
+                currBackground = assets.manager.get(assets.background2);
+                player = new Player(1240, 128, 32, 64, this);
+                break;
+            case 3:
+                currBackground = assets.manager.get(assets.background3);
+                break;
+        }
     }
 
     private void initObjectSets() {
@@ -87,18 +95,8 @@ public class GameScreen extends ScreenAdapter {
         fallingPlatformsToRemove = new ObjectSet<>();
         rats = new ObjectSet<>();
         ratsToRemove = new ObjectSet<>();
-    }
-
-    private void loadPlayer() {
-        if (player != null) {
-            // save player stats
-
-            ///
-        }
-        player = new Player(32, 128, 32, 64, this);
-        // apply saved stats
-
-        ///
+        vikings = new ObjectSet<>();
+        vikingsToRemove = new ObjectSet<>();
     }
 
     @Override
@@ -127,9 +125,12 @@ public class GameScreen extends ScreenAdapter {
         for (Rat rat : rats) {
             rat.render(batch);
         }
+        for (Viking viking : vikings) {
+            viking.render(batch);
+        }
         player.render(batch);
 
-        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+        //box2DDebugRenderer.render(world, camera.combined.scl(PPM));
         hud.render();
     }
 
@@ -150,6 +151,9 @@ public class GameScreen extends ScreenAdapter {
         for (Rat rat : rats) {
             rat.update();
         }
+        for (Viking viking : vikings) {
+            viking.update();
+        }
         player.update();
 
         hud.update();
@@ -158,7 +162,7 @@ public class GameScreen extends ScreenAdapter {
             pause();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
-            loadLevel(1);
+            loadLevel(2);
         }
 
     }
@@ -166,6 +170,15 @@ public class GameScreen extends ScreenAdapter {
     private void removeObjects() {
         removeFallingPlatforms();
         removeRats();
+        removeVikings();
+    }
+
+    private void removeVikings() {
+        for (Viking viking : vikingsToRemove) {
+            vikings.remove(viking);
+            world.destroyBody(viking.getBody());
+        }
+        vikingsToRemove.clear();
     }
 
     private void removeRats() {
@@ -254,6 +267,14 @@ public class GameScreen extends ScreenAdapter {
 
     public void removeRat(Rat rat) {
         ratsToRemove.add(rat);
+    }
+
+    public void addViking(Viking viking) {
+        vikings.add(viking);
+    }
+
+    public void removeViking(Viking viking) {
+        vikingsToRemove.add(viking);
     }
 
     @Override
