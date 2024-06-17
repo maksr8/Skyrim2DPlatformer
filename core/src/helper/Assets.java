@@ -33,6 +33,7 @@ public class Assets {
     public final AssetDescriptor<Texture> vikingHitSheet = new AssetDescriptor<>("entities/viking_hit.png", Texture.class);
     public final AssetDescriptor<Texture> vikingDeadSheet = new AssetDescriptor<>("entities/viking_dead.png", Texture.class);
     public final AssetDescriptor<Texture> vikingAttackSheet = new AssetDescriptor<>("entities/viking_attack.png", Texture.class);
+    public final AssetDescriptor<Texture> gameNameLabel = new AssetDescriptor<>("hud/game_name_label.png", Texture.class);
 
     public void load() {
         manager.load(playerIdleSheet);
@@ -61,6 +62,7 @@ public class Assets {
         manager.load(vikingHitSheet);
         manager.load(vikingDeadSheet);
         manager.load(vikingAttackSheet);
+        manager.load(gameNameLabel);
     }
 
     public void dispose() {
