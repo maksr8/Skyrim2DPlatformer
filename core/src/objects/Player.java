@@ -43,6 +43,7 @@ public class Player extends GameEntity {
     private int numFootContacts;
     private EntityState playerState;
     private boolean isTurnedRight;
+    private boolean isTouchingEntrance;
 
     public Player(float x, float y, float width, float height, GameScreen gameScreen) {
         super(x / PPM, y / PPM, width, height, gameScreen);
@@ -192,6 +193,12 @@ public class Player extends GameEntity {
     private void checkUserInput() {
         playerState = EntityState.IDLE;
         velocityX = 0;
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            if (isTouchingEntrance) {
+                gameScreen.loadLevel(2);
+            }
+        }
+
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             velocityX = 1;
             isTurnedRight = true;
@@ -386,5 +393,9 @@ public class Player extends GameEntity {
 
     public void removeFixtureToBeHitBy(Fixture fixture) {
         fixturesToBeHitBy.removeValue(fixture, true);
+    }
+
+    public void setTouchingEntrance(boolean touchingEntrance) {
+        isTouchingEntrance = touchingEntrance;
     }
 }

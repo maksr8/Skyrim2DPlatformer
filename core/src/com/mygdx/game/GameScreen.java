@@ -62,7 +62,7 @@ public class GameScreen extends ScreenAdapter {
         loadLevel(level);
     }
 
-    private void loadLevel(int level) {
+    public void loadLevel(int level) {
         elapsedTime = 0;
         world = new World(new Vector2(0, -35f), true);
         world.setContactListener(new GameContactListener(this));
@@ -130,7 +130,7 @@ public class GameScreen extends ScreenAdapter {
         }
         player.render(batch);
 
-        //box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
         hud.render();
     }
 

@@ -76,6 +76,12 @@ public class TileMapHelper {
                                 rectangle.width,
                                 rectangle.height,
                                 gameScreen));
+                    } else if (rectangleName.equals("entrance")) {
+                        new Entrance(rectangle.x + rectangle.width / 2,
+                                rectangle.y + rectangle.height / 2,
+                                rectangle.width,
+                                rectangle.height,
+                                gameScreen);
                     }
                 }
             }

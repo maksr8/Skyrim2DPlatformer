@@ -38,6 +38,19 @@ public class GameContactListener implements ContactListener {
 
         handleVikingTriggerBeginContact(fixtureA, fixtureB);
         handleVikingTriggerBeginContact(fixtureB, fixtureA);
+
+        handleEntranceBeginContact(fixtureA, fixtureB);
+        handleEntranceBeginContact(fixtureB, fixtureA);
+    }
+
+    private void handleEntranceBeginContact(Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null) {
+            if (fixtureA.getUserData() instanceof Entrance && fixtureB.getUserData() instanceof Player) {
+                if (((Player) fixtureB.getUserData()).getBody().getFixtureList().get(1) == fixtureB) {
+                    ((Player) fixtureB.getUserData()).setTouchingEntrance(true);
+                }
+            }
+        }
     }
 
     private void handleVikingTriggerBeginContact(Fixture fixtureA, Fixture fixtureB) {
@@ -154,6 +167,19 @@ public class GameContactListener implements ContactListener {
 
         handleVikingTriggerEndContact(fixtureA, fixtureB);
         handleVikingTriggerEndContact(fixtureB, fixtureA);
+
+        handleEntranceEndContact(fixtureA, fixtureB);
+        handleEntranceEndContact(fixtureB, fixtureA);
+    }
+
+    private void handleEntranceEndContact(Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null) {
+            if (fixtureA.getUserData() instanceof Entrance && fixtureB.getUserData() instanceof Player) {
+                if (((Player) fixtureB.getUserData()).getBody().getFixtureList().get(1) == fixtureB) {
+                    ((Player) fixtureB.getUserData()).setTouchingEntrance(false);
+                }
+            }
+        }
     }
 
     private void handleVikingTriggerEndContact(Fixture fixtureB, Fixture fixtureA) {
