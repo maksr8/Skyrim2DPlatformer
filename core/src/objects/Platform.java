@@ -3,6 +3,7 @@ package objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Null;
 import com.mygdx.game.GameScreen;
 import helper.Assets;
 
@@ -25,6 +26,8 @@ public class Platform extends GameEntity {
             case "Snow":
                 texture = assets.manager.get(assets.platformSnow);
                 break;
+            case "Null":
+                texture = assets.manager.get(assets.platformNull);
         }
     }
 

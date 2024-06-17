@@ -19,6 +19,7 @@ public class Assets {
     public final AssetDescriptor<Texture> movingPlatform1 = new AssetDescriptor<>("objects/moving_platform1.png", Texture.class);
     public final AssetDescriptor<Texture> platformGrass = new AssetDescriptor<>("objects/platformGrass.png", Texture.class);
     public final AssetDescriptor<Texture> platformSnow = new AssetDescriptor<>("objects/platformSnow.png", Texture.class);
+    public final AssetDescriptor<Texture> platformNull = new AssetDescriptor<>("objects/platformNull.png", Texture.class);
     public final AssetDescriptor<Texture> fallingPlatform1 = new AssetDescriptor<>("objects/falling_platform1.png", Texture.class);
     public final AssetDescriptor<Texture> fallingPlatform1Sheet = new AssetDescriptor<>("objects/falling_platform1_sheet.png", Texture.class);
     public final AssetDescriptor<Texture> ratIdleSheet = new AssetDescriptor<>("entities/rat_idle.png", Texture.class);
@@ -45,6 +46,7 @@ public class Assets {
         manager.load(movingPlatform1);
         manager.load(platformGrass);
         manager.load(platformSnow);
+        manager.load(platformNull);
         manager.load(fallingPlatform1);
         manager.load(fallingPlatform1Sheet);
         manager.load(ratIdleSheet);
