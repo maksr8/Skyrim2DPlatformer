@@ -12,7 +12,8 @@ public class DesktopLauncher {
 		config.setIdleFPS(60);
 		//config.setResizable(false);
 		config.setTitle("Skyrim2D");
-		config.setWindowedMode(1920, 1080);
+		config.setWindowedMode(1280, 720);
+		//config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 		config.useVsync(true);
 		new Lwjgl3Application(new Skyrim2DGame(), config);
 	}

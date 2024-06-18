@@ -55,7 +55,7 @@ public class Player extends GameEntity {
         this.maxHp = 5;
         this.atk = 1;
         this.jumpCount = 0;
-        this.maxJumpCount = 2;
+        this.maxJumpCount = 200;
         this.isTurnedRight = true;
         this.numFootContacts = 0;
         this.jumpAnimationTimer = 0;
@@ -217,6 +217,7 @@ public class Player extends GameEntity {
             if (attackAnimationTimer > attackCooldown) {
                 attackAnimationTimer = 0;
                 hitEntities();
+                gameScreen.getGame().playSound(assets.manager.get(assets.soundSwordSwing));
             }
         }
 
@@ -249,6 +250,7 @@ public class Player extends GameEntity {
     private void hitEntities() {
         if (isTurnedRight) {
             for (GameEntity entity : entitiesToHitTowardsRight) {
+                gameScreen.getGame().playSound(assets.manager.get(assets.soundSwordCut));
                 if (entity instanceof Rat) {
                     ((Rat) entity).setHitTowardsRight(true);
                     ((Rat) entity).hit(atk);
@@ -263,6 +265,7 @@ public class Player extends GameEntity {
             }
         } else {
             for (GameEntity entity : entitiesToHitTowardsLeft) {
+                gameScreen.getGame().playSound(assets.manager.get(assets.soundSwordCut));
                 if (entity instanceof Rat) {
                     ((Rat) entity).setHitTowardsRight(false);
                     ((Rat) entity).hit(atk);
@@ -329,7 +332,9 @@ public class Player extends GameEntity {
         if (hp <= 0) {
             playerState = EntityState.DEAD;
             deadAnimationTimer = 0;
+            gameScreen.getGame().playSound(assets.manager.get(assets.soundPlayerDeath));
         } else {
+            gameScreen.getGame().playSound(assets.manager.get(assets.soundPlayerHit));
             playerState = EntityState.HIT;
             hitAnimationTimer = 0;
             body.setLinearVelocity(0, 0);

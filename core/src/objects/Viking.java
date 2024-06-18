@@ -178,6 +178,7 @@ public class Viking extends GameEntity {
                 if (attackTimer > ATTACK_DELAY) {
                     vikingState = EntityState.ATTACKING;
                     attackAnimationTimer = 0;
+                    gameScreen.getGame().playSound(assets.manager.get(assets.soundSwordSwing));
                 }
                 if (isTurnedRight) {
                     body.setLinearVelocity(speed * 0.4f, body.getLinearVelocity().y);
@@ -225,8 +226,10 @@ public class Viking extends GameEntity {
         hp -= atk;
         if (hp <= 0) {
             vikingState = EntityState.DEAD;
+            gameScreen.getGame().playSound(assets.manager.get(assets.soundVikingDeath));
             return;
         }
+        gameScreen.getGame().playSound(assets.manager.get(assets.soundVikingHit));
         vikingState = EntityState.HIT;
         body.applyLinearImpulse(new Vector2(isHitTowardsRight ? 5f : -5f, 6f), body.getWorldCenter(), true);
     }

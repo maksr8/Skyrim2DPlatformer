@@ -2,6 +2,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -14,6 +16,7 @@ public class Skyrim2DGame extends Game {
 	private Viewport viewport;
 	private SpriteBatch batch;
 	private Assets assets;
+	private Music backgroundMusic;
 
 	@Override
 	public void create() {
@@ -29,6 +32,20 @@ public class Skyrim2DGame extends Game {
 
 		
 		setScreen(new SplashScreen(this));
+	}
+
+	public void setBackgroundMusic(Music newBackgroundMusic) {
+		if (backgroundMusic != null) {
+			backgroundMusic.stop();
+		}
+		backgroundMusic = newBackgroundMusic;
+		backgroundMusic.setLooping(true);
+		backgroundMusic.setVolume(0.5f);
+		backgroundMusic.play();
+	}
+
+	public void playSound(Sound sound) {
+		sound.play(0.5f);
 	}
 
 	@Override

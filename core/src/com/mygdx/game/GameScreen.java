@@ -63,6 +63,7 @@ public class GameScreen extends ScreenAdapter {
 
         this.hud = new Hud(this);
         tileMapHelper = new TileMapHelper(this);
+        game.setBackgroundMusic(assets.manager.get(assets.musicLevel1));
         loadLevel(level);
     }
 
@@ -76,14 +77,17 @@ public class GameScreen extends ScreenAdapter {
 
         switch (level) {
             case 1:
+                game.setBackgroundMusic(assets.manager.get(assets.musicLevel1));
                 currBackground = assets.manager.get(assets.background1);
                 player = new Player(32, 128, 20, 40, this);
                 break;
             case 2:
+                game.setBackgroundMusic(assets.manager.get(assets.musicLevel2));
                 currBackground = assets.manager.get(assets.background2);
                 player = new Player(1240, 128, 20, 40, this);
                 break;
             case 3:
+                game.setBackgroundMusic(assets.manager.get(assets.musicLevel3));
                 isBossfightStarted = false;
                 dragon = null;
                 currBackground = assets.manager.get(assets.background3);
@@ -140,7 +144,7 @@ public class GameScreen extends ScreenAdapter {
         }
         player.render(batch);
 
-        box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+        //box2DDebugRenderer.render(world, camera.combined.scl(PPM));
         hud.render();
     }
 
@@ -169,6 +173,7 @@ public class GameScreen extends ScreenAdapter {
         }
         player.update();
         if (dragon == null && isBossfightStarted) {
+            game.setBackgroundMusic(assets.manager.get(assets.musicBoss));
             this.dragon = new Dragon(1090, 330, 80, 55, this);
             cameraZoom = 0.6f;
             player.setInitialPosition(new Vector2(1191 / PPM, 200 / PPM));
@@ -179,7 +184,7 @@ public class GameScreen extends ScreenAdapter {
         hud.update();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            pause();
+            game.setScreen(new MainMenuScreen(game));
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
             loadLevel(3);

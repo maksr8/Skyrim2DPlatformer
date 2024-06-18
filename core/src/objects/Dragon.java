@@ -241,6 +241,7 @@ public class Dragon extends GameEntity{
         hp -= atk;
         if (hp <= 0) {
             dragonState = EntityState.DEAD;
+            gameScreen.getGame().playSound(assets.manager.get(assets.soundDragonDeath));
             return;
         }
         dragonState = EntityState.HIT;

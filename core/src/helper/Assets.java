@@ -2,6 +2,8 @@ package helper;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Assets {
@@ -45,6 +47,20 @@ public class Assets {
     public final AssetDescriptor<Texture> bossHP = new AssetDescriptor<>("hud/boss_hp.png", Texture.class);
     public final AssetDescriptor<Texture> fireballSheet = new AssetDescriptor<>("entities/fireball.png", Texture.class);
     public final AssetDescriptor<Texture> fireSheet = new AssetDescriptor<>("entities/fire.png", Texture.class);
+    public final AssetDescriptor<Music> musicLevel1 = new AssetDescriptor<>("music/the_jerall_mountains.mp3", Music.class);
+    public final AssetDescriptor<Music> musicLevel2 = new AssetDescriptor<>("music/ancient_stones.mp3", Music.class);
+    public final AssetDescriptor<Music> musicLevel3 = new AssetDescriptor<>("music/silent_footsteps.mp3", Music.class);
+    public final AssetDescriptor<Music> musicMainMenu = new AssetDescriptor<>("music/dragonborn.mp3", Music.class);
+    public final AssetDescriptor<Music> musicGaveOver = new AssetDescriptor<>("music/secunda.mp3", Music.class);
+    public final AssetDescriptor<Music> musicVictory = new AssetDescriptor<>("music/around_the_fire.mp3", Music.class);
+    public final AssetDescriptor<Music> musicBoss = new AssetDescriptor<>("music/death_or_sovngarde.mp3", Music.class);
+    public final AssetDescriptor<Sound> soundSwordSwing = new AssetDescriptor<>("sound/sword_attack.wav", Sound.class);
+    public final AssetDescriptor<Sound> soundSwordCut = new AssetDescriptor<>("sound/sword_cutting.wav", Sound.class);
+    public final AssetDescriptor<Sound> soundVikingDeath = new AssetDescriptor<>("sound/viking_death.mp3", Sound.class);
+    public final AssetDescriptor<Sound> soundVikingHit = new AssetDescriptor<>("sound/viking_hit.mp3", Sound.class);
+    public final AssetDescriptor<Sound> soundPlayerDeath = new AssetDescriptor<>("sound/oof.mp3", Sound.class);
+    public final AssetDescriptor<Sound> soundDragonDeath = new AssetDescriptor<>("sound/dragon_death.mp3", Sound.class);
+    public final AssetDescriptor<Sound> soundPlayerHit = new AssetDescriptor<>("sound/player_hit.mp3", Sound.class);
 
     public void load() {
         manager.load(playerIdleSheet);
@@ -85,6 +101,20 @@ public class Assets {
         manager.load(bossHP);
         manager.load(fireballSheet);
         manager.load(fireSheet);
+        manager.load(musicLevel1);
+        manager.load(musicLevel2);
+        manager.load(musicLevel3);
+        manager.load(musicMainMenu);
+        manager.load(musicGaveOver);
+        manager.load(musicVictory);
+        manager.load(musicBoss);
+        manager.load(soundSwordSwing);
+        manager.load(soundSwordCut);
+        manager.load(soundVikingDeath);
+        manager.load(soundVikingHit);
+        manager.load(soundPlayerDeath);
+        manager.load(soundDragonDeath);
+        manager.load(soundPlayerHit);
     }
 
     public void dispose() {

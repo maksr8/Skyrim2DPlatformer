@@ -32,6 +32,7 @@ public class MainMenuScreen extends ScreenAdapter {
         this.batch = game.getBatch();
         this.assets = game.getAssets();
         this.font = new BitmapFont();
+        game.setBackgroundMusic(assets.manager.get(assets.musicMainMenu));
 
 
         stage = new Stage(new ScreenViewport());
