@@ -32,8 +32,6 @@ public class MainMenuScreen extends ScreenAdapter {
         this.batch = game.getBatch();
         this.assets = game.getAssets();
         this.font = new BitmapFont();
-        game.setBackgroundMusic(assets.manager.get(assets.musicMainMenu));
-
 
         stage = new Stage(new ScreenViewport());
 
@@ -100,13 +98,6 @@ public class MainMenuScreen extends ScreenAdapter {
         camera.zoom = 1;
         camera.position.set(game.getGameWidth() / 2, game.getGameHeight() / 2, 0);
     }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-        font.dispose();
-    }
-}
 
     @Override
     public void dispose() {
