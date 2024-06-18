@@ -55,7 +55,7 @@ public class Player extends GameEntity {
         this.maxHp = 5;
         this.atk = 1;
         this.jumpCount = 0;
-        this.maxJumpCount = 100;
+        this.maxJumpCount = 1;
         this.isTurnedRight = true;
         this.numFootContacts = 0;
         this.jumpAnimationTimer = 0;
@@ -403,5 +403,9 @@ public class Player extends GameEntity {
 
     public void setTouchingEntrance(boolean touchingEntrance) {
         isTouchingEntrance = touchingEntrance;
+    }
+
+    public void setInitialPosition(Vector2 initialPosition) {
+        this.initialPosition = initialPosition;
     }
 }

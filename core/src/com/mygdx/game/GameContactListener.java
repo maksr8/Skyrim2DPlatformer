@@ -152,7 +152,8 @@ public class GameContactListener implements ContactListener {
             if ((fixtureB.getUserData() instanceof Rat && !fixtureB.isSensor())
                     || (fixtureB.getUserData() instanceof Viking
                     && (fixtureB.getBody().getFixtureList().get(0) == fixtureB
-                    || fixtureB.getBody().getFixtureList().get(4) == fixtureB)) ){
+                    || fixtureB.getBody().getFixtureList().get(4) == fixtureB)
+                    || fixtureB.getUserData() instanceof Fireball) ){
                 gameScreen.getPlayer().addFixtureToBeHitBy(fixtureB);
             }
         }
@@ -325,7 +326,8 @@ public class GameContactListener implements ContactListener {
             if ((fixtureB.getUserData() instanceof Rat && !fixtureB.isSensor())
                     || (fixtureB.getUserData() instanceof Viking
                     && (fixtureB.getBody().getFixtureList().get(0) == fixtureB
-                    || fixtureB.getBody().getFixtureList().get(4) == fixtureB)) ){
+                    || fixtureB.getBody().getFixtureList().get(4) == fixtureB)
+                    || fixtureB.getUserData() instanceof Fireball) ){
                 gameScreen.getPlayer().removeFixtureToBeHitBy(fixtureB);
             }
         }

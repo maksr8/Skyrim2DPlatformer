@@ -16,12 +16,11 @@ import static helper.Constants.BIT_GROUND;
 public class Dragon extends GameEntity{
     private static final float HIT_ANIMATION_DURATION = 0.15f;
     private static final float DEAD_ANIMATION_DURATION = 1f;
-    private static final float IDLE_ANIMATION_DURATION = 2f;
-    private static final float WALK_ANIMATION_DURATION = 9999f;
-    private static final float FLYING_PHASE_DURATION = 3f;
-    private static final float STANDING_PHASE_DURATION = 5f;
+    private static final float FLYING_PHASE_DURATION = 15f;
+    private static final float STANDING_PHASE_DURATION = 4.6f;
     private static final float FLY_UP_ANIMATION_DURATION = 6f;
     private static final float FLY_DOWN_ANIMATION_DURATION = 2f;
+    private static final float ATTACK_COOLDOWN = 1f;
     private static Assets assets;
     private static Texture idleTexture;
     private static Animation<TextureRegion> flyAnimation;
@@ -36,6 +35,7 @@ public class Dragon extends GameEntity{
     private float generalAnimationTimer;
     private float hitAnimationTimer;
     private float deadAnimationTimer;
+    private float attackTimer;
     private int numOfLeftSensorContacts;
     private int numOfRightSensorContacts;
     private boolean isInCenter;
@@ -53,6 +53,7 @@ public class Dragon extends GameEntity{
         generalAnimationTimer = 0;
         hitAnimationTimer = 0;
         deadAnimationTimer = 0;
+        attackTimer = 0;
         numOfLeftSensorContacts = 0;
         numOfRightSensorContacts = 0;
         if (idleTexture == null)
@@ -114,6 +115,8 @@ public class Dragon extends GameEntity{
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
                 break;
             case FLYING:
+                attackTimer += Gdx.graphics.getDeltaTime();
+                attack();
                 if (generalAnimationTimer > FLYING_PHASE_DURATION && isInCenter) {
                     dragonState = EntityState.FLYING_DOWN;
                     generalAnimationTimer = 0;
@@ -173,6 +176,14 @@ public class Dragon extends GameEntity{
                 body.setLinearVelocity(body.getLinearVelocity().x, -speed);
                 break;
         }
+    }
+
+    private void attack() {
+        if (attackTimer < ATTACK_COOLDOWN) {
+            return;
+        }
+        gameScreen.addFireball(new Fireball(x, y, 16, 16, gameScreen, gameScreen.getPlayer().getX(), gameScreen.getPlayer().getY()));
+        attackTimer = 0;
     }
 
     @Override
