@@ -37,16 +37,14 @@ public class MainMenuScreen extends ScreenAdapter {
 
         stage = new Stage(new ScreenViewport());
 
-
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = new BitmapFont();
-        textButtonStyle.up = createDrawable("backgrounds/button_up.png"); // Make sure you have this texture
-        textButtonStyle.down = createDrawable("backgrounds/button_down.png"); // Make sure you have this texture
-
+        textButtonStyle.up = createDrawable("hud/button_up.png"); // Make sure you have this texture
+        textButtonStyle.down = createDrawable("hud/button_up.png"); // Make sure you have this texture
 
         TextButton startButton = new TextButton("", textButtonStyle);
         startButton.setSize(200, 60);
-        startButton.setPosition((game.getGameWidth() - startButton.getWidth()) / 2, game.getGameHeight() / 2 + 20);
+        startButton.setPosition((game.getGameWidth() - startButton.getWidth()) / 2, game.getGameHeight() / 2 + 100);
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -55,10 +53,14 @@ public class MainMenuScreen extends ScreenAdapter {
             }
         });
 
-        // Create Exit button
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = new BitmapFont();
+        textButtonStyle.up = createDrawable("hud/exit.png"); // Make sure you have this texture
+        textButtonStyle.down = createDrawable("hud/exit.png");
+
         TextButton exitButton = new TextButton("", textButtonStyle);
         exitButton.setSize(200, 60);
-        exitButton.setPosition((game.getGameWidth() - exitButton.getWidth()) / 2, game.getGameHeight() / 2 - 60);
+        exitButton.setPosition((game.getGameWidth() - exitButton.getWidth()) / 2, game.getGameHeight() / 2);
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -68,7 +70,6 @@ public class MainMenuScreen extends ScreenAdapter {
 
         stage.addActor(startButton);
         stage.addActor(exitButton);
-
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -86,13 +87,12 @@ public class MainMenuScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        batch.draw(assets.manager.get(assets.gameNameLabel), game.getGameWidth() / 2 - 400, game.getGameHeight() / 2 + 100, 800, 250);
+        batch.draw(assets.manager.get(assets.gameNameLabel), game.getGameWidth() / 2 - 400, game.getGameHeight() / 2 + 200, 800, 250);
+        font.draw(batch, "Tap anywhere to begin!", 20, 20);
         batch.end();
-
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
     }
 
     @Override
@@ -100,6 +100,13 @@ public class MainMenuScreen extends ScreenAdapter {
         camera.zoom = 1;
         camera.position.set(game.getGameWidth() / 2, game.getGameHeight() / 2, 0);
     }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        font.dispose();
+    }
+}
 
     @Override
     public void dispose() {
