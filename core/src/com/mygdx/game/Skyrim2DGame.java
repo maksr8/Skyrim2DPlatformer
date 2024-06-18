@@ -3,10 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import helper.Assets;
 
@@ -17,6 +15,7 @@ public class Skyrim2DGame extends Game {
 	private SpriteBatch batch;
 	private Assets assets;
 
+	@Override
 	public void create() {
 		batch = new SpriteBatch();
 		assets = new Assets();
@@ -27,7 +26,9 @@ public class Skyrim2DGame extends Game {
 		orthographicCamera = new OrthographicCamera();
 		orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
 		viewport = new FitViewport(screenWidth, screenHeight, orthographicCamera);
-		setScreen(new MainMenuScreen(this));
+
+		
+		setScreen(new SplashScreen(this));
 	}
 
 	@Override
