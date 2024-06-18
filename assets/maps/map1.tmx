@@ -49,21 +49,14 @@
   </object>
   <object id="53" name="fallingPlatform" x="221.167" y="530.833" width="73.3333" height="16"/>
   <object id="55" name="rat" x="466.667" y="630.5" width="32" height="20"/>
-  <object id="59" name="rat" x="631.833" y="573.667" width="32" height="20"/>
-  <object id="62" name="rat" x="920" y="552.5" width="32" height="20"/>
   <object id="63" name="rat" x="846" y="439" width="32" height="20"/>
-  <object id="64" name="rat" x="1042.5" y="406" width="32" height="20"/>
   <object id="65" name="rat" x="1132.5" y="424.5" width="32" height="20"/>
-  <object id="66" name="rat" x="1128" y="575.5" width="32" height="20"/>
-  <object id="68" name="rat" x="701.667" y="459.667" width="32" height="20"/>
   <object id="71" name="platformGrass" x="143.455" y="332.879" width="80" height="16.6666"/>
   <object id="72" name="platformGrass" x="125.666" y="493" width="48" height="16"/>
   <object id="73" name="rat" x="722" y="573.333" width="32" height="20"/>
-  <object id="75" name="viking" x="378.167" y="578.167" width="37" height="70.3333"/>
   <object id="76" name="entrance" x="15.9997" y="31.3337" width="32.6667" height="32.6667"/>
   <object id="78" name="platformNull" x="-11.3333" y="5.33333" width="18" height="666.667"/>
   <object id="80" name="platformNull" x="1272" y="-21.3335" width="5" height="740.667"/>
-  <object id="81" name="platformNull" x="791" y="710.667" width="490" height="6.667"/>
   <object id="83" name="platformNull" x="288.667" y="243.667" width="367.333" height="44.6666"/>
   <object id="84" name="platformNull" x="657.5" y="225.667" width="63.333" height="63.6666"/>
   <object id="85" name="platformGrass" x="765.833" y="206" width="80" height="14.6666"/>
