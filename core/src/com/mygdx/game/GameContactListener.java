@@ -27,11 +27,17 @@ public class GameContactListener implements ContactListener {
         handleVikingSensorBeginContact(fixtureA, fixtureB);
         handleVikingSensorBeginContact(fixtureB, fixtureA);
 
+        handleDragonSensorBeginContact(fixtureA, fixtureB);
+        handleDragonSensorBeginContact(fixtureB, fixtureA);
+
         handleRatHitByPlayerBeginContact(fixtureA, fixtureB);
         handleRatHitByPlayerBeginContact(fixtureB, fixtureA);
 
         handleVikingHitByPlayerBeginContact(fixtureA, fixtureB);
         handleVikingHitByPlayerBeginContact(fixtureB, fixtureA);
+
+        handleDragonHitByPlayerBeginContact(fixtureA, fixtureB);
+        handleDragonHitByPlayerBeginContact(fixtureB, fixtureA);
 
         handlePlayerHitBySmthBeginContact(fixtureA, fixtureB);
         handlePlayerHitBySmthBeginContact(fixtureB, fixtureA);
@@ -41,6 +47,57 @@ public class GameContactListener implements ContactListener {
 
         handleEntranceBeginContact(fixtureA, fixtureB);
         handleEntranceBeginContact(fixtureB, fixtureA);
+
+        handleStartBossfight(fixtureA, fixtureB);
+        handleStartBossfight(fixtureB, fixtureA);
+
+        handleDragonInCenterBeginContact(fixtureA, fixtureB);
+        handleDragonInCenterBeginContact(fixtureB, fixtureA);
+    }
+
+    private void handleDragonInCenterBeginContact(Fixture fixtureB, Fixture fixtureA) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null) {
+            if (fixtureA.getUserData() instanceof Dragon && fixtureB.getUserData() instanceof StartBossfightSensor) {
+                ((Dragon) fixtureA.getUserData()).setInCenter(true);
+            }
+        }
+    }
+
+    private void handleDragonHitByPlayerBeginContact(Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null) {
+            if (fixtureA.getUserData() instanceof Dragon && (fixtureB.getUserData().equals("rightAttack")
+                    || fixtureB.getUserData().equals("leftAttack"))) {
+                if (((Dragon) fixtureA.getUserData()).getBody().getFixtureList().get(0) == fixtureA) {
+                    if (fixtureB.getUserData().equals("rightAttack")) {
+                        gameScreen.getPlayer().addEntityToHitTowardsRight((Dragon) fixtureA.getUserData());
+                    } else {
+                        gameScreen.getPlayer().addEntityToHitTowardsLeft((Dragon) fixtureA.getUserData());
+                    }
+                }
+            }
+        }
+    }
+
+    private void handleDragonSensorBeginContact(Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getUserData() != null && fixtureA.getUserData() instanceof Dragon
+                && fixtureB.getUserData() != null && fixtureB.getUserData() instanceof DragonPlatform) {
+            Dragon dragon = (Dragon) fixtureA.getUserData();
+            if (dragon.getBody().getFixtureList().get(1) == fixtureA) {
+                dragon.addLeftSensorContact();
+            } else if (dragon.getBody().getFixtureList().get(2) == fixtureA) {
+                dragon.addRightSensorContact();
+            }
+        }
+    }
+
+    private void handleStartBossfight(Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null) {
+            if (fixtureA.getUserData() instanceof StartBossfightSensor && fixtureB.getUserData() instanceof Player) {
+                if (((Player) fixtureB.getUserData()).getBody().getFixtureList().get(1) == fixtureB) {
+                    gameScreen.startBossfight();
+                }
+            }
+        }
     }
 
     private void handleEntranceBeginContact(Fixture fixtureA, Fixture fixtureB) {
@@ -156,11 +213,17 @@ public class GameContactListener implements ContactListener {
         handleVikingSensorEndContact(fixtureA, fixtureB);
         handleVikingSensorEndContact(fixtureB, fixtureA);
 
+        handleDragonSensorEndContact(fixtureA, fixtureB);
+        handleDragonSensorEndContact(fixtureB, fixtureA);
+
         handleRatHitByPlayerEndContact(fixtureA, fixtureB);
         handleRatHitByPlayerEndContact(fixtureB, fixtureA);
 
         handleVikingHitByPlayerEndContact(fixtureA, fixtureB);
         handleVikingHitByPlayerEndContact(fixtureB, fixtureA);
+
+        handleDragonHitByPlayerEndContact(fixtureA, fixtureB);
+        handleDragonHitByPlayerEndContact(fixtureB, fixtureA);
 
         handlePlayerHitBySmthEndContact(fixtureA, fixtureB);
         handlePlayerHitBySmthEndContact(fixtureB, fixtureA);
@@ -170,6 +233,44 @@ public class GameContactListener implements ContactListener {
 
         handleEntranceEndContact(fixtureA, fixtureB);
         handleEntranceEndContact(fixtureB, fixtureA);
+
+        handleDragonInCenterEndContact(fixtureA, fixtureB);
+        handleDragonInCenterEndContact(fixtureB, fixtureA);
+    }
+
+    private void handleDragonInCenterEndContact(Fixture fixtureB, Fixture fixtureA) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null) {
+            if (fixtureA.getUserData() instanceof Dragon && fixtureB.getUserData() instanceof StartBossfightSensor) {
+                ((Dragon) fixtureA.getUserData()).setInCenter(false);
+            }
+        }
+    }
+
+    private void handleDragonHitByPlayerEndContact(Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getUserData() != null && fixtureB.getUserData() != null) {
+            if (fixtureA.getUserData() instanceof Dragon && (fixtureB.getUserData().equals("rightAttack")
+                    || fixtureB.getUserData().equals("leftAttack"))) {
+                if (((Dragon) fixtureA.getUserData()).getBody().getFixtureList().get(0) == fixtureA) {
+                    if (fixtureB.getUserData().equals("rightAttack")) {
+                        gameScreen.getPlayer().removeEntityToHitTowardsRight((Dragon) fixtureA.getUserData());
+                    } else {
+                        gameScreen.getPlayer().removeEntityToHitTowardsLeft((Dragon) fixtureA.getUserData());
+                    }
+                }
+            }
+        }
+    }
+
+    private void handleDragonSensorEndContact(Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getUserData() != null && fixtureA.getUserData() instanceof Dragon
+                && fixtureB.getUserData() != null && fixtureB.getUserData() instanceof DragonPlatform) {
+            Dragon dragon = (Dragon) fixtureA.getUserData();
+            if (dragon.getBody().getFixtureList().get(1) == fixtureA) {
+                dragon.removeLeftSensorContact();
+            } else if (dragon.getBody().getFixtureList().get(2) == fixtureA) {
+                dragon.removeRightSensorContact();
+            }
+        }
     }
 
     private void handleEntranceEndContact(Fixture fixtureA, Fixture fixtureB) {

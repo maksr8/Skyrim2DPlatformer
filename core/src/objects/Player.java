@@ -257,6 +257,9 @@ public class Player extends GameEntity {
                     ((Viking) entity).setHitTowardsRight(true);
                     ((Viking) entity).hit(atk);
                 }
+                if (entity instanceof Dragon) {
+                    ((Dragon) entity).hit(atk);
+                }
             }
         } else {
             for (GameEntity entity : entitiesToHitTowardsLeft) {
@@ -267,6 +270,9 @@ public class Player extends GameEntity {
                 if (entity instanceof Viking) {
                     ((Viking) entity).setHitTowardsRight(false);
                     ((Viking) entity).hit(atk);
+                }
+                if (entity instanceof Dragon) {
+                    ((Dragon) entity).hit(atk);
                 }
             }
         }

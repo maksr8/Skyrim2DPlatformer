@@ -46,6 +46,10 @@ public class Hud {
         stage.draw();
         batch.begin();
         renderHearts();
+        if (gameScreen.isBossfightStarted()) {
+            batch.draw(assets.manager.get(assets.bossBorder), game.getGameWidth()/2 - 200, game.getGameHeight() - 100, 706, 97);
+            batch.draw(assets.manager.get(assets.bossHP), game.getGameWidth()/2 - 200 + 102, game.getGameHeight() - 40 - 30, 599 * gameScreen.getDragon().getHp() / 30f, 37);
+        }
         if (gameScreen.getPlayer().getPlayerState() == EntityState.HIT) {
             batch.draw(assets.manager.get(assets.redScreen), 0, 0, game.getGameWidth(), game.getGameHeight());
         }

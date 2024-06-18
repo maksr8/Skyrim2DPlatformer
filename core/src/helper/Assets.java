@@ -35,6 +35,14 @@ public class Assets {
     public final AssetDescriptor<Texture> vikingDeadSheet = new AssetDescriptor<>("entities/viking_dead.png", Texture.class);
     public final AssetDescriptor<Texture> vikingAttackSheet = new AssetDescriptor<>("entities/viking_attack.png", Texture.class);
     public final AssetDescriptor<Texture> gameNameLabel = new AssetDescriptor<>("hud/game_name_label.png", Texture.class);
+    public final AssetDescriptor<Texture> dragonFlySheet = new AssetDescriptor<>("entities/dragon_fly.png", Texture.class);
+    public final AssetDescriptor<Texture> dragonFlyUpSheet = new AssetDescriptor<>("entities/dragon_fly_up.png", Texture.class);
+    public final AssetDescriptor<Texture> dragonFlyDownSheet = new AssetDescriptor<>("entities/dragon_fly_down.png", Texture.class);
+    public final AssetDescriptor<Texture> dragonHitSheet = new AssetDescriptor<>("entities/dragon_hit.png", Texture.class);
+    public final AssetDescriptor<Texture> dragonIdle = new AssetDescriptor<>("entities/dragon_idle.png", Texture.class);
+    public final AssetDescriptor<Texture> dragonDeadSheet = new AssetDescriptor<>("entities/dragon_dead.png", Texture.class);
+    public final AssetDescriptor<Texture> bossBorder = new AssetDescriptor<>("hud/boss_border.png", Texture.class);
+    public final AssetDescriptor<Texture> bossHP = new AssetDescriptor<>("hud/boss_hp.png", Texture.class);
 
     public void load() {
         manager.load(playerIdleSheet);
@@ -65,6 +73,14 @@ public class Assets {
         manager.load(vikingDeadSheet);
         manager.load(vikingAttackSheet);
         manager.load(gameNameLabel);
+        manager.load(dragonFlySheet);
+        manager.load(dragonFlyUpSheet);
+        manager.load(dragonFlyDownSheet);
+        manager.load(dragonHitSheet);
+        manager.load(dragonIdle);
+        manager.load(dragonDeadSheet);
+        manager.load(bossBorder);
+        manager.load(bossHP);
     }
 
     public void dispose() {

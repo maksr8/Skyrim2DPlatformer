@@ -42,9 +42,11 @@ public class GameScreen extends ScreenAdapter {
     private ObjectSet<Rat> ratsToRemove;
     private ObjectSet<Viking> vikings;
     private ObjectSet<Viking> vikingsToRemove;
+    private Dragon dragon;
+    private DragonPlatform dragonPlatform;
 
-    private float cameraZoom = 0.35f;
-    private boolean paused = false;
+    private float cameraZoom;
+    private boolean isBossfightStarted = false;
     private float elapsedTime = 0;
     private int level;
 
@@ -64,15 +66,12 @@ public class GameScreen extends ScreenAdapter {
 
     public void loadLevel(int level) {
         elapsedTime = 0;
+        cameraZoom = 0.35f;
         world = new World(new Vector2(0, -35f), true);
         world.setContactListener(new GameContactListener(this));
         initObjectSets();
         orthogonalTiledMapRenderer = tileMapHelper.setupMap("maps/map" + level + ".tmx");
-        if (player != null) {
-            // save player stats
 
-            ///
-        }
         switch (level) {
             case 1:
                 currBackground = assets.manager.get(assets.background1);
@@ -83,8 +82,11 @@ public class GameScreen extends ScreenAdapter {
                 player = new Player(1240, 128, 20, 40, this);
                 break;
             case 3:
+                isBossfightStarted = false;
+                dragon = null;
                 currBackground = assets.manager.get(assets.background3);
-                player = new Player(32, 128, 20, 40, this);
+                //player = new Player(40, 106, 20, 40, this);
+                player = new Player(900, 350, 20, 40, this);
                 break;
         }
     }
@@ -102,10 +104,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        if (!paused) {
-            elapsedTime += Gdx.graphics.getDeltaTime();
-        }
-
+        elapsedTime += Gdx.graphics.getDeltaTime();
         ScreenUtils.clear(0f, 0f, 0f, 1f);
         update();
 
@@ -128,6 +127,9 @@ public class GameScreen extends ScreenAdapter {
         }
         for (Viking viking : vikings) {
             viking.render(batch);
+        }
+        if (dragon != null) {
+            dragon.render(batch);
         }
         player.render(batch);
 
@@ -156,7 +158,13 @@ public class GameScreen extends ScreenAdapter {
             viking.update();
         }
         player.update();
-
+        if (dragon == null && isBossfightStarted) {
+            this.dragon = new Dragon(1090, 526, 80, 55, this);
+            cameraZoom = 0.6f;
+        }
+        if (dragon != null) {
+            dragon.update();
+        }
         hud.update();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -246,6 +254,18 @@ public class GameScreen extends ScreenAdapter {
         return batch;
     }
 
+    public Dragon getDragon() {
+        return dragon;
+    }
+
+    public DragonPlatform getDragonPlatform() {
+        return dragonPlatform;
+    }
+
+    public void setDragonPlatform(DragonPlatform dragonPlatform) {
+        this.dragonPlatform = dragonPlatform;
+    }
+
     public void addMovingPlatform(MovingPlatform movingPlatform) {
         movingPlatforms.add(movingPlatform);
     }
@@ -278,6 +298,14 @@ public class GameScreen extends ScreenAdapter {
         vikingsToRemove.add(viking);
     }
 
+    public void startBossfight() {
+        isBossfightStarted = true;
+    }
+
+    public boolean isBossfightStarted() {
+        return isBossfightStarted;
+    }
+
     @Override
     public void dispose() {
         orthogonalTiledMapRenderer.dispose();
@@ -287,13 +315,11 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void pause() {
-        paused = true;
         System.out.println("Game paused");
     }
 
     @Override
     public void resume() {
-        paused = false;
         System.out.println("Game resumed");
     }
 

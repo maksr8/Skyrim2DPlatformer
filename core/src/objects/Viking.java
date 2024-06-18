@@ -16,7 +16,7 @@ public class Viking extends GameEntity {
     private static final float DEAD_ANIMATION_DURATION = 1f;
     private static final float IDLE_ANIMATION_DURATION = 4f;
     private static final float WALK_ANIMATION_DURATION = 4f;
-    private static final float ATTACK_DELAY = 1f;
+    private static final float ATTACK_DELAY = 0.4f;
     public static final float ATTACK_COOLDOWN = 1.2f;
     private static Assets assets;
     private static Animation<TextureRegion> idleAnimation;

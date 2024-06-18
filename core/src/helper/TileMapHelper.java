@@ -82,6 +82,18 @@ public class TileMapHelper {
                                 rectangle.width,
                                 rectangle.height,
                                 gameScreen);
+                    } else if (rectangleName.equals("dragonPlatform")) {
+                        gameScreen.setDragonPlatform(new DragonPlatform(rectangle.x + rectangle.width / 2,
+                                rectangle.y + rectangle.height / 2,
+                                rectangle.width,
+                                rectangle.height,
+                                gameScreen));
+                    } else if (rectangleName.equals("startBossfight")) {
+                        new StartBossfightSensor(rectangle.x + rectangle.width / 2,
+                                rectangle.y + rectangle.height / 2,
+                                rectangle.width,
+                                rectangle.height,
+                                gameScreen);
                     }
                 }
             }

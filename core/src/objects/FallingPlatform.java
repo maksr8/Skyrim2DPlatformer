@@ -12,6 +12,7 @@ import static helper.Constants.BIT_GROUND;
 import static helper.Constants.PPM;
 
 public class FallingPlatform extends GameEntity {
+    private static final float RECOVER_DURATION = 20f;
     private Body body;
     private Assets assets;
     private Animation<TextureRegion> fallingAnimation;
@@ -46,10 +47,23 @@ public class FallingPlatform extends GameEntity {
 
     @Override
     public void update() {
-        if (fallingAnimation.isAnimationFinished(fallingAnimationTime))
-            gameScreen.removeFallingPlatform(this);
-        if (isFalling)
+        if (fallingAnimation.isAnimationFinished(fallingAnimationTime)){
+            //gameScreen.removeFallingPlatform(this);
+            Filter filter1 = new Filter();
+            filter1.maskBits = 0;
+            Filter filter2 = new Filter();
+            filter2.categoryBits = BIT_GROUND;
+            body.getFixtureList().get(0).setFilterData(filter1);
+            isFalling = false;
             fallingAnimationTime += Gdx.graphics.getDeltaTime();
+            if (fallingAnimationTime > RECOVER_DURATION) {
+                body.getFixtureList().get(0).setFilterData(filter2);
+                fallingAnimationTime = 0;
+            }
+        }
+        if (isFalling) {
+            fallingAnimationTime += Gdx.graphics.getDeltaTime();
+        }
     }
 
     @Override
@@ -58,7 +72,9 @@ public class FallingPlatform extends GameEntity {
         if (isFalling) {
             batch.draw(fallingAnimation.getKeyFrame(fallingAnimationTime, false), x - width / 2, y - height / 2, width, height);
         } else {
-            batch.draw(assets.manager.get(assets.fallingPlatform1), x - width / 2, y - height / 2, width, height);
+            if (!fallingAnimation.isAnimationFinished(fallingAnimationTime)) {
+                batch.draw(assets.manager.get(assets.fallingPlatform1), x - width / 2, y - height / 2, width, height);
+            }
         }
         batch.end();
     }
