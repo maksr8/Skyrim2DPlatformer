@@ -43,6 +43,8 @@ public class Assets {
     public final AssetDescriptor<Texture> dragonDeadSheet = new AssetDescriptor<>("entities/dragon_dead.png", Texture.class);
     public final AssetDescriptor<Texture> bossBorder = new AssetDescriptor<>("hud/boss_border.png", Texture.class);
     public final AssetDescriptor<Texture> bossHP = new AssetDescriptor<>("hud/boss_hp.png", Texture.class);
+    public final AssetDescriptor<Texture> fireballSheet = new AssetDescriptor<>("entities/fireball.png", Texture.class);
+    public final AssetDescriptor<Texture> fireSheet = new AssetDescriptor<>("entities/fire.png", Texture.class);
 
     public void load() {
         manager.load(playerIdleSheet);
@@ -81,6 +83,8 @@ public class Assets {
         manager.load(dragonDeadSheet);
         manager.load(bossBorder);
         manager.load(bossHP);
+        manager.load(fireballSheet);
+        manager.load(fireSheet);
     }
 
     public void dispose() {

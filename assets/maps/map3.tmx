@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="54">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="55">
  <tileset firstgid="1" source="tileset_lava.tsx"/>
  <layer id="1" name="background" width="80" height="40">
   <data encoding="base64" compression="zlib">
-   eJztWttKAzEQDSjoc1uUor70B9xSvIOCeH/1/rd+mmcfFoYwmVyamszGA4e6SDfZwzkzWabGlMfKmJ8lYWdd9zwGS++zVtj6cdSg37zQuiuH7zryqUG/UnD5r1Pmv1LQnN9SmaWw89sxWa5Vvxqg2X81QNKvU6Bf6Qxz/fc/v+FoLb+5/ToG/VI0mYBTD2cB9+H0ayG/eCaD5zRLgauA+7jeP1rQz6Xbwrj12wF3yTXVz6WhBv1iM2zrx3mR028P3CfXUv1bKNIvFlQ/W7vhOia/LdY/qfa1WP9iMuzSj3qxNf1ikNt/reZ36LVcHUzVbwz+OwAPwSPH/zflP+q9Vvqv7/xin1koxuo/G3ZvkfyXen7RfH6OxSb0G7P/KHovpr5/2PDN38aoXw+u//6fX3hwvVg6P6fkd9FQfnusU/9oP/bVP23z89B3uFz1bwZtph5OFOkXilznZ+1InWeU1K/0zDAHpPzG9I8c2KSevvfY1PUH/aQZSKx+tfgq5z5c96q5/p2Ap+AZeA5eCJ+X4FXCGutqzOW3M3x+h+dJ3Wss7sB78AF8FPgEPoMvmdcP0TbGf8PzuPbKrefbw9zxd49X8A18Bz8EfoJf4LdnLQlb4HbC96T5Uen8/iWG3xGE/FaAgs7P15m/acc1eAPeRn6v5v6hAZx+KfMPzfgFBl5XUA==
+   eJztWttKAzEQDSjoc1sUUV/6A24p3kFBvL96/1s/zbMPC0OYTC5NTWbTA4cSlt1kD3Nmks4aUx5LY34XhJ017nkCll5nrbD146hBv4NC8y4dcdeRXw36lYIr/jpl8VcKmv1byrMUtn87xsu16lcDNMdfDZD06xToV9rDXP3d+Dccrfk3d7yOQb8UTSbg1MNZwHM4/VrwL97J4D3NQuAy4Dmu80cL+rl0mxu3fjvgLhlT/VwaatAv1sO2flwscvrtgftkLOW/uSL9YkH1s7UbxjH+bTH/SbmvxfwX42GXfjQWW9MvBrnjr1X/DrWWy4Op+o0h/g7BI/DYcX1d8Udjr5X669u/2HsWirHGnw27tkjxl7p/0bx/jsU69Btz/FH0sZh6/rDh67+NUb8eXP3d7F94cLVY2j+n+HfekH97rJL/aD325T9t/fPQM1yu/DeDNlMPJ4r0C0Wu/bN2pPYzSupXumeYA5J/Y+pHDqxTT985NnX+QT+pBxKrXy1xlXMdrmfVnP9OwTPwHLwAL4XfK/A6YY5VNeb82xnev8P7pK41FvfgA/gIPgl8Bl/A18zzh2gbE3/D+7jWys3nWwO9bv+/8wa+gx/gp8Av8Bv88cwlYQvcTrhP6h+V9u9/YviOIORbAQraP1+l/6YdN+AteBd5X831QwM4/VL6H5rxB3NiV2Q=
   </data>
  </layer>
  <objectgroup id="2" name="objects">
@@ -41,9 +41,6 @@
    <polygon points="0,0 0,16 16,16 16,0"/>
   </object>
   <object id="14" x="800" y="494.667">
-   <polygon points="0,0 0,16 16,16 16,0"/>
-  </object>
-  <object id="15" x="800" y="558.667">
    <polygon points="0,0 0,16 16,16 16,0"/>
   </object>
   <object id="17" x="864" y="526.667">
@@ -112,5 +109,8 @@
    <polygon points="0,0 32,32 64,0"/>
   </object>
   <object id="53" name="fallingPlatform" x="686.667" y="600" width="32" height="16"/>
+  <object id="54" x="800" y="560">
+   <polygon points="0,0 0,16 32,16 32,0"/>
+  </object>
  </objectgroup>
 </map>

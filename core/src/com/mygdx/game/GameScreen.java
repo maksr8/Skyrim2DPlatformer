@@ -42,6 +42,8 @@ public class GameScreen extends ScreenAdapter {
     private ObjectSet<Rat> ratsToRemove;
     private ObjectSet<Viking> vikings;
     private ObjectSet<Viking> vikingsToRemove;
+    private ObjectSet<Fireball> fireballs;
+    private ObjectSet<Fireball> fireballsToRemove;
     private Dragon dragon;
     private DragonPlatform dragonPlatform;
 
@@ -85,8 +87,8 @@ public class GameScreen extends ScreenAdapter {
                 isBossfightStarted = false;
                 dragon = null;
                 currBackground = assets.manager.get(assets.background3);
-                //player = new Player(40, 106, 20, 40, this);
-                player = new Player(900, 350, 20, 40, this);
+                player = new Player(40, 106, 20, 40, this);
+                //player = new Player(900, 350, 20, 40, this);
                 break;
         }
     }
@@ -100,6 +102,8 @@ public class GameScreen extends ScreenAdapter {
         ratsToRemove = new ObjectSet<>();
         vikings = new ObjectSet<>();
         vikingsToRemove = new ObjectSet<>();
+        fireballs = new ObjectSet<>();
+        fireballsToRemove = new ObjectSet<>();
     }
 
     @Override
@@ -131,6 +135,9 @@ public class GameScreen extends ScreenAdapter {
         if (dragon != null) {
             dragon.render(batch);
         }
+        for (Fireball fireball : fireballs) {
+            fireball.render(batch);
+        }
         player.render(batch);
 
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));
@@ -157,10 +164,14 @@ public class GameScreen extends ScreenAdapter {
         for (Viking viking : vikings) {
             viking.update();
         }
+        for (Fireball fireball : fireballs) {
+            fireball.update();
+        }
         player.update();
         if (dragon == null && isBossfightStarted) {
-            this.dragon = new Dragon(1090, 526, 80, 55, this);
+            this.dragon = new Dragon(1090, 330, 80, 55, this);
             cameraZoom = 0.6f;
+            player.setInitialPosition(new Vector2(1191 / PPM, 200 / PPM));
         }
         if (dragon != null) {
             dragon.update();
@@ -180,6 +191,15 @@ public class GameScreen extends ScreenAdapter {
         removeFallingPlatforms();
         removeRats();
         removeVikings();
+        removeFireballs();
+    }
+
+    private void removeFireballs() {
+        for (Fireball fireball : fireballsToRemove) {
+            fireballs.remove(fireball);
+            world.destroyBody(fireball.getBody());
+        }
+        fireballsToRemove.clear();
     }
 
     private void removeVikings() {
@@ -296,6 +316,14 @@ public class GameScreen extends ScreenAdapter {
 
     public void removeViking(Viking viking) {
         vikingsToRemove.add(viking);
+    }
+
+    public void addFireball(Fireball fireball) {
+        fireballs.add(fireball);
+    }
+
+    public void removeFireball(Fireball fireball) {
+        fireballsToRemove.add(fireball);
     }
 
     public void startBossfight() {
