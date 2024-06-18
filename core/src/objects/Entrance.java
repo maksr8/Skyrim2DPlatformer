@@ -10,10 +10,12 @@ import static helper.Constants.*;
 
 public class Entrance extends GameEntity{
     private Body body;
+    private Texture texture;
 
     public Entrance(float x, float y, float width, float height, GameScreen gameScreen) {
         super(x, y, width, height, gameScreen);
         this.body = createBody(this.x, this.y, width, height, gameScreen.getWorld());
+        this.texture = gameScreen.getAssets().manager.get(gameScreen.getAssets().portal);
     }
 
     private Body createBody(float x, float y, float width, float height, World world) {
@@ -41,5 +43,8 @@ public class Entrance extends GameEntity{
 
     @Override
     public void render(SpriteBatch batch) {
+        batch.begin();
+        batch.draw(texture, x - width / 2, y - height / 2, width, height);
+        batch.end();
     }
 }

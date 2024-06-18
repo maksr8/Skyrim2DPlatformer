@@ -54,7 +54,7 @@
   <object id="71" name="platformGrass" x="143.455" y="332.879" width="80" height="16.6666"/>
   <object id="72" name="platformGrass" x="125.666" y="493" width="48" height="16"/>
   <object id="73" name="rat" x="722" y="573.333" width="32" height="20"/>
-  <object id="76" name="entrance" x="15.9997" y="31.3337" width="32.6667" height="32.6667"/>
+  <object id="76" name="entrance" x="41.6664" y="29.0004" width="24.6667" height="38.3334"/>
   <object id="78" name="platformNull" x="-11.3333" y="5.33333" width="18" height="666.667"/>
   <object id="80" name="platformNull" x="1272" y="-21.3335" width="5" height="740.667"/>
   <object id="83" name="platformNull" x="288.667" y="243.667" width="367.333" height="44.6666"/>

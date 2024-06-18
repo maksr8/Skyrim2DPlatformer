@@ -46,6 +46,7 @@ public class GameScreen extends ScreenAdapter {
     private ObjectSet<Fireball> fireballsToRemove;
     private Dragon dragon;
     private DragonPlatform dragonPlatform;
+    private Entrance entrance;
 
     private float cameraZoom;
     private boolean isBossfightStarted = false;
@@ -151,6 +152,7 @@ public class GameScreen extends ScreenAdapter {
         for (Fireball fireball : fireballs) {
             fireball.render(batch);
         }
+        entrance.render(batch);
         player.render(batch);
 
         //box2DDebugRenderer.render(world, camera.combined.scl(PPM));
@@ -180,6 +182,7 @@ public class GameScreen extends ScreenAdapter {
         for (Fireball fireball : fireballs) {
             fireball.update();
         }
+        entrance.update();
         player.update();
         if (dragon == null && isBossfightStarted) {
             game.setBackgroundMusic(assets.manager.get(assets.musicBoss));
@@ -298,6 +301,14 @@ public class GameScreen extends ScreenAdapter {
 
     public void setDragonPlatform(DragonPlatform dragonPlatform) {
         this.dragonPlatform = dragonPlatform;
+    }
+
+    public Entrance getEntrance() {
+        return entrance;
+    }
+
+    public void setEntrance(Entrance entrance) {
+        this.entrance = entrance;
     }
 
     public void addMovingPlatform(MovingPlatform movingPlatform) {

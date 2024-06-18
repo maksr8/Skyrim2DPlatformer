@@ -62,6 +62,7 @@ public class Assets {
     public final AssetDescriptor<Sound> soundPlayerDeath = new AssetDescriptor<>("sound/oof.mp3", Sound.class);
     public final AssetDescriptor<Sound> soundDragonDeath = new AssetDescriptor<>("sound/dragon_death.mp3", Sound.class);
     public final AssetDescriptor<Sound> soundPlayerHit = new AssetDescriptor<>("sound/player_hit.mp3", Sound.class);
+    public final AssetDescriptor<Texture> portal = new AssetDescriptor<>("entities/portal.png", Texture.class);
 
     public void load() {
         manager.load(playerIdleSheet);
@@ -117,6 +118,7 @@ public class Assets {
         manager.load(soundPlayerDeath);
         manager.load(soundDragonDeath);
         manager.load(soundPlayerHit);
+        manager.load(portal);
     }
 
     public void dispose() {
