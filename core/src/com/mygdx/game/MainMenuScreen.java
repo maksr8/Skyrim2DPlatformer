@@ -32,6 +32,7 @@ public class MainMenuScreen extends ScreenAdapter {
         this.batch = game.getBatch();
         this.assets = game.getAssets();
         this.font = new BitmapFont();
+        game.setBackgroundMusic(assets.manager.get(assets.musicMainMenu));
 
         stage = new Stage(new ScreenViewport());
 
@@ -85,8 +86,7 @@ public class MainMenuScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        batch.draw(assets.manager.get(assets.gameNameLabel), game.getGameWidth() / 2 - 400, game.getGameHeight() / 2 + 200, 800, 250);
-        font.draw(batch, "Tap anywhere to begin!", 20, 20);
+        batch.draw(assets.manager.get(assets.gameNameLabel), game.getGameWidth() / 2 - 400, game.getGameHeight() / 2 + 150, 800, 250);
         batch.end();
 
         stage.act(Gdx.graphics.getDeltaTime());

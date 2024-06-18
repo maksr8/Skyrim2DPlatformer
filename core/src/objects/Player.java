@@ -195,7 +195,7 @@ public class Player extends GameEntity {
         velocityX = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             if (isTouchingEntrance) {
-                gameScreen.loadLevel(2);
+                gameScreen.loadNextLevel();
             }
         }
 

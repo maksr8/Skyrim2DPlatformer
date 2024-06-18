@@ -32,7 +32,7 @@ public class SplashScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        font.draw(batch, "Created by: Maxim Rozumyei, Vlad Semchuk, Bahrantsev Ivan", game.getGameWidth() / 2 - 200, game.getGameHeight() / 2);
+        font.draw(batch, "Created by: Maksym Rozumiei, Vlad Semchuk, Ivan Bahriantsev", game.getGameWidth() / 2 - 200, game.getGameHeight() / 2);
         batch.end();
 
         if (timer > 3) {

@@ -97,6 +97,15 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+    public void loadNextLevel() {
+        if (level < 3) {
+            level++;
+            loadLevel(level);
+        } else {
+            game.setScreen(new VictoryScreen(game));
+        }
+    }
+
     private void initObjectSets() {
         movingPlatforms = new ObjectSet<>();
         platforms = new ObjectSet<>();
