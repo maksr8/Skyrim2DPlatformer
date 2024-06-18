@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="82">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="95">
  <tileset firstgid="1" source="Tiles.tsx"/>
  <tileset firstgid="626" source="Props-Rocks.tsx"/>
  <layer id="1" name="backgroung" width="80" height="45">
   <data encoding="base64" compression="zlib">
-   eJztmQlOwkAUhmdacbmBAtblBsriJVS8hNtJPJDRqDdQiQa4AUvccDmCf9O+pG2GUIZYivm/5AuvM9PX15dMSKZKEUIIIYQQQgghhBBCCCHkP6KhA124YBEXsi85VxRhCZbhukXsZV9yrqjAKqzBukW8l33JuWIfHsBD2LCIj7IvOVccwxN4Cs8s4vPsSyaEEEIIIYQQQgghIauOUmuwCEuw7My6ovliB/3ahRVYhTV4oWddlT0tV6k27Lh/+xy/R/4Zfxrn6fy/h7714QBe4fp6xLobeDsm16i9KX2pp3SW5/934V6Qb2jyLWzcHvGnn+DziPkWbKvgG5sb5k3mNO3NaN8aKZXz/2/k/7HY25+450ubx0w5o+vT7hGTL/AVvhl8hx8WOSfpmyjn/8vo/0ri/6WD9ywYxnxkfBG/S4k1MmbKGV2fdo+YvIT3qOUBPup43NTB/KQ5J+1dI1LDFt5p2wmuxSH0nHhdwzD2wrUb+N10gjnJJWOSU+5NrrepV2zCLnL0YF/H44EO5qfJn9bkc7sGo/PJtdNc/wJNPJbd
+   eJztmklOwzAUhjOoDDcAisqwY8m84wr0DOzYQrkBlBsw3IBhiZiOAFRFwA0KiKkMR+CPYkuJazdt0zQQ/Z/0qYntvDy/Jt7ElkUIIYQQQgghhBBC/gPnGrtFXjGLqHPspguKWUI+a+ocu+myYpaQ9VPnmKRZQ7f2mda/dtfIJNfVv4CpdkmaJdKoH2vI+gVhPeLBZ4oQQgghhBBCCCHEzJKbdgbNGXIsaxiOwDwcddLOKEwxon5ryHcdluBGCrlP454zcBbOwXm4bfc+DxMrEfXbRL5bsOzlDau2X8eka+nVqNXvw4VkU2lKKaJ+O6jTLtyD+6J+0lP0nxmuu4CXEfeechv1MH03N7kYPc3EKIucvVfCe6Ryol2+IwdoPIRH8FjUT46vwltD3Dt4D11hzmp873T1C9at1e/BRRHvG/F/Oni3P3HNl61v08UMjo+zr+IFvsI3je/wo4OY7dRNuirmNYD/d1BZVx4wz5ymzUO29+G3Xxkj23Qxg+Pj7Ks4gVfI5Rre2OHjiu33x92r0YryvhOY06Tjn0vrsOCE86qL44IYO4bfccfvk7Fkm4wpr1XHx9lHUYE1xHiET3b4+Nn2+3uxn0O9b01jsF8dG+f8F4vPCrI=
   </data>
  </layer>
  <layer id="3" name="Tile Layer 2" width="80" height="45">
   <data encoding="base64" compression="zlib">
-   eJztzDEKADAIA0D7/5f5K4duBUU630EQAjECAAAAAAAAAAAAAAAAAGZ5bjbde7vd9id/CpiiCw0=
+   eJzt0lsKwjAQBdAxWbOPfugCFNyXn+oSqvtwoB+CKNaChMI5cAkJJAyXRAAAAAAAAAAAAAAAQHubEtGV1lPM1z67O8y8v3ONuGSuddgvyzN812dvt8y9tp6EVf7ZtX87ye5Nb1td/uT4x75OiyFjzl7XT/fGvsk0DzD0FjQ=
   </data>
  </layer>
  <objectgroup id="2" name="objects">
@@ -56,7 +56,7 @@
   <object id="65" name="rat" x="1132.5" y="424.5" width="32" height="20"/>
   <object id="66" name="rat" x="1128" y="575.5" width="32" height="20"/>
   <object id="68" name="rat" x="701.667" y="459.667" width="32" height="20"/>
-  <object id="71" name="platformGrass" x="189.455" y="362.212" width="80" height="16.6666"/>
+  <object id="71" name="platformGrass" x="143.455" y="332.879" width="80" height="16.6666"/>
   <object id="72" name="platformGrass" x="125.666" y="493" width="48" height="16"/>
   <object id="73" name="rat" x="722" y="573.333" width="32" height="20"/>
   <object id="75" name="viking" x="378.167" y="578.167" width="37" height="70.3333"/>
@@ -64,5 +64,20 @@
   <object id="78" name="platformNull" x="-11.3333" y="5.33333" width="18" height="666.667"/>
   <object id="80" name="platformNull" x="1272" y="-21.3335" width="5" height="740.667"/>
   <object id="81" name="platformNull" x="791" y="710.667" width="490" height="6.667"/>
+  <object id="83" name="platformNull" x="288.667" y="243.667" width="367.333" height="44.6666"/>
+  <object id="84" name="platformNull" x="657.5" y="225.667" width="63.333" height="63.6666"/>
+  <object id="85" name="platformGrass" x="765.833" y="206" width="80" height="14.6666"/>
+  <object id="88" name="movingPlatform" x="934.667" y="162.667" width="48" height="12">
+   <properties>
+    <property name="destinationX" type="float" value="760.33"/>
+    <property name="destinationY" type="float" value="290"/>
+   </properties>
+  </object>
+  <object id="89" name="fallingPlatform" x="789" y="106.667" width="75.3333" height="16"/>
+  <object id="90" name="fallingPlatform" x="661" y="82.6667" width="44.6666" height="16"/>
+  <object id="91" name="fallingPlatform" x="538.333" y="89.3333" width="40.6666" height="16"/>
+  <object id="92" name="fallingPlatform" x="359.667" y="80" width="38" height="16"/>
+  <object id="93" name="fallingPlatform" x="171.667" y="102.667" width="35.3333" height="16"/>
+  <object id="94" name="platformGrass" x="13.3333" y="85.3333" width="80" height="16"/>
  </objectgroup>
 </map>

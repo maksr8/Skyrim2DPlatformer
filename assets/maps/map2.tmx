@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="8">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="38">
  <tileset firstgid="1" source="tileset_snow.tsx"/>
  <layer id="1" name="background" width="80" height="40">
   <data encoding="base64" compression="zlib">
-   eJzt0jsKgDAQBcCcQAsbEQtB1M7C+x/OFSxEMIX4aWbgEcLbIoRNCQAAAAAAAAAAAACAN1UPz3FfHWkzfffRO/503rPc3p27PjJdzBaRMhNSmiPLRbf97RBp9nPLeLivQ+kC5g==
+   eJzt2MkKwjAUheGCw1IXbkRcFNSKCk5PUH3/h/IGuwjBpEmMTdX/g0OHSHsT48JbFAAAAAAAAAAAAPnNJVOPLHMV6KnM9K6VZC1ZSCrjqN/fdlhfjFnCZ+0ke0cO2mePkpMjZ8lFck1Y3zeqcxcQwGcvxey3lHu0z+7GdRnxjH9ZKx8xa1GnLgIAAAD4MP4DvOeWu4Af0ue96Ftb13MYNwmtY6Cdl81xKBlp5zrz2tQ2npLqR7t6zWWCd9Ta+au1nBR+PfGQhPTPzZpc37c5pvrRtl5z27xSUTVsimfve9OkMq5tY7b7ak6230NKqh9t6zW3zesBPgoPhw==
   </data>
  </layer>
  <objectgroup id="2" name="objects">
@@ -13,9 +13,42 @@
   <object id="3" x="1040" y="592">
    <polygon points="0,0 0,48 32,48 32,0"/>
   </object>
-  <object id="4" name="platformSnow" x="1052" y="516.333" width="48" height="16"/>
-  <object id="5" name="platformSnow" x="288.333" y="608" width="351.667" height="16"/>
   <object id="6" name="viking" x="509.333" y="521.667" width="37" height="70.3333"/>
   <object id="7" name="viking" x="1153.83" y="533.167" width="37" height="70.3333"/>
+  <object id="8" name="platformNull" x="895.504" y="576.67" width="16.2893" height="14.5236"/>
+  <object id="9" name="platformNull" x="976.855" y="610.405" width="16.2893" height="14.5236"/>
+  <object id="10" name="platformNull" x="864.189" y="609.072" width="16.2893" height="14.5236"/>
+  <object id="11" name="platformNull" x="799.855" y="609.738" width="16.2893" height="14.5236"/>
+  <object id="12" name="platformNull" x="735.189" y="576.738" width="16.2893" height="14.5236"/>
+  <object id="13" name="platformNull" x="287.855" y="608.738" width="353.289" height="32.0236"/>
+  <object id="15" name="platformNull" x="207.855" y="608.738" width="16.2893" height="14.5236"/>
+  <object id="16" name="platformNull" x="160.355" y="593.238" width="16.2893" height="14.5236"/>
+  <object id="17" name="platformNull" x="111.355" y="577.238" width="16.2893" height="14.5236"/>
+  <object id="18" name="platformNull" x="63.3554" y="545.238" width="16.2893" height="14.5236"/>
+  <object id="19" name="movingPlatform" x="7.5" y="541.5" width="44.6667" height="12">
+   <properties>
+    <property name="destinationX" type="float" value="15.5"/>
+    <property name="destinationY" type="float" value="550.5"/>
+   </properties>
+  </object>
+  <object id="20" name="platformSnow" x="113.5" y="385" width="127" height="16"/>
+  <object id="23" name="platformNull" x="287.855" y="368.738" width="16.2893" height="14.5236"/>
+  <object id="24" name="platformNull" x="351.855" y="401.238" width="16.2893" height="14.5236"/>
+  <object id="25" name="platformNull" x="432.355" y="368.238" width="16.2893" height="14.5236"/>
+  <object id="26" name="platformNull" x="495.855" y="339.738" width="16.2893" height="14.5236"/>
+  <object id="27" name="platformNull" x="559.855" y="387.238" width="16.2893" height="14.5236"/>
+  <object id="28" name="platformNull" x="639.855" y="368.238" width="16.2893" height="14.5236"/>
+  <object id="29" name="platformSnow" x="704.5" y="336.5" width="48" height="16"/>
+  <object id="30" name="platformNull" x="-14.8333" y="-7.3335" width="18" height="666.667"/>
+  <object id="31" name="platformNull" x="1275" y="-16.0002" width="18" height="666.667"/>
+  <object id="34" name="platformNull" x="799.189" y="338.072" width="144.956" height="14.5236"/>
+  <object id="35" name="platformNull" x="976.189" y="304.738" width="175.623" height="46.5236"/>
+  <object id="36" name="platformSnow" x="1221.33" y="304" width="48" height="16"/>
+  <object id="37" name="viking" x="878.833" y="235.5" width="37" height="70.3333"/>
  </objectgroup>
+ <layer id="4" name="additional layer" width="80" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztzrsJACAQREHBCqzG0E//RXmBgR0oOAMPNtyUAAAAAAAAeFk5dr72gh+1qB+NaO7qrVMAAAAAAJ9a+EACEA==
+  </data>
+ </layer>
 </map>
