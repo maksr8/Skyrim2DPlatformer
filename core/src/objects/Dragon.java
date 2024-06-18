@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.GameScreen;
+import com.mygdx.game.VictoryScreen;
 import helper.Assets;
 
 import static helper.Constants.*;
@@ -15,7 +16,7 @@ import static helper.Constants.BIT_GROUND;
 
 public class Dragon extends GameEntity{
     private static final float HIT_ANIMATION_DURATION = 0.15f;
-    private static final float DEAD_ANIMATION_DURATION = 1f;
+    private static final float DEAD_ANIMATION_DURATION = 3f;
     private static final float FLYING_PHASE_DURATION = 15f;
     private static final float STANDING_PHASE_DURATION = 4.6f;
     private static final float FLY_UP_ANIMATION_DURATION = 6f;
@@ -151,7 +152,7 @@ public class Dragon extends GameEntity{
                     maskBits = BIT_GROUND;
                 }});
                 if (deadAnimationTimer > DEAD_ANIMATION_DURATION) {
-                    System.out.println("Dragon removed");
+                    gameScreen.getGame().setScreen(new VictoryScreen(gameScreen.getGame()));
                 }
                 currentAnimation = deadAnimation;
                 deadAnimationTimer += Gdx.graphics.getDeltaTime();

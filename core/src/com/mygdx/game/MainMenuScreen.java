@@ -87,21 +87,12 @@ public class MainMenuScreen extends ScreenAdapter {
 
         batch.begin();
         batch.draw(assets.manager.get(assets.gameNameLabel), game.getGameWidth() / 2 - 400, game.getGameHeight() / 2 + 100, 800, 250);
-        font.draw(batch, "Tap anywhere to begin!", 20, 20);
         batch.end();
 
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        handleInput();
-    }
-
-    private void handleInput() {
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game, 1));
-            dispose();
-        }
     }
 
     @Override

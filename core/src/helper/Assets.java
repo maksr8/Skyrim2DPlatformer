@@ -37,6 +37,7 @@ public class Assets {
     public final AssetDescriptor<Texture> vikingDeadSheet = new AssetDescriptor<>("entities/viking_dead.png", Texture.class);
     public final AssetDescriptor<Texture> vikingAttackSheet = new AssetDescriptor<>("entities/viking_attack.png", Texture.class);
     public final AssetDescriptor<Texture> gameNameLabel = new AssetDescriptor<>("hud/game_name_label.png", Texture.class);
+    public final AssetDescriptor<Texture> victoryLabel = new AssetDescriptor<>("hud/victory_label.png", Texture.class);
     public final AssetDescriptor<Texture> dragonFlySheet = new AssetDescriptor<>("entities/dragon_fly.png", Texture.class);
     public final AssetDescriptor<Texture> dragonFlyUpSheet = new AssetDescriptor<>("entities/dragon_fly_up.png", Texture.class);
     public final AssetDescriptor<Texture> dragonFlyDownSheet = new AssetDescriptor<>("entities/dragon_fly_down.png", Texture.class);
@@ -91,6 +92,7 @@ public class Assets {
         manager.load(vikingDeadSheet);
         manager.load(vikingAttackSheet);
         manager.load(gameNameLabel);
+        manager.load(victoryLabel);
         manager.load(dragonFlySheet);
         manager.load(dragonFlyUpSheet);
         manager.load(dragonFlyDownSheet);
