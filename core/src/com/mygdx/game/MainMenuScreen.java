@@ -39,8 +39,8 @@ public class MainMenuScreen extends ScreenAdapter {
 
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = new BitmapFont();
-        textButtonStyle.up = createDrawable("buttons/button_up.png"); // Make sure you have this texture
-        textButtonStyle.down = createDrawable("buttons/button_down.png"); // Make sure you have this texture
+        textButtonStyle.up = createDrawable("backgrounds/button_up.png"); // Make sure you have this texture
+        textButtonStyle.down = createDrawable("backgrounds/button_down.png"); // Make sure you have this texture
 
 
         TextButton startButton = new TextButton("", textButtonStyle);
